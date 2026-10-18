@@ -185,8 +185,8 @@ function CallFlow() {
     </aside>
   );
 }
-// Add your photo to public/ and set this to "/jacob-portrait.jpg".
-const JACOB_PHOTO = null;
+// Files in public/ are served from the site root, so public/me.webp is /me.webp.
+const JACOB_PHOTO = "/me.webp";
 function Portrait() {
   const [missing, setMissing] = useState(!JACOB_PHOTO);
   return (
