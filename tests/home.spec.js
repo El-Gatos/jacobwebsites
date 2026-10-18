@@ -37,6 +37,9 @@ test("responsive page, themes, reduced motion, and accessibility", async ({
 test("navigation, project dialog, services, and honest inquiry draft", async ({
   page,
 }) => {
+  await page.route("https://formsubmit.co/**", (route) =>
+    route.fulfill({ status: 500, contentType: "text/html", body: "error" }),
+  );
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
   await page.getByRole("button", { name: "Menu +" }).click();
@@ -71,13 +74,13 @@ test("navigation, project dialog, services, and honest inquiry draft", async ({
     .click();
   await page.getByRole("button", { name: "Get my free mockup" }).click();
   await expect(page.getByRole("status")).toContainText(
-    "No message has been sent",
+    "Your message wasn’t sent",
   );
   const href = await page
     .getByRole("link", { name: "Open email draft" })
     .getAttribute("href");
   expect(decodeURIComponent(href)).toContain("Website rebuild");
-  expect(href).toContain("mailto:hello@jacobwebsites.com");
+  expect(href).toContain("mailto:jacob@jacobwebsites.com");
   await page.getByLabel("Your name").fill("Changed");
   await expect(page.getByRole("status")).toHaveCount(0);
 });
@@ -142,6 +145,15 @@ test("motion control persists and honors system preference until overridden", as
 test("maintenance offering, clean navigation, and GitHub link", async ({
   page,
 }) => {
+  let posted = null;
+  await page.route("https://formsubmit.co/ajax/jacob@jacobwebsites.com", (route) => {
+    posted = route.request().postDataJSON();
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ success: "true", message: "ok" }),
+    });
+  });
   await page.goto("/");
   await expect(
     page
@@ -169,13 +181,8 @@ test("maintenance offering, clean navigation, and GitHub link", async ({
     .fill("Maintenance for my local shop website.");
   await page.getByRole("button", { name: "Ask about maintenance" }).click();
   await expect(page.getByRole("status")).toContainText(
-    "Your maintenance inquiry is ready",
+    "Your maintenance inquiry was sent",
   );
-  expect(
-    decodeURIComponent(
-      await page
-        .getByRole("link", { name: "Open email draft" })
-        .getAttribute("href"),
-    ),
-  ).toContain("Website maintenance inquiry");
+  expect(posted._subject).toContain("Website maintenance inquiry");
+  expect(posted.email).toBe("test@example.com");
 });

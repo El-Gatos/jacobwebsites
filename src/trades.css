@@ -507,31 +507,6 @@ body {
   filter: grayscale(0);
   transform: scale(1.025);
 }
-.portrait-placeholder {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding: 30px;
-  text-align: center;
-}
-.portrait-placeholder svg {
-  width: 45%;
-  max-width: 170px;
-  fill: none;
-  stroke: var(--muted);
-  stroke-width: 1;
-  margin-bottom: 35px;
-}
-.portrait-placeholder > span {
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  line-height: 1.7;
-}
-.portrait-placeholder small {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 12px;
-}
 .portrait-corner {
   width: 25px;
   height: 25px;
@@ -837,11 +812,7 @@ body {
   .portrait figcaption {
     font-size: 7px;
   }
-  .portrait-placeholder svg {
-    width: 40%;
-    margin-bottom: 24px;
-  }
-  .about-copy h2 {
+    .about-copy h2 {
     font-size: 48px;
   }
   .contact-heading h2 {
@@ -1010,4 +981,21 @@ body {
   .github-link {
     font-size: 11px;
   }
+}
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.contact-email {
+  margin-top: 26px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.contact-email a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
