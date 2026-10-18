@@ -677,7 +677,7 @@ function App() {
             <span className="eyebrow">03 / HI, I’M JACOB</span>
             <h2>One Person. Every Detail.</h2>
             <p className="large-copy">
-              I’m Jacob Wainwright. I live in Souther California, and I build
+              I’m Jacob Wainwright. I live in SoCal, and I build
               websites for the businesses around me.
             </p>
             <p>
@@ -889,7 +889,7 @@ function App() {
         </a>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Jacob Websites</span>
-          <span>Independent websites. Souther California.</span>
+          <span>Independent websites. SoCal.</span>
           <a href={"mailto:" + CONTACT_EMAIL}>{CONTACT_EMAIL}</a>
           <a
             className="github-link"
