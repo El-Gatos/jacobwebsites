@@ -78,7 +78,7 @@ function ProjectVisual({ project }) {
     </div>
   );
 }
-const trades = [
+const businesses = [
   {
     name: "HVAC",
     query: "AC repair Moreno Valley",
@@ -86,35 +86,39 @@ const trades = [
     service: "AC repair & installation",
   },
   {
-    name: "Plumbing",
-    query: "plumber Moreno Valley",
-    headline: "The leak stops here.",
-    service: "Plumbing & drain services",
+    name: "Shop",
+    query: "gift shop Moreno Valley",
+    headline: "Find something worth keeping.",
+    service: "Thoughtful gifts & everyday favorites",
   },
   {
-    name: "Electrical",
-    query: "electrician Moreno Valley",
-    headline: "Good work. Wired in.",
-    service: "Electrical repairs & upgrades",
+    name: "Studio",
+    query: "photographer Moreno Valley",
+    headline: "Your story. In the frame.",
+    service: "Portraits & brand photography",
   },
   {
-    name: "Contracting",
-    query: "contractor Moreno Valley",
-    headline: "Your next project starts here.",
-    service: "Home improvements & construction",
+    name: "Services",
+    query: "cleaning service Moreno Valley",
+    headline: "A little more room to breathe.",
+    service: "Home & office cleaning",
   },
 ];
 function CallFlow() {
   const [trade, setTrade] = useState(0);
-  const t = trades[trade];
+  const t = businesses[trade];
   return (
-    <aside className="call-flow" aria-label="Explore a sample trade website">
+    <aside className="call-flow" aria-label="Explore a sample business website">
       <div className="flow-meta">
         <span>THE JOB OF YOUR WEBSITE</span>
         <span aria-hidden="true">↘</span>
       </div>
-      <div className="trade-tabs" role="group" aria-label="Choose a trade">
-        {trades.map((item, i) => (
+      <div
+        className="trade-tabs"
+        role="group"
+        aria-label="Choose a business type"
+      >
+        {businesses.map((item, i) => (
           <button
             key={item.name}
             onClick={() => setTrade(i)}
@@ -205,7 +209,7 @@ function Portrait() {
               <path d="M15 174v-17c0-37 29-61 65-61s65 24 65 61v17" />
             </svg>
             <span>JACOB’S PHOTO GOES HERE</span>
-            <small>A real face. Your local web guy.</small>
+            <small>A real face. Your website. My work.</small>
           </div>
         )}
         <span className="portrait-corner top-left" />
@@ -222,6 +226,42 @@ function App() {
   const [theme, setTheme] = useState(
     document.documentElement.dataset.theme || "dark",
   );
+  const [motionChoice, setMotionChoice] = useState(() => {
+    try {
+      const value = localStorage.getItem("jw-motion");
+      return value === "reduce" || value === "full" ? value : null;
+    } catch {
+      return null;
+    }
+  });
+  const [systemReduced, setSystemReduced] = useState(
+    () => matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+  const reducedMotion = motionChoice
+    ? motionChoice === "reduce"
+    : systemReduced;
+  const themeTransition = useRef(null);
+  const themeAnimation = useRef(null);
+  useEffect(() => {
+    const media = matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setSystemReduced(media.matches);
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+  useEffect(() => {
+    document.documentElement.dataset.motion = reducedMotion ? "reduce" : "full";
+    try {
+      if (motionChoice) localStorage.setItem("jw-motion", motionChoice);
+    } catch {}
+    if (reducedMotion) {
+      themeTransition.current?.skipTransition();
+      themeAnimation.current?.cancel();
+      document.querySelectorAll(".project-preview").forEach((card) => {
+        card.style.removeProperty("--tilt-x");
+        card.style.removeProperty("--tilt-y");
+      });
+    }
+  }, [reducedMotion, motionChoice]);
   const [menu, setMenu] = useState(false);
   const [active, setActive] = useState(null);
   const [draft, setDraft] = useState("");
@@ -254,10 +294,13 @@ function App() {
     return () => obs.disconnect();
   }, []);
   useEffect(() => {
-    const media = matchMedia("(prefers-reduced-motion: reduce)");
     const cards = [...document.querySelectorAll(".project-preview")];
     function move(e) {
-      if (media.matches || e.pointerType !== "mouse") return;
+      if (
+        document.documentElement.dataset.motion === "reduce" ||
+        e.pointerType !== "mouse"
+      )
+        return;
       const r = this.getBoundingClientRect();
       this.style.setProperty(
         "--tilt-x",
@@ -284,10 +327,7 @@ function App() {
   }, []);
   function toggleTheme(event) {
     const nextTheme = theme === "dark" ? "light" : "dark";
-    if (
-      !document.startViewTransition ||
-      matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
+    if (!document.startViewTransition || reducedMotion) {
       setTheme(nextTheme);
       return;
     }
@@ -299,13 +339,16 @@ function App() {
       Math.max(x, innerWidth - x),
       Math.max(y, innerHeight - y),
     );
+    themeTransition.current?.skipTransition();
     const transition = document.startViewTransition(() => {
       flushSync(() => setTheme(nextTheme));
       document.documentElement.dataset.theme = nextTheme;
     });
+    themeTransition.current = transition;
     transition.ready
-      .then(() =>
-        document.documentElement.animate(
+      .then(() => {
+        if (document.documentElement.dataset.motion === "reduce") return;
+        themeAnimation.current = document.documentElement.animate(
           {
             clipPath: [
               "circle(0px at " + x + "px " + y + "px)",
@@ -317,8 +360,8 @@ function App() {
             easing: "cubic-bezier(.4,0,.2,1)",
             pseudoElement: "::view-transition-new(root)",
           },
-        ),
-      )
+        );
+      })
       .catch(() => {});
   }
   function openProject(p, e) {
@@ -333,7 +376,9 @@ function App() {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     setDraft(
-      "Free homepage mockup request — " +
+      (service === "Maintenance"
+        ? "Website maintenance inquiry — "
+        : "Free homepage mockup request — ") +
         service +
         "\n\nName: " +
         data.get("name") +
@@ -364,7 +409,7 @@ function App() {
           className={menu ? "nav open" : "nav"}
         >
           <a href="#work" onClick={() => setMenu(false)}>
-            Work <sup>02</sup>
+            Work
           </a>
           <a href="#services" onClick={() => setMenu(false)}>
             Services
@@ -394,6 +439,20 @@ function App() {
             </span>
           </button>
           <button
+            className="motion-toggle"
+            aria-label="Reduce motion"
+            aria-pressed={reducedMotion}
+            title={
+              reducedMotion
+                ? "Reduced motion is on. Click to enable animations."
+                : "Reduce motion"
+            }
+            onClick={() => setMotionChoice(reducedMotion ? "full" : "reduce")}
+          >
+            <span aria-hidden="true">{reducedMotion ? "Ⅱ" : "▷"}</span>
+            <span className="motion-label">Reduce motion</span>
+          </button>
+          <button
             className="menu-toggle"
             aria-expanded={menu}
             aria-controls="mobile-links"
@@ -407,7 +466,7 @@ function App() {
         <section className="hero trade-hero">
           <div className="hero-kicker">
             <span>
-              <i className="status-dot" /> WEB DESIGN FOR THE TRADES
+              <i className="status-dot" /> WEB DESIGN FOR INDEPENDENT BUSINESSES
             </span>
             <span className="hero-location">
               MORENO VALLEY, CA / WORKING WITH LOCAL BUSINESSES
@@ -428,8 +487,8 @@ function App() {
                 </span>
               </h1>
               <p className="hero-intro">
-                I build websites that help homeowners find your trade business,
-                trust your work, and get in touch.
+                I build websites that help customers find your business, trust
+                what you do, and get in touch.
               </p>
               <div className="hero-actions">
                 <a className="button primary" href="#contact">
@@ -443,15 +502,14 @@ function App() {
                 A free homepage design preview. No payment. No obligation.
               </p>
               <span className="hero-byline">
-                HVAC · PLUMBING · ELECTRICAL · CONTRACTORS
+                LOCAL SERVICES · SHOPS · STUDIOS · TRADES
               </span>
             </div>
             <CallFlow />
           </div>
           <div className="hero-bottomline">
             <span>
-              BUILT BY JACOB. FOR BUSINESSES THAT BUILD, FIX & KEEP THINGS
-              RUNNING.
+              BUILT BY JACOB. FOR PEOPLE BUILDING A BUSINESS OF THEIR OWN.
             </span>
             <a href="#work">
               TAKE A LOOK <span aria-hidden="true">↓</span>
@@ -473,7 +531,7 @@ function App() {
               <span>to the next call.</span>
             </h2>
             <p>
-              See how clearer services and easier contact can change a trade
+              See how clearer services and easier contact can change a business
               website. Open a project to explore the design. Independent
               concepts are clearly labeled.
             </p>
@@ -522,7 +580,7 @@ function App() {
               <span>Help them call you.</span>
             </h2>
             <p>
-              A homeowner needs to know what you do, where you work, and how to
+              A customer needs to know what you do, who you help, and how to
               reach you. Your site should answer all three.
             </p>
           </div>
@@ -532,14 +590,14 @@ function App() {
                 n: "01",
                 name: "Website design",
                 sub: "Show the work. Earn their confidence.",
-                body: "Clear service pages, your real project photos, and a design that helps homeowners understand why to choose your business.",
-                tags: "SERVICES / SERVICE AREAS / REAL PROJECTS",
+                body: "Clear pages, your real photos, and a design that helps customers understand what you offer and why to choose your business.",
+                tags: "SERVICES / PRODUCTS / YOUR WORK",
               },
               {
                 n: "02",
-                name: "Websites built for calls",
+                name: "Website development",
                 sub: "Easy to use. Especially on a phone.",
-                body: "Fast, mobile-friendly pages with visible call buttons and straightforward quote requests. Less friction between finding your business and getting in touch.",
+                body: "Fast, mobile-friendly pages with clear ways to call, ask a question, or request a quote. Less friction between finding your business and taking the next step.",
                 tags: "MOBILE / CLICK TO CALL / QUOTE REQUESTS",
               },
               {
@@ -548,6 +606,13 @@ function App() {
                 sub: "Make your existing site work harder.",
                 body: "Outdated site? Start with a free homepage mockup. See a new direction for your services and contact flow before deciding on a paid build.",
                 tags: "FREE MOCKUP / REDESIGN / PAID BUILD",
+              },
+              {
+                n: "04",
+                name: "Website maintenance",
+                sub: "Keep your site in good shape.",
+                body: "Ongoing content changes, dependency updates, and checks on the pages and contact forms that matter. We agree on the scope and schedule for your website before starting.",
+                tags: "CONTENT CHANGES / UPDATES / SITE CHECKS",
               },
             ].map((s) => (
               <details className="service reveal" key={s.n}>
@@ -591,17 +656,22 @@ function App() {
               Hi, I’m Jacob.
             </h2>
             <p className="large-copy">
-              You’re good at your trade. I’ll help your website show it.
+              I’m Jacob. I design, build, and look after websites for
+              independent businesses.
             </p>
             <p>
-              I’m an independent web designer and developer in Moreno Valley,
-              building websites for HVAC companies, plumbers, electricians, and
-              contractors.
+              I’m based in Moreno Valley, working with people who run their own
+              businesses: local services, shops, studios, trades, and more. Your
+              website should make what you do easy to understand.
             </p>
             <p>
-              You work directly with me, from the first mockup to the finished
-              website. We’ll focus on your services, your service area, and
-              making it easy for a customer to call or request a quote.
+              You work directly with me on the design and the code. I like
+              building the whole thing: how it looks, how it works on a phone,
+              and how easily someone can take the next step.
+            </p>
+            <p>
+              If you need help after launch, I also offer maintenance. We’ll
+              agree on what your site needs and what’s included.
             </p>
             <a className="text-link" href="#contact">
               Let me take a look at your site <Arrow />
@@ -621,8 +691,8 @@ function App() {
               </span>
             </h2>
             <p>
-              A free homepage mockup for your trade business. See the direction
-              before you decide whether to hire me.
+              A free homepage mockup for your business. See the direction before
+              you decide whether to hire me.
             </p>
             <div className="offer-scope">
               <span>WHAT’S FREE</span>
@@ -641,26 +711,27 @@ function App() {
             <fieldset>
               <legend>What does your business need?</legend>
               <div className="service-choices">
-                {["New website", "Website rebuild", "Something else"].map(
-                  (s) => (
-                    <label
-                      key={s}
-                      className={service === s ? "choice selected" : "choice"}
-                    >
-                      <input
-                        type="radio"
-                        name="service"
-                        value={s}
-                        checked={service === s}
-                        onChange={() => setService(s)}
-                      />
-                      {s}
-                      <span aria-hidden="true">
-                        {service === s ? "↗" : "+"}
-                      </span>
-                    </label>
-                  ),
-                )}
+                {[
+                  "New website",
+                  "Website rebuild",
+                  "Maintenance",
+                  "Something else",
+                ].map((s) => (
+                  <label
+                    key={s}
+                    className={service === s ? "choice selected" : "choice"}
+                  >
+                    <input
+                      type="radio"
+                      name="service"
+                      value={s}
+                      checked={service === s}
+                      onChange={() => setService(s)}
+                    />
+                    {s}
+                    <span aria-hidden="true">{service === s ? "↗" : "+"}</span>
+                  </label>
+                ))}
               </div>
             </fieldset>
             <div className="form-grid">
@@ -696,25 +767,32 @@ function App() {
               />
             </label>
             <label>
-              Your trade & service area{" "}
+              Your business & what you need{" "}
               <textarea
                 name="message"
                 required
                 minLength={10}
                 maxLength={5000}
                 rows={3}
-                placeholder="e.g. HVAC in Moreno Valley. We want more AC repair calls."
+                placeholder="e.g. A local shop in Moreno Valley. We want more product inquiries."
               />
             </label>
             <button className="button primary submit" type="submit">
-              Get my free mockup <Arrow />
+              {service === "Maintenance"
+                ? "Ask about maintenance"
+                : "Get my free mockup"}{" "}
+              <Arrow />
             </button>
             <p className="form-note">
               This form prepares an email draft. Nothing is sent or stored here.
             </p>
             {draft && (
               <div className="draft" role="status">
-                <strong>Your free mockup request is ready.</strong>
+                <strong>
+                  {service === "Maintenance"
+                    ? "Your maintenance inquiry is ready."
+                    : "Your free mockup request is ready."}
+                </strong>
                 <p>
                   Open it in your email app, then check the recipient and send.
                   No message has been sent yet.
@@ -723,7 +801,11 @@ function App() {
                   className="button"
                   href={
                     "mailto:hello@jacobwebsites.com?subject=" +
-                    encodeURIComponent("Free homepage mockup request") +
+                    encodeURIComponent(
+                      service === "Maintenance"
+                        ? "Website maintenance inquiry"
+                        : "Free homepage mockup request",
+                    ) +
                     "&body=" +
                     encodeURIComponent(draft)
                   }
@@ -750,7 +832,21 @@ function App() {
         </a>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Jacob Websites</span>
-          <span>Websites for trades. Moreno Valley, CA.</span>
+          <span>Independent websites. Moreno Valley, CA.</span>
+          <a
+            className="github-link"
+            href="https://github.com/El-Gatos"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M12 .75a11.25 11.25 0 0 0-3.56 21.92c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.64-1.25-1.64-1.02-.7.08-.69.08-.69 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.93.1-.73.39-1.22.71-1.5-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.43.11-2.98 0 0 .95-.3 3.1 1.15a10.8 10.8 0 0 1 5.64 0c2.15-1.45 3.1-1.15 3.1-1.15.61 1.55.23 2.7.11 2.98.72.79 1.16 1.79 1.16 3.02 0 4.32-2.63 5.28-5.14 5.56.4.35.76 1.03.76 2.08v3.09c0 .3.21.65.77.54A11.25 11.25 0 0 0 12 .75Z"
+              />
+            </svg>
+            GitHub <span aria-hidden="true">↗</span>
+          </a>
           <a href="#main">Back to top ↑</a>
         </div>
       </footer>

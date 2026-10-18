@@ -26,6 +26,7 @@ test("responsive page, themes, reduced motion, and accessibility", async ({
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduce");
   expect(
     await page
       .locator(".flow-connector svg")
@@ -62,7 +63,7 @@ test("navigation, project dialog, services, and honest inquiry draft", async ({
   await page.getByLabel("Your name").fill("Test Person");
   await page.getByLabel("Email address").fill("test@example.com");
   await page
-    .getByLabel("Your trade & service area")
+    .getByLabel("Your business & what you need")
     .fill("A new website for an independent local business.");
   await page
     .locator(".choice")
@@ -86,16 +87,16 @@ test("trade demo updates, portrait placeholder, and free mockup offer", async ({
 }) => {
   await page.goto("/");
   const demo = page.getByRole("complementary", {
-    name: "Explore a sample trade website",
+    name: "Explore a sample business website",
   });
-  await demo.getByRole("button", { name: "Plumbing", exact: true }).click();
+  await demo.getByRole("button", { name: "Shop", exact: true }).click();
   await expect(
-    demo.getByRole("button", { name: "Plumbing", exact: true }),
+    demo.getByRole("button", { name: "Shop", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
-  await expect(demo).toContainText("plumber Moreno Valley");
-  await expect(demo).toContainText("The leak stops here.");
-  await demo.getByRole("button", { name: "Electrical", exact: true }).click();
-  await expect(demo).toContainText("electrician Moreno Valley");
+  await expect(demo).toContainText("gift shop Moreno Valley");
+  await expect(demo).toContainText("Find something worth keeping.");
+  await demo.getByRole("button", { name: "Studio", exact: true }).click();
+  await expect(demo).toContainText("photographer Moreno Valley");
   await expect(page.locator(".portrait-placeholder")).toContainText(
     "JACOB’S PHOTO GOES HERE",
   );
@@ -106,4 +107,77 @@ test("trade demo updates, portrait placeholder, and free mockup offer", async ({
     .getByRole("link", { name: "Get my free mockup", exact: true })
     .click();
   await expect(page).toHaveURL(/#contact$/);
+});
+
+test("motion control persists and honors system preference until overridden", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const control = page.getByRole("button", {
+    name: "Reduce motion",
+    exact: true,
+  });
+  await expect(control).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduce");
+  await control.click();
+  await expect(control).toHaveAttribute("aria-pressed", "false");
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "full");
+  await page.reload();
+  await expect(control).toHaveAttribute("aria-pressed", "false");
+  await control.click();
+  await page.reload();
+  await expect(control).toHaveAttribute("aria-pressed", "true");
+  expect(
+    await page
+      .locator(".flow-connector svg")
+      .evaluate((e) => getComputedStyle(e).animationName),
+  ).toBe("none");
+  const current = await page.locator("html").getAttribute("data-theme");
+  await page.getByRole("button", { name: /Switch to .* theme/ }).click();
+  await expect(page.locator("html")).toHaveAttribute(
+    "data-theme",
+    current === "dark" ? "light" : "dark",
+  );
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "reduce");
+});
+test("maintenance offering, clean navigation, and GitHub link", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(
+    page
+      .getByRole("navigation")
+      .getByRole("link", { name: "Work", exact: true }),
+  ).toHaveText("Work");
+  await page.getByText("Website maintenance", { exact: true }).click();
+  await expect(page.locator(".service[open]")).toContainText(
+    "Ongoing content changes",
+  );
+  await expect(page.getByRole("link", { name: "GitHub" })).toHaveAttribute(
+    "href",
+    "https://github.com/El-Gatos",
+  );
+  await page
+    .locator(".choice")
+    .filter({
+      has: page.getByRole("radio", { name: "Maintenance", exact: true }),
+    })
+    .click();
+  await page.getByLabel("Your name").fill("Test User");
+  await page.getByLabel("Email address").fill("test@example.com");
+  await page
+    .getByLabel("Your business & what you need")
+    .fill("Maintenance for my local shop website.");
+  await page.getByRole("button", { name: "Ask about maintenance" }).click();
+  await expect(page.getByRole("status")).toContainText(
+    "Your maintenance inquiry is ready",
+  );
+  expect(
+    decodeURIComponent(
+      await page
+        .getByRole("link", { name: "Open email draft" })
+        .getAttribute("href"),
+    ),
+  ).toContain("Website maintenance inquiry");
 });

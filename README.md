@@ -1,6 +1,6 @@
 # Jacob Websites
 
-Independent React website for jacobwebsites.com, focused on trade businesses in Moreno Valley. Vite, React, and self-hosted fonts; no UI or animation framework.
+Independent React website for jacobwebsites.com, for independent businesses in Moreno Valley and beyond. Vite, React, and self-hosted fonts; no UI or animation framework.
 
 ## Run
 
@@ -31,3 +31,5 @@ Add your portrait as `public/jacob-portrait.jpg`, then set `JACOB_PHOTO` in `src
 ## Motion and offer
 
 Staggered headline entrances, SVG route drawing, keyed trade-demo transitions, pointer tilt on project cards, section entrances, a scroll progress line, and a circular theme reveal. All respect reduced motion. No infinite decorative animation. The free offer covers a homepage design mockup; full builds are explicitly paid.
+
+The header Reduce motion button overrides the system preference and persists the choice. Without a saved choice, the site follows the operating system, including changes made while the page is open. Reduced motion disables CSS animation, smooth scrolling, pointer tilt, and the circular theme reveal.

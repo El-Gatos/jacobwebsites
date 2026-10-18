@@ -6,18 +6,18 @@
     <meta name="theme-color" content="#20211f" />
     <meta
       name="description"
-      content="Websites for HVAC, plumbers, electricians, and contractors in Moreno Valley. Get a free homepage redesign mockup from Jacob Websites."
+      content="Web design, development, and maintenance for independent businesses. Based in Moreno Valley. Start with a free homepage redesign mockup."
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href="https://jacobwebsites.com/" />
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="Jacob Websites — Web Design for Trades | Moreno Valley"
+      content="Jacob Websites — Web Design for Independent Businesses | Moreno Valley"
     />
     <meta
       property="og:description"
-      content="Good work deserves more calls. Web design for Moreno Valley trade businesses. Start with a free homepage mockup."
+      content="Good work deserves more calls. Web design for independent businesses in Moreno Valley and beyond. Start with a free homepage mockup."
     />
     <meta property="og:url" content="https://jacobwebsites.com/" />
     <title>Jacob Websites — Built to be yours.</title>
@@ -30,6 +30,22 @@
             : "light");
       } catch {
         document.documentElement.dataset.theme = "dark";
+      }
+    </script>
+    <script>
+      try {
+        var motion = localStorage.getItem("jw-motion");
+        document.documentElement.dataset.motion =
+          motion === "reduce" ||
+          (!motion && matchMedia("(prefers-reduced-motion: reduce)").matches)
+            ? "reduce"
+            : "full";
+      } catch {
+        document.documentElement.dataset.motion = matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches
+          ? "reduce"
+          : "full";
       }
     </script>
   </head>

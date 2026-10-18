@@ -864,23 +864,6 @@ body {
     gap: 12px;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
-  }
-  .project-preview {
-    transform: none !important;
-  }
-  .project-preview:hover .mock {
-    transform: none;
-  }
-  .reveal.seen {
-    transform: none;
-  }
-}
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
@@ -933,8 +916,98 @@ body {
     transform: scaleX(1);
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .reading-progress {
+
+.motion-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  background: transparent;
+  border-radius: 30px;
+  padding: 9px 12px;
+  font-size: 10px;
+  min-height: 38px;
+  white-space: nowrap;
+}
+.motion-toggle > span:first-child {
+  font-size: 17px;
+  line-height: 1;
+}
+.motion-toggle[aria-pressed="true"] {
+  background: var(--fg);
+  color: var(--bg);
+}
+.header-tools {
+  gap: 10px;
+}
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.github-link svg {
+  width: 15px;
+  height: 15px;
+}
+.footer-bottom {
+  align-items: center;
+}
+.footer-bottom a:hover {
+  color: var(--fg);
+}
+.trade-tabs {
+  gap: 5px;
+}
+.service-choices {
+  row-gap: 8px;
+}
+:root[data-motion="reduce"] {
+  scroll-behavior: auto;
+}
+:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+:root[data-motion="reduce"] .project-preview,
+:root[data-motion="reduce"] .project-preview:hover .mock,
+:root[data-motion="reduce"] .reveal.seen {
+  transform: none !important;
+}
+:root[data-motion="reduce"] .reading-progress {
+  display: none;
+}
+@media (max-width: 1100px) {
+  .motion-label {
     display: none;
+  }
+  .motion-toggle {
+    padding: 9px 11px;
+  }
+  .nav {
+    gap: 24px;
+  }
+  .header {
+    gap: 20px;
+  }
+}
+@media (max-width: 700px) {
+  .header {
+    gap: 12px;
+  }
+  .header-tools {
+    gap: 9px;
+  }
+  .motion-toggle {
+    padding: 8px 10px;
+    min-height: 36px;
+  }
+  .footer-bottom {
+    gap: 18px;
+  }
+  .github-link {
+    font-size: 11px;
   }
 }
