@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { flushSync } from "react-dom";
 import "./style.css";
+import "./trades.css";
 const Arrow = ({ diagonal = false }) => (
   <span aria-hidden="true">{diagonal ? "↗" : "↗"}</span>
 );
@@ -22,7 +24,7 @@ const projects = [
     type: "Design & development",
     tag: "Own business · Website",
     title: "A little less expected.",
-    text: "The site you’re on. An independent identity with a strong point of view, built around useful details.",
+    text: "The site you’re on. Built to explain the offer clearly and make requesting a free mockup straightforward.",
     detail:
       "An editorial layout, a persistent accessible theme switch, responsive typography, and a lightweight React implementation. This is my own business website, not a client commission.",
     className: "jacob",
@@ -76,6 +78,146 @@ function ProjectVisual({ project }) {
     </div>
   );
 }
+const trades = [
+  {
+    name: "HVAC",
+    query: "AC repair Moreno Valley",
+    headline: "Cool air. Clear answers.",
+    service: "AC repair & installation",
+  },
+  {
+    name: "Plumbing",
+    query: "plumber Moreno Valley",
+    headline: "The leak stops here.",
+    service: "Plumbing & drain services",
+  },
+  {
+    name: "Electrical",
+    query: "electrician Moreno Valley",
+    headline: "Good work. Wired in.",
+    service: "Electrical repairs & upgrades",
+  },
+  {
+    name: "Contracting",
+    query: "contractor Moreno Valley",
+    headline: "Your next project starts here.",
+    service: "Home improvements & construction",
+  },
+];
+function CallFlow() {
+  const [trade, setTrade] = useState(0);
+  const t = trades[trade];
+  return (
+    <aside className="call-flow" aria-label="Explore a sample trade website">
+      <div className="flow-meta">
+        <span>THE JOB OF YOUR WEBSITE</span>
+        <span aria-hidden="true">↘</span>
+      </div>
+      <div className="trade-tabs" role="group" aria-label="Choose a trade">
+        {trades.map((item, i) => (
+          <button
+            key={item.name}
+            onClick={() => setTrade(i)}
+            aria-pressed={trade === i}
+          >
+            {item.name}
+          </button>
+        ))}
+      </div>
+      <div className="flow-stage" key={t.name}>
+        <div className="search-demo">
+          <span className="flow-step">01 / GET FOUND</span>
+          <div>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="10" cy="10" r="6" />
+              <path d="m15 15 6 6" />
+            </svg>
+            <span>{t.query}</span>
+          </div>
+        </div>
+        <div className="flow-connector" aria-hidden="true">
+          <svg viewBox="0 0 300 44" preserveAspectRatio="none">
+            <path d="M20 0 V20 Q20 30 30 30 H270 Q280 30 280 40 V44" />
+          </svg>
+          <span>MAKE A STRONG FIRST IMPRESSION</span>
+        </div>
+        <div className="trade-demo">
+          <span className="flow-step">02 / BUILD TRUST</span>
+          <div className="demo-browser">
+            <span>YOUR BUSINESS</span>
+            <span aria-hidden="true">•••</span>
+          </div>
+          <div className="demo-site">
+            <span className="demo-location">
+              MORENO VALLEY & SURROUNDING AREAS
+            </span>
+            <strong>{t.headline}</strong>
+            <p>
+              {t.service}. A clear service, a local name, and one obvious next
+              step.
+            </p>
+            <span className="demo-call">
+              Call for an estimate <span aria-hidden="true">↗</span>
+            </span>
+          </div>
+        </div>
+        <div className="flow-result">
+          <span className="phone-icon" aria-hidden="true">
+            ↗
+          </span>
+          <div>
+            <span className="flow-step">03 / MAKE IT EASY TO CALL</span>
+            <strong>
+              Less searching.
+              <br />
+              More getting in touch.
+            </strong>
+          </div>
+        </div>
+      </div>
+      <p className="flow-disclaimer">
+        Illustrative design demo. Not live search results or actual leads.
+      </p>
+    </aside>
+  );
+}
+// Add your photo to public/ and set this to "/jacob-portrait.jpg".
+const JACOB_PHOTO = null;
+function Portrait() {
+  const [missing, setMissing] = useState(!JACOB_PHOTO);
+  return (
+    <figure className="portrait reveal">
+      <div className="portrait-frame">
+        {!missing && (
+          <img
+            src={JACOB_PHOTO}
+            alt="Jacob, independent web designer and developer"
+            onError={() => setMissing(true)}
+            loading="lazy"
+            width="720"
+            height="900"
+          />
+        )}
+        {missing && (
+          <div className="portrait-placeholder">
+            <svg viewBox="0 0 160 180" aria-hidden="true">
+              <circle cx="80" cy="51" r="31" />
+              <path d="M15 174v-17c0-37 29-61 65-61s65 24 65 61v17" />
+            </svg>
+            <span>JACOB’S PHOTO GOES HERE</span>
+            <small>A real face. Your local web guy.</small>
+          </div>
+        )}
+        <span className="portrait-corner top-left" />
+        <span className="portrait-corner bottom-right" />
+      </div>
+      <figcaption>
+        <span>JACOB / DESIGN & DEVELOPMENT</span>
+        <span>MORENO VALLEY, CA</span>
+      </figcaption>
+    </figure>
+  );
+}
 function App() {
   const [theme, setTheme] = useState(
     document.documentElement.dataset.theme || "dark",
@@ -111,6 +253,74 @@ function App() {
     document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
     return () => obs.disconnect();
   }, []);
+  useEffect(() => {
+    const media = matchMedia("(prefers-reduced-motion: reduce)");
+    const cards = [...document.querySelectorAll(".project-preview")];
+    function move(e) {
+      if (media.matches || e.pointerType !== "mouse") return;
+      const r = this.getBoundingClientRect();
+      this.style.setProperty(
+        "--tilt-x",
+        (0.5 - (e.clientY - r.top) / r.height) * 4 + "deg",
+      );
+      this.style.setProperty(
+        "--tilt-y",
+        ((e.clientX - r.left) / r.width - 0.5) * 4 + "deg",
+      );
+    }
+    function reset() {
+      this.style.removeProperty("--tilt-x");
+      this.style.removeProperty("--tilt-y");
+    }
+    cards.forEach((c) => {
+      c.addEventListener("pointermove", move);
+      c.addEventListener("pointerleave", reset);
+    });
+    return () =>
+      cards.forEach((c) => {
+        c.removeEventListener("pointermove", move);
+        c.removeEventListener("pointerleave", reset);
+      });
+  }, []);
+  function toggleTheme(event) {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    if (
+      !document.startViewTransition ||
+      matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setTheme(nextTheme);
+      return;
+    }
+    const { left, top, width, height } =
+      event.currentTarget.getBoundingClientRect();
+    const x = left + width / 2,
+      y = top + height / 2;
+    const radius = Math.hypot(
+      Math.max(x, innerWidth - x),
+      Math.max(y, innerHeight - y),
+    );
+    const transition = document.startViewTransition(() => {
+      flushSync(() => setTheme(nextTheme));
+      document.documentElement.dataset.theme = nextTheme;
+    });
+    transition.ready
+      .then(() =>
+        document.documentElement.animate(
+          {
+            clipPath: [
+              "circle(0px at " + x + "px " + y + "px)",
+              "circle(" + radius + "px at " + x + "px " + y + "px)",
+            ],
+          },
+          {
+            duration: 650,
+            easing: "cubic-bezier(.4,0,.2,1)",
+            pseudoElement: "::view-transition-new(root)",
+          },
+        ),
+      )
+      .catch(() => {});
+  }
   function openProject(p, e) {
     opener.current = e.currentTarget;
     setActive(p);
@@ -123,7 +333,7 @@ function App() {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     setDraft(
-      "Project inquiry — " +
+      "Free homepage mockup request — " +
         service +
         "\n\nName: " +
         data.get("name") +
@@ -137,6 +347,7 @@ function App() {
   }
   return (
     <>
+      <div className="reading-progress" aria-hidden="true" />
       <a className="skip" href="#main">
         Skip to content
       </a>
@@ -166,13 +377,13 @@ function App() {
             href="#contact"
             onClick={() => setMenu(false)}
           >
-            Let’s talk <Arrow />
+            Free mockup <Arrow />
           </a>
         </nav>
         <div className="header-tools">
           <button
             className="theme-toggle"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={toggleTheme}
             aria-label={
               "Switch to " + (theme === "dark" ? "light" : "dark") + " theme"
             }
@@ -193,60 +404,78 @@ function App() {
         </div>
       </header>
       <main id="main">
-        <section className="hero">
+        <section className="hero trade-hero">
           <div className="hero-kicker">
             <span>
-              <i className="status-dot" /> INDEPENDENT WEB DESIGN & DEVELOPMENT
+              <i className="status-dot" /> WEB DESIGN FOR THE TRADES
             </span>
             <span className="hero-location">
-              ONE PERSON. A DIFFERENT PERSPECTIVE.
+              MORENO VALLEY, CA / WORKING WITH LOCAL BUSINESSES
             </span>
           </div>
-          <h1>
-            <span>Your business</span>
-            <span>isn’t generic.</span>
-            <span className="hero-outline">Your website</span>
-            <span className="hero-last">
-              shouldn’t be.<i aria-hidden="true">↗</i>
-            </span>
-          </h1>
-          <div className="hero-bottom">
-            <span className="hero-index">[ STRATEGY / DESIGN / CODE ]</span>
-            <div>
-              <p>
-                I’m Jacob. I design and build distinctive websites for
-                businesses ready to look like themselves.
+          <div className="hero-layout">
+            <div className="hero-copy">
+              <span className="hero-label">YOU HANDLE THE HARD WORK.</span>
+              <h1>
+                <span>
+                  <b>GOOD WORK.</b>
+                </span>
+                <span>
+                  <b>DESERVES</b>
+                </span>
+                <span className="headline-accent">
+                  <b>MORE CALLS.</b>
+                </span>
+              </h1>
+              <p className="hero-intro">
+                I build websites that help homeowners find your trade business,
+                trust your work, and get in touch.
               </p>
-              <a className="button lime" href="#contact">
-                Let’s build yours <Arrow />
-              </a>
-              <a className="text-link" href="#work">
-                Explore the work <span aria-hidden="true">↓</span>
-              </a>
+              <div className="hero-actions">
+                <a className="button primary" href="#contact">
+                  Get my free mockup <Arrow />
+                </a>
+                <a className="text-link" href="#work">
+                  See the redesigns <span aria-hidden="true">↓</span>
+                </a>
+              </div>
+              <p className="offer-note">
+                A free homepage design preview. No payment. No obligation.
+              </p>
+              <span className="hero-byline">
+                HVAC · PLUMBING · ELECTRICAL · CONTRACTORS
+              </span>
             </div>
+            <CallFlow />
           </div>
-          <div className="hero-side" aria-hidden="true">
-            SCROLL TO SEE THE DIFFERENCE ↓
+          <div className="hero-bottomline">
+            <span>
+              BUILT BY JACOB. FOR BUSINESSES THAT BUILD, FIX & KEEP THINGS
+              RUNNING.
+            </span>
+            <a href="#work">
+              TAKE A LOOK <span aria-hidden="true">↓</span>
+            </a>
           </div>
         </section>
-        <div className="ticker" aria-hidden="true">
-          <div>
-            BUILT TO BE YOURS. <span>✳</span> DESIGNED WITH INTENT.{" "}
-            <span>✳</span> BUILT TO BE YOURS. <span>✳</span> DESIGNED WITH
-            INTENT. <span>✳</span>
-          </div>
+        <div className="trade-ribbon">
+          <span>LOCAL BUSINESS.</span>
+          <span>REAL WORK.</span>
+          <span>A CLEAR WAY TO CALL.</span>
+          <a href="#contact">YOUR FREE MOCKUP STARTS HERE ↗</a>
         </div>
         <section id="work" className="work section">
           <div className="section-top reveal">
             <span className="eyebrow">01 / SELECTED WORK</span>
             <h2>
-              A point of view.
+              A clearer path
               <br />
-              <span>In practice.</span>
+              <span>to the next call.</span>
             </h2>
             <p>
-              A look at how I think, design, and build. Independent concepts are
-              labeled, always.
+              See how clearer services and easier contact can change a trade
+              website. Open a project to explore the design. Independent
+              concepts are clearly labeled.
             </p>
           </div>
           <div className="project-grid">
@@ -288,13 +517,13 @@ function App() {
           <div className="section-top reveal">
             <span className="eyebrow">02 / WHAT I DO</span>
             <h2>
-              From first idea.
+              Help them find you.
               <br />
-              <span>To open for business.</span>
+              <span>Help them call you.</span>
             </h2>
             <p>
-              A new start or a better next version. I bring the design and the
-              development together.
+              A homeowner needs to know what you do, where you work, and how to
+              reach you. Your site should answer all three.
             </p>
           </div>
           <div className="service-list">
@@ -302,23 +531,23 @@ function App() {
               {
                 n: "01",
                 name: "Website design",
-                sub: "A look that belongs to your business.",
-                body: "Structure, typography, and visual direction shaped around what you do and who you need to reach.",
-                tags: "SITE STRATEGY / WIREFRAMES / VISUAL DESIGN",
+                sub: "Show the work. Earn their confidence.",
+                body: "Clear service pages, your real project photos, and a design that helps homeowners understand why to choose your business.",
+                tags: "SERVICES / SERVICE AREAS / REAL PROJECTS",
               },
               {
                 n: "02",
-                name: "Development",
-                sub: "Thoughtful design. Working code.",
-                body: "Responsive React websites with accessible navigation, considered interactions, and attention to loading performance.",
-                tags: "RESPONSIVE BUILDS / REACT / INTERACTIONS",
+                name: "Websites built for calls",
+                sub: "Easy to use. Especially on a phone.",
+                body: "Fast, mobile-friendly pages with visible call buttons and straightforward quote requests. Less friction between finding your business and getting in touch.",
+                tags: "MOBILE / CLICK TO CALL / QUOTE REQUESTS",
               },
               {
                 n: "03",
                 name: "Website rebuilds",
-                sub: "Keep what works. Rethink what doesn’t.",
-                body: "A fresh structure and visual direction for an existing site that no longer reflects your business.",
-                tags: "SITE REVIEW / REDESIGN / REBUILD",
+                sub: "Make your existing site work harder.",
+                body: "Outdated site? Start with a free homepage mockup. See a new direction for your services and contact flow before deciding on a paid build.",
+                tags: "FREE MOCKUP / REDESIGN / PAID BUILD",
               },
             ].map((s) => (
               <details className="service reveal" key={s.n}>
@@ -340,10 +569,10 @@ function App() {
           <div className="process reveal">
             <span className="eyebrow">HOW WE GET THERE</span>
             {[
-              "Talk it through",
-              "Find the direction",
-              "Build & refine",
-              "Launch with care",
+              "Send me your site",
+              "See your free mockup",
+              "Choose a paid build",
+              "Refine & launch",
             ].map((s, i) => (
               <div key={s}>
                 <small>0{i + 1}</small>
@@ -353,60 +582,56 @@ function App() {
           </div>
         </section>
         <section className="about section" id="about">
-          <div className="about-art reveal" aria-hidden="true">
-            <span className="art-label">THE PERSON BEHIND THE PIXELS.</span>
-            <div className="art-j">
-              j<span>.</span>
-            </div>
-            <span className="art-label bottom">
-              DESIGNER / DEVELOPER / JACOB
-            </span>
-            <div className="art-stamp">
-              ONE
-              <br />
-              TO ONE ↗
-            </div>
-          </div>
+          <Portrait />
           <div className="about-copy reveal">
             <span className="eyebrow">03 / HI, I’M JACOB</span>
             <h2>
-              A real person.
-              <br />A personal stake.
+              Your local web guy.
+              <br />
+              Hi, I’m Jacob.
             </h2>
             <p className="large-copy">
-              Your website is someone’s first introduction to your business. I
-              want to make it a good one.
+              You’re good at your trade. I’ll help your website show it.
             </p>
             <p>
-              I’m an independent web designer and developer. I’m building Jacob
-              Websites around a straightforward idea: good businesses deserve a
-              website with a point of view.
+              I’m an independent web designer and developer in Moreno Valley,
+              building websites for HVAC companies, plumbers, electricians, and
+              contractors.
             </p>
             <p>
-              You work directly with me, from the first conversation through
-              design and development. Clear communication, considered decisions,
-              and a site we can both stand behind.
+              You work directly with me, from the first mockup to the finished
+              website. We’ll focus on your services, your service area, and
+              making it easy for a customer to call or request a quote.
             </p>
             <a className="text-link" href="#contact">
-              Tell me what you’re working on <Arrow />
+              Let me take a look at your site <Arrow />
             </a>
           </div>
         </section>
         <section className="contact section" id="contact">
           <div className="contact-heading reveal">
-            <span className="eyebrow">04 / YOUR NEXT CHAPTER</span>
+            <span className="eyebrow">04 / YOUR FREE HOMEPAGE MOCKUP</span>
             <h2>
-              Let’s make
+              Send your site.
               <br />
-              some<span className="serif">thing</span>
-              <br />
-              <span className="contact-lime">you.</span>
-              <span aria-hidden="true">↗</span>
+              <span className="offer-accent">
+                I’ll redesign
+                <br />
+                it for free.
+              </span>
             </h2>
             <p>
-              Tell me about your business, what you need, and what you’d like to
-              do differently.
+              A free homepage mockup for your trade business. See the direction
+              before you decide whether to hire me.
             </p>
+            <div className="offer-scope">
+              <span>WHAT’S FREE</span>
+              <strong>A homepage design preview.</strong>
+              <p>
+                A full website build is a separate paid project. No obligation
+                to continue.
+              </p>
+            </div>
           </div>
           <form
             onSubmit={prepare}
@@ -414,7 +639,7 @@ function App() {
             onChange={() => draft && setDraft("")}
           >
             <fieldset>
-              <legend>What are we working on?</legend>
+              <legend>What does your business need?</legend>
               <div className="service-choices">
                 {["New website", "Website rebuild", "Something else"].map(
                   (s) => (
@@ -471,25 +696,25 @@ function App() {
               />
             </label>
             <label>
-              A little about the project{" "}
+              Your trade & service area{" "}
               <textarea
                 name="message"
                 required
                 minLength={10}
                 maxLength={5000}
                 rows={3}
-                placeholder="What do you do? What should your website do better?"
+                placeholder="e.g. HVAC in Moreno Valley. We want more AC repair calls."
               />
             </label>
-            <button className="button lime submit" type="submit">
-              Prepare my inquiry <Arrow />
+            <button className="button primary submit" type="submit">
+              Get my free mockup <Arrow />
             </button>
             <p className="form-note">
               This form prepares an email draft. Nothing is sent or stored here.
             </p>
             {draft && (
               <div className="draft" role="status">
-                <strong>Your inquiry is ready.</strong>
+                <strong>Your free mockup request is ready.</strong>
                 <p>
                   Open it in your email app, then check the recipient and send.
                   No message has been sent yet.
@@ -498,7 +723,7 @@ function App() {
                   className="button"
                   href={
                     "mailto:hello@jacobwebsites.com?subject=" +
-                    encodeURIComponent("Website project inquiry") +
+                    encodeURIComponent("Free homepage mockup request") +
                     "&body=" +
                     encodeURIComponent(draft)
                   }
@@ -525,7 +750,7 @@ function App() {
         </a>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Jacob Websites</span>
-          <span>Independent by design.</span>
+          <span>Websites for trades. Moreno Valley, CA.</span>
           <a href="#main">Back to top ↑</a>
         </div>
       </footer>
@@ -559,7 +784,7 @@ function App() {
                   location.hash = "contact";
                 }}
               >
-                Have a project in mind? <Arrow />
+                Get a free mockup for your business <Arrow />
               </button>
             </div>
           </>

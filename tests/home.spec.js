@@ -28,7 +28,7 @@ test("responsive page, themes, reduced motion, and accessibility", async ({
   await page.emulateMedia({ reducedMotion: "reduce" });
   expect(
     await page
-      .locator(".ticker>div")
+      .locator(".flow-connector svg")
       .evaluate((e) => getComputedStyle(e).animationName),
   ).toBe("none");
   expect(errors).toEqual([]);
@@ -57,18 +57,18 @@ test("navigation, project dialog, services, and honest inquiry draft", async ({
   await expect(trigger).toBeFocused();
   await page.locator(".service summary").first().click();
   await expect(page.locator(".service").first()).toHaveAttribute("open", "");
-  await page.getByRole("button", { name: "Prepare my inquiry" }).click();
+  await page.getByRole("button", { name: "Get my free mockup" }).click();
   await expect(page.getByRole("status")).toHaveCount(0);
   await page.getByLabel("Your name").fill("Test Person");
   await page.getByLabel("Email address").fill("test@example.com");
   await page
-    .getByLabel("A little about the project")
+    .getByLabel("Your trade & service area")
     .fill("A new website for an independent local business.");
   await page
     .locator(".choice")
     .filter({ has: page.getByRole("radio", { name: /Website rebuild/ }) })
     .click();
-  await page.getByRole("button", { name: "Prepare my inquiry" }).click();
+  await page.getByRole("button", { name: "Get my free mockup" }).click();
   await expect(page.getByRole("status")).toContainText(
     "No message has been sent",
   );
@@ -79,4 +79,31 @@ test("navigation, project dialog, services, and honest inquiry draft", async ({
   expect(href).toContain("mailto:hello@jacobwebsites.com");
   await page.getByLabel("Your name").fill("Changed");
   await expect(page.getByRole("status")).toHaveCount(0);
+});
+
+test("trade demo updates, portrait placeholder, and free mockup offer", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const demo = page.getByRole("complementary", {
+    name: "Explore a sample trade website",
+  });
+  await demo.getByRole("button", { name: "Plumbing", exact: true }).click();
+  await expect(
+    demo.getByRole("button", { name: "Plumbing", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await expect(demo).toContainText("plumber Moreno Valley");
+  await expect(demo).toContainText("The leak stops here.");
+  await demo.getByRole("button", { name: "Electrical", exact: true }).click();
+  await expect(demo).toContainText("electrician Moreno Valley");
+  await expect(page.locator(".portrait-placeholder")).toContainText(
+    "JACOB’S PHOTO GOES HERE",
+  );
+  await expect(page.locator("#contact")).toContainText(
+    "A full website build is a separate paid project",
+  );
+  await page
+    .getByRole("link", { name: "Get my free mockup", exact: true })
+    .click();
+  await expect(page).toHaveURL(/#contact$/);
 });

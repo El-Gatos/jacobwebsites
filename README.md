@@ -1,6 +1,6 @@
 # Jacob Websites
 
-Independent React website for jacobwebsites.com. Vite, React, and self-hosted fonts; no UI or animation framework.
+Independent React website for jacobwebsites.com, focused on trade businesses in Moreno Valley. Vite, React, and self-hosted fonts; no UI or animation framework.
 
 ## Run
 
@@ -23,3 +23,11 @@ Install the test browser with `npx playwright install chromium`, then `npm test`
 Fonts: Barlow Condensed and DM Sans, distributed under the SIL Open Font License. License files are in public/fonts.
 
 Not deployed.
+
+## Photo placeholder
+
+Add your portrait as `public/jacob-portrait.jpg`, then set `JACOB_PHOTO` in `src/main.jsx` to `"/jacob-portrait.jpg"`. The layout uses a 4:5 crop with object-fit cover. The neutral placeholder remains until configured; missing images fall back without a broken image.
+
+## Motion and offer
+
+Staggered headline entrances, SVG route drawing, keyed trade-demo transitions, pointer tilt on project cards, section entrances, a scroll progress line, and a circular theme reveal. All respect reduced motion. No infinite decorative animation. The free offer covers a homepage design mockup; full builds are explicitly paid.

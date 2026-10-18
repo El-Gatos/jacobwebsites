@@ -7,7 +7,7 @@
   --muted: #b9bbb1;
   --line: #50514a;
   --panel: #2a2b27;
-  --accent: #d5ff45;
+  --accent: #2458f5;
   --accent-ink: #20211f;
   --pad: clamp(22px, 5vw, 88px);
   background: var(--bg);
@@ -21,7 +21,7 @@
   --muted: #5d6056;
   --line: #b9bbae;
   --panel: #e5e5da;
-  --accent: #d5ff45;
+  --accent: #2458f5;
   --accent-ink: #20211f;
 }
 * {
@@ -55,7 +55,7 @@ button:disabled {
   cursor: default;
 }
 ::selection {
-  background: #d5ff45;
+  background: #2458f5;
   color: #20211f;
 }
 :focus-visible {
@@ -167,7 +167,7 @@ button:focus-visible,
   height: 7px;
   border-radius: 50%;
   margin-right: 8px;
-  box-shadow: 0 0 0 4px #d5ff4512;
+  box-shadow: 0 0 0 4px #2458f512;
 }
 .hero-location {
   color: var(--muted);
@@ -278,25 +278,6 @@ h1 > span {
   font-size: 8px;
   letter-spacing: 2px;
   color: var(--muted);
-}
-.ticker {
-  background: var(--accent);
-  color: #20211f;
-  overflow: hidden;
-  padding: 16px 0;
-  border-block: 1px solid #20211f;
-}
-.ticker > div {
-  width: max-content;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  animation: marquee 35s linear infinite;
-}
-.ticker span {
-  margin: 0 40px;
-  font-size: 23px;
-  vertical-align: middle;
 }
 .section {
   padding: 95px var(--pad);
@@ -481,7 +462,7 @@ h2 {
   padding-top: 10px;
 }
 .own-mock {
-  background: #d5ff45;
+  background: #2458f5;
   color: #20211f;
   display: flex;
   flex-direction: column;
@@ -643,55 +624,6 @@ summary {
   grid-template-columns: 1fr 1fr;
   gap: 9%;
   align-items: center;
-}
-.about-art {
-  background: var(--accent);
-  color: #20211f;
-  aspect-ratio: 0.91;
-  position: relative;
-  overflow: hidden;
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.art-label {
-  font-size: 8px;
-  letter-spacing: 1px;
-}
-.art-j {
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: clamp(260px, 38vw, 600px);
-  font-weight: 800;
-  position: absolute;
-  top: -15%;
-  left: 14%;
-  line-height: 1;
-  transform: rotate(-9deg);
-  letter-spacing: -25px;
-}
-.art-j > span {
-  color: transparent;
-  -webkit-text-stroke: 2px #20211f;
-}
-.art-label.bottom {
-  position: relative;
-}
-.art-stamp {
-  position: absolute;
-  bottom: 16%;
-  right: 8%;
-  border: 1px solid #20211f;
-  background: var(--accent);
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  display: grid;
-  place-content: center;
-  text-align: center;
-  transform: rotate(12deg);
-  font-size: 14px;
-  font-weight: 700;
 }
 .about-copy .eyebrow {
   margin-bottom: 25px;
