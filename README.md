@@ -1,6 +1,6 @@
 # Jacob Websites
 
-Website for jacobwebsites.com: web design, development, and maintenance for independent businesses in Moreno Valley and beyond. Built with Vite, React, and self-hosted fonts; no UI or animation framework.
+Website for jacobwebsites.com: web design, development, and maintenance for independent businesses in SoCal and beyond. Built with Vite, React, and self-hosted fonts; no UI or animation framework.
 
 Live preview: https://jacobwebsites.vercel.app (deployed on Vercel).
 

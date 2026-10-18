@@ -81,25 +81,25 @@ function ProjectVisual({ project }) {
 const businesses = [
   {
     name: "HVAC",
-    query: "AC repair Moreno Valley",
+    query: "AC repair near me",
     headline: "Cool air. Clear answers.",
     service: "AC repair & installation",
   },
   {
     name: "Shop",
-    query: "gift shop Moreno Valley",
+    query: "gift shop near me",
     headline: "Find something worth keeping.",
     service: "Thoughtful gifts & everyday favorites",
   },
   {
     name: "Studio",
-    query: "photographer Moreno Valley",
+    query: "photographer near me",
     headline: "Your story. In the frame.",
     service: "Portraits & brand photography",
   },
   {
     name: "Services",
-    query: "cleaning service Moreno Valley",
+    query: "cleaning service near me",
     headline: "A little more room to breathe.",
     service: "Home & office cleaning",
   },
@@ -153,7 +153,7 @@ function CallFlow() {
           </div>
           <div className="demo-site">
             <span className="demo-location">
-              MORENO VALLEY & SURROUNDING AREAS
+              SERVING YOUR COMMUNITY
             </span>
             <strong>{t.headline}</strong>
             <p>
@@ -196,7 +196,7 @@ function Portrait() {
         {!missing && (
           <img
             src={JACOB_PHOTO}
-            alt="Jacob Wainwright, web designer in Southern California"
+            alt="Jacob Wainwright, web designer in SoCal"
             onError={() => setMissing(true)}
             loading="lazy"
             width="720"
@@ -208,7 +208,7 @@ function Portrait() {
       </div>
       <figcaption>
         <span>JACOB / DESIGN & DEVELOPMENT</span>
-        <span>MORENO VALLEY, CA</span>
+        <span>SOCAL</span>
       </figcaption>
     </figure>
   );
@@ -492,7 +492,7 @@ function App() {
               <i className="status-dot" /> WEB DESIGN FOR INDEPENDENT BUSINESSES
             </span>
             <span className="hero-location">
-              MORENO VALLEY, CA / WORKING WITH LOCAL BUSINESSES
+              SOCAL / WORKING WITH LOCAL BUSINESSES
             </span>
           </div>
           <div className="hero-layout">
@@ -814,7 +814,7 @@ function App() {
                 minLength={10}
                 maxLength={5000}
                 rows={3}
-                placeholder="e.g. A local shop in Moreno Valley. We want more product inquiries."
+                placeholder="e.g. A local gift shop. We want more product inquiries."
               />
             </label>
             <button
