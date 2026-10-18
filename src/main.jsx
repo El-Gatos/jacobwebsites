@@ -3,6 +3,8 @@ import { createRoot } from "react-dom/client";
 import { flushSync } from "react-dom";
 import "./style.css";
 import "./trades.css";
+import KmaComparison from "./KmaComparison";
+import "./portfolio.css";
 const Arrow = ({ diagonal = false }) => (
   <span aria-hidden="true">{diagonal ? "↗" : "↗"}</span>
 );
@@ -17,6 +19,8 @@ const projects = [
     detail:
       "This self-initiated design study explores a stronger service hierarchy, separate residential and commercial calls to action, and a direct path to contact. It is not commissioned, affiliated with, or endorsed by KMA. No business results are claimed.",
     className: "kma",
+    liveUrl: "https://trade-demos-three.vercel.app/kma",
+    originalUrl: "https://kmahvacandconstruction.com/",
   },
   {
     id: "jacob",
@@ -32,31 +36,21 @@ const projects = [
 ];
 function ProjectVisual({ project }) {
   return project.id === "kma" ? (
-    <div className="mock kma-mock" aria-label="KMA concept preview">
-      <div className="mock-nav">
-        <b>
-          KMA<span> HVAC + CONSTRUCTION</span>
-        </b>
-        <span>BUILT ON TRUST. ↗</span>
+    <div className="site-preview" aria-label="Published KMA redesign preview">
+      <div className="site-preview-chrome">
+        <span className="site-preview-dots" aria-hidden="true">
+          ● ● ●
+        </span>
+        <span>trade-demos-three.vercel.app/kma</span>
+        <span aria-hidden="true">↗</span>
       </div>
-      <div className="mock-content">
-        <small>RESIDENTIAL / COMMERCIAL</small>
-        <strong>
-          COMFORT.
-          <br />
-          WITHOUT
-          <br />
-          <em>COMPROMISE.</em>
-        </strong>
-        <span className="mock-cta">LET’S GET TO WORK ↗</span>
-      </div>
-      <div className="machine" aria-hidden="true">
-        <div className="fan" />
-        <span>KMA / SYSTEM 01</span>
-      </div>
-      <div className="mock-foot">
-        HEATING & COOLING <span>CONSTRUCTION & MORE ↗</span>
-      </div>
+      <img
+        src="/work/kma-after.jpg"
+        width="1265"
+        height="720"
+        loading="lazy"
+        alt="The published KMA homepage redesign, with its Good work. You can feel. headline"
+      />
     </div>
   ) : (
     <div className="mock own-mock" aria-label="Jacob Websites identity study">
@@ -152,9 +146,7 @@ function CallFlow() {
             <span aria-hidden="true">•••</span>
           </div>
           <div className="demo-site">
-            <span className="demo-location">
-              SERVING YOUR COMMUNITY
-            </span>
+            <span className="demo-location">SERVING YOUR COMMUNITY</span>
             <strong>{t.headline}</strong>
             <p>
               {t.service}. A clear service, a local name, and one obvious next
@@ -586,6 +578,16 @@ function App() {
                   <span>{p.tag}</span>
                 </div>
                 <p>{p.text}</p>
+                {p.liveUrl && (
+                  <a
+                    className="project-live-link"
+                    href={p.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View live redesign <Arrow />
+                  </a>
+                )}
               </article>
             ))}
           </div>
@@ -680,17 +682,18 @@ function App() {
             </p>
             <p>
               I started this because I want to help small businesses that are
-              struggling. A lot of them do great work, but their website
-              doesn’t show it: the phone number is buried, the contact form
-              goes nowhere, or the site hasn’t changed in years. As someone who's been part of small business for a long time, I understand the challenges they face. That’s one of
-              the easiest problems a business can fix, so that’s where I come
-              in.
+              struggling. A lot of them do great work, but their website doesn’t
+              show it: the phone number is buried, the contact form goes
+              nowhere, or the site hasn’t changed in years. As someone who's
+              been part of small business for a long time, I understand the
+              challenges they face. That’s one of the easiest problems a
+              business can fix, so that’s where I come in.
             </p>
             <p>
               I’m in my first year running this on my own, which means you’re
-              not one of a hundred accounts. I build every site from scratch,
-              by hand, and you talk to me directly the whole way through, not
-              an account manager or a support ticket.
+              not one of a hundred accounts. I build every site from scratch, by
+              hand, and you talk to me directly the whole way through, not an
+              account manager or a support ticket.
             </p>
             <p>
               After launch I stick around. If you need updates or fixes, we’ll
@@ -830,8 +833,7 @@ function App() {
               <Arrow />
             </button>
             <p className="form-note">
-              Goes straight to my inbox at {CONTACT_EMAIL}. I’ll reply by
-              email.
+              Goes straight to my inbox at {CONTACT_EMAIL}. I’ll reply by email.
             </p>
             {formStatus === "sent" && (
               <div className="draft" role="status">
@@ -840,9 +842,7 @@ function App() {
                     ? "Your maintenance inquiry was sent."
                     : "Your free mockup request was sent."}
                 </strong>
-                <p>
-                  Thanks! I’ll get back to you at the email you gave me.
-                </p>
+                <p>Thanks! I’ll get back to you at the email you gave me.</p>
               </div>
             )}
             {formStatus === "failed" && draft && (
@@ -924,13 +924,37 @@ function App() {
         </div>
         {active && (
           <>
-            <ProjectVisual project={active} />
+            {active.id === "kma" ? (
+              <KmaComparison />
+            ) : (
+              <ProjectVisual project={active} />
+            )}
             <div className="dialog-copy">
               <span className="eyebrow">
                 {active.name} / {active.type}
               </span>
               <h2 id="project-title">{active.title}</h2>
               <p>{active.detail}</p>
+              {active.liveUrl && (
+                <div className="project-destinations">
+                  <a
+                    className="button primary"
+                    href={active.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open live redesign <Arrow />
+                  </a>
+                  <a
+                    className="button"
+                    href={active.originalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visit original site <Arrow />
+                  </a>
+                </div>
+              )}
               <button
                 className="button"
                 onClick={() => {
