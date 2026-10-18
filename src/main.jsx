@@ -196,7 +196,7 @@ function Portrait() {
         {!missing && (
           <img
             src={JACOB_PHOTO}
-            alt="Jacob Wainwright, web designer in Moreno Valley"
+            alt="Jacob Wainwright, web designer in Southern California"
             onError={() => setMissing(true)}
             loading="lazy"
             width="720"
@@ -673,16 +673,16 @@ function App() {
           <Portrait />
           <div className="about-copy reveal">
             <span className="eyebrow">03 / HI, I’M JACOB</span>
-            <h2>Your local web guy.</h2>
+            <h2>One Person. Every Detail.</h2>
             <p className="large-copy">
-              I’m Jacob Wainwright. I live in Moreno Valley, and I build
+              I’m Jacob Wainwright. I live in Souther California, and I build
               websites for the businesses around me.
             </p>
             <p>
               I started this because I want to help small businesses that are
               struggling. A lot of them do great work, but their website
               doesn’t show it: the phone number is buried, the contact form
-              goes nowhere, or the site hasn’t changed in years. That’s one of
+              goes nowhere, or the site hasn’t changed in years. As someone who's been part of small business for a long time, I understand the challenges they face. That’s one of
               the easiest problems a business can fix, so that’s where I come
               in.
             </p>
@@ -889,7 +889,7 @@ function App() {
         </a>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Jacob Websites</span>
-          <span>Independent websites. Moreno Valley, CA.</span>
+          <span>Independent websites. Souther California.</span>
           <a href={"mailto:" + CONTACT_EMAIL}>{CONTACT_EMAIL}</a>
           <a
             className="github-link"
