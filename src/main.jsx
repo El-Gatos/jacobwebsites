@@ -185,32 +185,24 @@ function CallFlow() {
     </aside>
   );
 }
+const CONTACT_EMAIL = "jacob@jacobwebsites.com";
+const FORM_ENDPOINT = "https://formsubmit.co/ajax/" + CONTACT_EMAIL;
 // Files in public/ are served from the site root, so public/me.webp is /me.webp.
 const JACOB_PHOTO = "/me.webp";
 function Portrait() {
-  const [missing, setMissing] = useState(!JACOB_PHOTO);
+  const [missing, setMissing] = useState(false);
   return (
     <figure className="portrait reveal">
       <div className="portrait-frame">
         {!missing && (
           <img
             src={JACOB_PHOTO}
-            alt="Jacob, independent web designer and developer"
+            alt="Jacob Wainwright, web designer in Moreno Valley"
             onError={() => setMissing(true)}
             loading="lazy"
             width="720"
-            height="900"
+            height="1081"
           />
-        )}
-        {missing && (
-          <div className="portrait-placeholder">
-            <svg viewBox="0 0 160 180" aria-hidden="true">
-              <circle cx="80" cy="51" r="31" />
-              <path d="M15 174v-17c0-37 29-61 65-61s65 24 65 61v17" />
-            </svg>
-            <span>JACOB’S PHOTO GOES HERE</span>
-            <small>A real face. Your website. My work.</small>
-          </div>
         )}
         <span className="portrait-corner top-left" />
         <span className="portrait-corner bottom-right" />
@@ -265,6 +257,7 @@ function App() {
   const [menu, setMenu] = useState(false);
   const [active, setActive] = useState(null);
   const [draft, setDraft] = useState("");
+  const [formStatus, setFormStatus] = useState("idle");
   const dialog = useRef(null);
   const opener = useRef(null);
   const [service, setService] = useState("New website");
@@ -372,23 +365,55 @@ function App() {
     setActive(null);
     opener.current?.focus();
   }
-  function prepare(e) {
+  async function submitInquiry(e) {
     e.preventDefault();
+    if (formStatus === "sending") return;
     const data = new FormData(e.currentTarget);
-    setDraft(
-      (service === "Maintenance"
-        ? "Website maintenance inquiry — "
-        : "Free homepage mockup request — ") +
-        service +
-        "\n\nName: " +
-        data.get("name") +
-        "\nEmail: " +
-        data.get("email") +
-        "\nWebsite: " +
-        (data.get("website") || "Not yet") +
-        "\n\n" +
-        data.get("message"),
-    );
+    const subject =
+      service === "Maintenance"
+        ? "Website maintenance inquiry"
+        : "Free homepage mockup request";
+    const text =
+      subject +
+      " — " +
+      service +
+      "\n\nName: " +
+      data.get("name") +
+      "\nEmail: " +
+      data.get("email") +
+      "\nWebsite: " +
+      (data.get("website") || "Not yet") +
+      "\n\n" +
+      data.get("message");
+    setDraft(text);
+    setFormStatus("sending");
+    try {
+      const response = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          service,
+          name: data.get("name"),
+          email: data.get("email"),
+          website: data.get("website") || "Not yet",
+          message: data.get("message"),
+          _subject: subject + " — " + service,
+          _template: "table",
+          _honey: data.get("_honey") || "",
+        }),
+        signal: AbortSignal.timeout(12000),
+      });
+      const result = await response.json().catch(() => null);
+      // Only show "sent" when FormSubmit confirms it.
+      const sent =
+        response.ok && (result?.success === true || result?.success === "true");
+      setFormStatus(sent ? "sent" : "failed");
+    } catch {
+      setFormStatus("failed");
+    }
   }
   return (
     <>
@@ -397,7 +422,7 @@ function App() {
         Skip to content
       </a>
       <header className="header">
-        <a href="#" className="logo" aria-label="jacobwebsites. home">
+        <a href="#main" className="logo" aria-label="jacobwebsites. home">
           jacob
           <span>
             websites<span className="logo-dot">.</span>
@@ -477,7 +502,7 @@ function App() {
               <span className="hero-label">YOU HANDLE THE HARD WORK.</span>
               <h1>
                 <span>
-                  <b>GOOD WORK.</b>
+                  <b>GOOD WORK</b>
                 </span>
                 <span>
                   <b>DESERVES</b>
@@ -650,27 +675,27 @@ function App() {
           <Portrait />
           <div className="about-copy reveal">
             <span className="eyebrow">03 / HI, I’M JACOB</span>
-            <h2>
-              Your local web guy.
-              <br />
-              Hi, I’m Jacob.
-            </h2>
+            <h2>Your local web guy.</h2>
             <p className="large-copy">
-              I’m Jacob. I design, build, and look after websites for
-              independent businesses.
+              I’m Jacob Wainwright. I live in Moreno Valley, and I build
+              websites for the businesses around me.
             </p>
             <p>
-              I’m based in Moreno Valley, working with people who run their own
-              businesses: local services, shops, studios, trades, and more. Your
-              website should make what you do easy to understand.
+              I started this because I want to help small businesses that are
+              struggling. A lot of them do great work, but their website
+              doesn’t show it: the phone number is buried, the contact form
+              goes nowhere, or the site hasn’t changed in years. That’s one of
+              the easiest problems a business can fix, so that’s where I come
+              in.
             </p>
             <p>
-              You work directly with me on the design and the code. I like
-              building the whole thing: how it looks, how it works on a phone,
-              and how easily someone can take the next step.
+              I’m in my first year running this on my own, which means you’re
+              not one of a hundred accounts. I build every site from scratch,
+              by hand, and you talk to me directly the whole way through, not
+              an account manager or a support ticket.
             </p>
             <p>
-              If you need help after launch, I also offer maintenance. We’ll
+              After launch I stick around. If you need updates or fixes, we’ll
               agree on what your site needs and what’s included.
             </p>
             <a className="text-link" href="#contact">
@@ -702,12 +727,29 @@ function App() {
                 to continue.
               </p>
             </div>
+            <p className="contact-email">
+              Rather email me directly?{" "}
+              <a href={"mailto:" + CONTACT_EMAIL}>{CONTACT_EMAIL}</a>
+            </p>
           </div>
           <form
-            onSubmit={prepare}
+            onSubmit={submitInquiry}
             className="inquiry reveal"
-            onChange={() => draft && setDraft("")}
+            onChange={() => {
+              if (formStatus === "sent" || formStatus === "failed") {
+                setFormStatus("idle");
+                setDraft("");
+              }
+            }}
           >
+            <input
+              type="text"
+              name="_honey"
+              className="honeypot"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+            />
             <fieldset>
               <legend>What does your business need?</legend>
               <div className="service-choices">
@@ -777,30 +819,47 @@ function App() {
                 placeholder="e.g. A local shop in Moreno Valley. We want more product inquiries."
               />
             </label>
-            <button className="button primary submit" type="submit">
-              {service === "Maintenance"
-                ? "Ask about maintenance"
-                : "Get my free mockup"}{" "}
+            <button
+              className="button primary submit"
+              type="submit"
+              disabled={formStatus === "sending"}
+            >
+              {formStatus === "sending"
+                ? "Sending…"
+                : service === "Maintenance"
+                  ? "Ask about maintenance"
+                  : "Get my free mockup"}{" "}
               <Arrow />
             </button>
             <p className="form-note">
-              This form prepares an email draft. Nothing is sent or stored here.
+              Goes straight to my inbox at {CONTACT_EMAIL}. I’ll reply by
+              email.
             </p>
-            {draft && (
+            {formStatus === "sent" && (
               <div className="draft" role="status">
                 <strong>
                   {service === "Maintenance"
-                    ? "Your maintenance inquiry is ready."
-                    : "Your free mockup request is ready."}
+                    ? "Your maintenance inquiry was sent."
+                    : "Your free mockup request was sent."}
                 </strong>
                 <p>
-                  Open it in your email app, then check the recipient and send.
-                  No message has been sent yet.
+                  Thanks! I’ll get back to you at the email you gave me.
+                </p>
+              </div>
+            )}
+            {formStatus === "failed" && draft && (
+              <div className="draft" role="status">
+                <strong>That didn’t go through.</strong>
+                <p>
+                  Your message wasn’t sent. Your request is ready as an email
+                  instead: open it in your email app and hit send.
                 </p>
                 <a
                   className="button"
                   href={
-                    "mailto:hello@jacobwebsites.com?subject=" +
+                    "mailto:" +
+                    CONTACT_EMAIL +
+                    "?subject=" +
                     encodeURIComponent(
                       service === "Maintenance"
                         ? "Website maintenance inquiry"
@@ -827,12 +886,13 @@ function App() {
         </section>
       </main>
       <footer>
-        <a className="footer-logo" href="#">
+        <a className="footer-logo" href="#main">
           jacobwebsites<span>.</span>
         </a>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Jacob Websites</span>
           <span>Independent websites. Moreno Valley, CA.</span>
+          <a href={"mailto:" + CONTACT_EMAIL}>{CONTACT_EMAIL}</a>
           <a
             className="github-link"
             href="https://github.com/El-Gatos"
