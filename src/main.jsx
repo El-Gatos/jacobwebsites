@@ -187,8 +187,7 @@ function CallFlow() {
 }
 const CONTACT_EMAIL = "jacob@jacobwebsites.com";
 const FORM_ENDPOINT = "https://formsubmit.co/ajax/" + CONTACT_EMAIL;
-// Files in public/ are served from the site root, so public/me.webp is /me.webp.
-const JACOB_PHOTO = "/me.webp";
+const JACOB_PHOTO = "/me.JPEG";
 function Portrait() {
   const [missing, setMissing] = useState(false);
   return (
@@ -407,7 +406,6 @@ function App() {
         signal: AbortSignal.timeout(12000),
       });
       const result = await response.json().catch(() => null);
-      // Only show "sent" when FormSubmit confirms it.
       const sent =
         response.ok && (result?.success === true || result?.success === "true");
       setFormStatus(sent ? "sent" : "failed");
