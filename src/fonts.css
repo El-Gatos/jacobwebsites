@@ -3,12 +3,26 @@
   font-style: normal;
   font-weight: 800;
   font-display: swap;
-  src: url("/fonts/font-0.ttf") format("truetype");
+  src: url("/fonts/barlow-condensed-800.woff2") format("woff2");
 }
 @font-face {
   font-family: "DM Sans";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/font-1.ttf") format("truetype");
+  src: url("/fonts/dm-sans-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/dm-sans-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/dm-sans-700.woff2") format("woff2");
 }
