@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#20211f" />
+    <meta
+      name="description"
+      content="Independent web design and development by Jacob. Distinctive, thoughtful websites for businesses with something of their own to say."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://jacobwebsites.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Jacob Websites — Built to be yours." />
+    <meta
+      property="og:description"
+      content="Your business isn’t generic. Your website shouldn’t be. Independent web design and development by Jacob."
+    />
+    <meta property="og:url" content="https://jacobwebsites.com/" />
+    <title>Jacob Websites — Built to be yours.</title>
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem("jw-theme") ||
+          (matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+      } catch {
+        document.documentElement.dataset.theme = "dark";
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
