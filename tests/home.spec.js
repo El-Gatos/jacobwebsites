@@ -100,7 +100,7 @@ test("trade demo updates, portrait photo, and free mockup offer", async ({
   await expect(demo).toContainText("Find something worth keeping.");
   await demo.getByRole("button", { name: "Studio", exact: true }).click();
   await expect(demo).toContainText("photographer near me");
-  await expect(page.locator(".portrait img")).toHaveAttribute("src", "/me.webp");
+  await expect(page.locator(".portrait img")).toHaveAttribute("src", "/me.JPEG");
   await expect(page.locator("#contact")).toContainText(
     "A full website build is a separate paid project",
   );
