@@ -82,7 +82,7 @@ test("navigation, project dialog, services, and honest inquiry draft", async ({
   await expect(page.getByRole("status")).toHaveCount(0);
 });
 
-test("trade demo updates, portrait placeholder, and free mockup offer", async ({
+test("trade demo updates, portrait photo, and free mockup offer", async ({
   page,
 }) => {
   await page.goto("/");
@@ -97,9 +97,7 @@ test("trade demo updates, portrait placeholder, and free mockup offer", async ({
   await expect(demo).toContainText("Find something worth keeping.");
   await demo.getByRole("button", { name: "Studio", exact: true }).click();
   await expect(demo).toContainText("photographer Moreno Valley");
-  await expect(page.locator(".portrait-placeholder")).toContainText(
-    "JACOB’S PHOTO GOES HERE",
-  );
+  await expect(page.locator(".portrait img")).toHaveAttribute("src", "/me.webp");
   await expect(page.locator("#contact")).toContainText(
     "A full website build is a separate paid project",
   );
