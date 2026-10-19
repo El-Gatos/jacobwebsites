@@ -14,10 +14,23 @@ const agreementHtml = marked.parse(readFileSync(agreementPath, "utf8"), {
 const publicCopyNote =
   '<p class="agreement-reference" role="note">Public reference copy. Publishing this page does not represent a client’s acceptance.</p>';
 
+function agreementRoute(server) {
+  server.middlewares.use((request, _response, next) => {
+    const [path, query] = (request.url || "").split("?");
+    if (path === "/service-agreement" || path === "/service-agreement/") {
+      request.url =
+        "/service-agreement/index.html" + (query ? "?" + query : "");
+    }
+    next();
+  });
+}
+
 export default defineConfig({
   plugins: [
     {
       name: "service-agreement-document",
+      configureServer: agreementRoute,
+      configurePreviewServer: agreementRoute,
       resolveId(id) {
         if (id === "virtual:service-agreement") return "\0service-agreement";
       },

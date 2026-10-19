@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/service-agreement",
+      "destination": "/service-agreement/index.html"
+    }
+  ]
+}

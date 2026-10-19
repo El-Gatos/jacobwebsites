@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { flushSync } from "react-dom";
+import { Analytics } from "@vercel/analytics/react";
 import "./style.css";
 import "./trades.css";
 import KmaComparison from "./KmaComparison";
@@ -402,6 +403,7 @@ function App({ agreementPage = null }) {
   return (
     <>
       <div className="reading-progress" aria-hidden="true" />
+      <Analytics />
       <a className="skip" href="#main">
         Skip to content
       </a>

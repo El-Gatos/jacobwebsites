@@ -10,7 +10,7 @@ const read = (path) =>
 test("agreement source and built page preserve the approved document", () => {
   const source = read("src/content/service-agreement.md");
   assert.equal(
-    createHash("sha256").update(source).digest("hex"),
+    createHash("sha256").update(source.replace(/\r\n/g, "\n")).digest("hex"),
     "843a5f5640144c9b2f360661647546ad19356410a134cdc0e692aa2e0a28e5b0",
     "The approved agreement changed; obtain explicit review before updating its recorded hash.",
   );
