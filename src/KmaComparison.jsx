@@ -19,7 +19,7 @@ export default function KmaComparison() {
       aria-label="KMA before and after website comparison"
     >
       <div className="comparison-toolbar">
-        <span>Same business. A different first impression.</span>
+        <span>Compare the original homepage with my redesign.</span>
         <div role="group" aria-label="Choose comparison view">
           {[
             ["Before", 100],

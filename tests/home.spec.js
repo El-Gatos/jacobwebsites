@@ -97,10 +97,13 @@ test("trade demo updates, portrait photo, and free mockup offer", async ({
     demo.getByRole("button", { name: "Shop", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
   await expect(demo).toContainText("gift shop near me");
-  await expect(demo).toContainText("Find something worth keeping.");
+  await expect(demo).toContainText("Gifts from independent makers");
   await demo.getByRole("button", { name: "Studio", exact: true }).click();
   await expect(demo).toContainText("photographer near me");
-  await expect(page.locator(".portrait img")).toHaveAttribute("src", "/me.JPEG");
+  await expect(page.locator(".portrait img")).toHaveAttribute(
+    "src",
+    "/me.JPEG",
+  );
   await expect(page.locator("#contact")).toContainText(
     "A full website build is a separate paid project",
   );
@@ -146,14 +149,17 @@ test("maintenance offering, clean navigation, and GitHub link", async ({
   page,
 }) => {
   let posted = null;
-  await page.route("https://formsubmit.co/ajax/jacob@jacobwebsites.com", (route) => {
-    posted = route.request().postDataJSON();
-    route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: JSON.stringify({ success: "true", message: "ok" }),
-    });
-  });
+  await page.route(
+    "https://formsubmit.co/ajax/jacob@jacobwebsites.com",
+    (route) => {
+      posted = route.request().postDataJSON();
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ success: "true", message: "ok" }),
+      });
+    },
+  );
   await page.goto("/");
   await expect(
     page

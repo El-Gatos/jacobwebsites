@@ -812,7 +812,7 @@ body {
   .portrait figcaption {
     font-size: 7px;
   }
-    .about-copy h2 {
+  .about-copy h2 {
     font-size: 48px;
   }
   .contact-heading h2 {
@@ -998,4 +998,312 @@ body {
   color: var(--fg);
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+
+/* Keep display type in the hero; let the rest of the page read naturally. */
+h2 {
+  text-transform: none;
+  letter-spacing: -0.025em;
+}
+.trade-hero {
+  padding-bottom: 64px;
+  border-bottom: 1px solid var(--line);
+}
+.hero-kicker {
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 1.6;
+  margin-bottom: 38px;
+  color: var(--muted);
+}
+.hero-intro {
+  max-width: 440px;
+}
+.hero-actions .button {
+  justify-content: center;
+  min-width: 190px;
+}
+.hero-actions .text-link {
+  font-size: 13px;
+}
+.offer-note {
+  max-width: 360px;
+  font-size: 12px;
+}
+.flow-meta {
+  font-size: 12px;
+  letter-spacing: 0;
+  padding-bottom: 16px;
+}
+.flow-step {
+  font-size: 10px;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+.flow-result .flow-step {
+  font-size: 10px;
+}
+.demo-location {
+  font-size: 8px;
+  letter-spacing: 0;
+}
+.demo-browser {
+  font-size: 9px;
+  letter-spacing: 0;
+}
+.demo-call {
+  display: inline-flex;
+  font-size: 11px;
+}
+.phone-icon {
+  flex-shrink: 0;
+}
+.phone-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+.flow-result strong {
+  font-size: 16px;
+  line-height: 1.45;
+  max-width: 235px;
+}
+.flow-disclaimer {
+  font-size: 9px;
+}
+.section-top {
+  grid-template-columns: 1.4fr 1fr;
+  align-items: center;
+  gap: 50px;
+}
+.section-top h2 {
+  font-size: clamp(46px, 5.5vw, 78px);
+}
+.section-top > p {
+  grid-column: auto;
+  padding: 0;
+  max-width: 370px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.preview-bar {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12px;
+}
+.project-hint {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12px;
+  text-align: left;
+  padding: 0 25px 22px;
+}
+.project-caption > span {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 10px;
+}
+.project > p {
+  font-size: 13px;
+}
+.work-note {
+  font-size: 12px;
+  line-height: 1.7;
+}
+.service summary {
+  grid-template-columns: 1fr 0.8fr 30px;
+  gap: 24px;
+}
+.service-sub {
+  font-size: 13px;
+  line-height: 1.6;
+  max-width: 330px;
+}
+.service-body {
+  padding-left: 0;
+  max-width: 760px;
+}
+.service-body p {
+  font-size: 14px;
+}
+.process > .eyebrow {
+  font-size: 13px;
+  letter-spacing: 0;
+}
+.process > div {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.process small {
+  font-size: 11px;
+}
+.portrait figcaption {
+  font-size: 10px;
+  letter-spacing: 0;
+}
+.about-copy h2 {
+  margin-bottom: 28px;
+}
+.about-copy p {
+  font-size: 14px;
+}
+.about-copy .large-copy {
+  font-size: 20px;
+}
+.offer-scope > span {
+  font-size: 12px;
+  letter-spacing: 0;
+}
+.offer-scope strong {
+  font-size: 15px;
+}
+.contact-heading h2 {
+  font-size: clamp(60px, 6.3vw, 92px);
+}
+.dialog-head > span {
+  font-size: 11px;
+  letter-spacing: 0;
+}
+.dialog-copy .eyebrow {
+  font-size: 12px;
+  letter-spacing: 0;
+}
+.own-top,
+.own-bottom {
+  letter-spacing: 0;
+  font-size: 9px;
+}
+.own-word > i {
+  display: none;
+}
+.service-choices .choice {
+  font-size: 11px;
+}
+@media (max-width: 1000px) {
+  .section-top {
+    grid-template-columns: 1.2fr 1fr;
+    gap: 30px;
+  }
+  .service summary {
+    grid-template-columns: 1fr 30px;
+  }
+  .service-sub {
+    display: none;
+  }
+  .contact-heading h2 {
+    font-size: 6.5vw;
+  }
+  .hero-kicker {
+    font-size: 11px;
+  }
+}
+@media (max-width: 700px) {
+  .trade-hero {
+    padding-bottom: 42px;
+  }
+  .hero-kicker {
+    font-size: 11px;
+    letter-spacing: 0;
+    margin-bottom: 25px;
+  }
+  .hero-layout {
+    gap: 36px;
+  }
+  .offer-note {
+    font-size: 11px;
+  }
+  .hero-actions {
+    gap: 20px;
+  }
+  .hero-actions .text-link {
+    font-size: 12px;
+  }
+  .hero-actions .button {
+    min-width: 170px;
+  }
+  .section-top {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .section-top h2 {
+    font-size: 52px;
+  }
+  .section-top > p {
+    font-size: 13px;
+  }
+  .project-caption > span {
+    font-size: 9px;
+  }
+  .project-hint {
+    padding-left: 20px;
+    font-size: 12px;
+  }
+  .work-note {
+    font-size: 11px;
+  }
+  .service summary {
+    gap: 16px;
+    padding: 24px 0;
+  }
+  .service-body {
+    padding-left: 0;
+  }
+  .service-body p {
+    font-size: 13px;
+  }
+  .process > .eyebrow {
+    font-size: 13px;
+  }
+  .process > div {
+    font-size: 12px;
+  }
+  .portrait figcaption {
+    font-size: 9px;
+  }
+  .about-copy p {
+    font-size: 13px;
+  }
+  .about-copy .large-copy {
+    font-size: 18px;
+  }
+  .contact-heading h2 {
+    font-size: clamp(54px, 13vw, 80px);
+  }
+  .dialog-head > span {
+    font-size: 10px;
+  }
+  .flow-step,
+  .flow-result .flow-step {
+    font-size: 9px;
+  }
+  .flow-meta {
+    font-size: 11px;
+  }
+  .flow-disclaimer {
+    font-size: 8px;
+  }
+  .project-live-link {
+    font-size: 12px;
+  }
+}
+
+.flow-meta > span:last-child {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.demo-site strong {
+  font-size: 38px;
+  text-transform: none;
+  max-width: 330px;
+}
+@media (max-width: 700px) {
+  .flow-meta > span:last-child {
+    font-size: 11px;
+  }
+  .demo-site strong {
+    font-size: 37px;
+  }
 }

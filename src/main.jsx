@@ -5,19 +5,17 @@ import "./style.css";
 import "./trades.css";
 import KmaComparison from "./KmaComparison";
 import "./portfolio.css";
-const Arrow = ({ diagonal = false }) => (
-  <span aria-hidden="true">{diagonal ? "↗" : "↗"}</span>
-);
+const Arrow = () => <span aria-hidden="true">↗</span>;
 const projects = [
   {
     id: "kma",
     name: "KMA",
     type: "HVAC & construction",
     tag: "Independent redesign concept",
-    title: "Built for the people who build.",
+    title: "Helping visitors find the right KMA service",
     text: "A homepage direction for KMA HVAC & Construction: a clearer route to residential service and commercial inquiries.",
     detail:
-      "This self-initiated design study explores a stronger service hierarchy, separate residential and commercial calls to action, and a direct path to contact. It is not commissioned, affiliated with, or endorsed by KMA. No business results are claimed.",
+      "KMA serves both homeowners and commercial clients. I gave those visitors separate routes to service requests and bids, organized the services so they’re easier to find, and made contact options more prominent. This is an independent concept, not commissioned, affiliated with, or endorsed by KMA. No business results are claimed.",
     className: "kma",
     liveUrl: "https://trade-demos-three.vercel.app/kma",
     originalUrl: "https://kmahvacandconstruction.com/",
@@ -27,10 +25,10 @@ const projects = [
     name: "Jacob Websites",
     type: "Design & development",
     tag: "Own business · Website",
-    title: "A little less expected.",
-    text: "The site you’re on. Built to explain the offer clearly and make requesting a free mockup straightforward.",
+    title: "A website for my own business",
+    text: "My own website, with a free mockup offer, examples of my work, and a direct way to contact me.",
     detail:
-      "An editorial layout, a persistent accessible theme switch, responsive typography, and a lightweight React implementation. This is my own business website, not a client commission.",
+      "The main decisions were to explain the free mockup offer up front, show the work behind a redesign, and let visitors contact me without leaving the page. The site also includes light and dark themes and a saved reduced-motion preference. This is my own business website, not a client commission.",
     className: "jacob",
   },
 ];
@@ -42,7 +40,6 @@ function ProjectVisual({ project }) {
           ● ● ●
         </span>
         <span>trade-demos-three.vercel.app/kma</span>
-        <span aria-hidden="true">↗</span>
       </div>
       <img
         src="/work/kma-after.jpg"
@@ -55,17 +52,16 @@ function ProjectVisual({ project }) {
   ) : (
     <div className="mock own-mock" aria-label="Jacob Websites identity study">
       <span className="own-top">
-        INDEPENDENT BY DESIGN. <span>EST. NOW.</span>
+        Jacob Websites <span>Design & development</span>
       </span>
       <div className="own-word">
         jacob<span>websites</span>
-        <i>↗</i>
       </div>
       <div className="own-bottom">
         <span>
-          GOOD BUSINESS.
+          Websites for
           <br />
-          BETTER FIRST IMPRESSION.
+          independent businesses
         </span>
         <span className="own-mark">jw.</span>
       </div>
@@ -76,25 +72,25 @@ const businesses = [
   {
     name: "HVAC",
     query: "AC repair near me",
-    headline: "Cool air. Clear answers.",
+    headline: "Local AC repair & installation",
     service: "AC repair & installation",
   },
   {
     name: "Shop",
     query: "gift shop near me",
-    headline: "Find something worth keeping.",
+    headline: "Gifts from independent makers",
     service: "Thoughtful gifts & everyday favorites",
   },
   {
     name: "Studio",
     query: "photographer near me",
-    headline: "Your story. In the frame.",
+    headline: "Photography for your business",
     service: "Portraits & brand photography",
   },
   {
     name: "Services",
     query: "cleaning service near me",
-    headline: "A little more room to breathe.",
+    headline: "Home & office cleaning",
     service: "Home & office cleaning",
   },
 ];
@@ -104,8 +100,7 @@ function CallFlow() {
   return (
     <aside className="call-flow" aria-label="Explore a sample business website">
       <div className="flow-meta">
-        <span>THE JOB OF YOUR WEBSITE</span>
-        <span aria-hidden="true">↘</span>
+        <span>How a visitor becomes a customer</span>
       </div>
       <div
         className="trade-tabs"
@@ -124,7 +119,7 @@ function CallFlow() {
       </div>
       <div className="flow-stage" key={t.name}>
         <div className="search-demo">
-          <span className="flow-step">01 / GET FOUND</span>
+          <span className="flow-step">1. Find your business</span>
           <div>
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="10" cy="10" r="6" />
@@ -137,37 +132,32 @@ function CallFlow() {
           <svg viewBox="0 0 300 44" preserveAspectRatio="none">
             <path d="M20 0 V20 Q20 30 30 30 H270 Q280 30 280 40 V44" />
           </svg>
-          <span>MAKE A STRONG FIRST IMPRESSION</span>
         </div>
         <div className="trade-demo">
-          <span className="flow-step">02 / BUILD TRUST</span>
+          <span className="flow-step">2. Understand what you offer</span>
           <div className="demo-browser">
-            <span>YOUR BUSINESS</span>
+            <span>Your business</span>
             <span aria-hidden="true">•••</span>
           </div>
           <div className="demo-site">
-            <span className="demo-location">SERVING YOUR COMMUNITY</span>
+            <span className="demo-location">Serving your community</span>
             <strong>{t.headline}</strong>
             <p>
-              {t.service}. A clear service, a local name, and one obvious next
-              step.
+              {t.service}. See what’s available and contact the team with your
+              questions.
             </p>
-            <span className="demo-call">
-              Call for an estimate <span aria-hidden="true">↗</span>
-            </span>
+            <span className="demo-call">Ask about availability</span>
           </div>
         </div>
         <div className="flow-result">
           <span className="phone-icon" aria-hidden="true">
-            ↗
+            <svg viewBox="0 0 24 24">
+              <path d="m7 3 3 5-3 2c2 4 3 5 7 7l2-3 5 3c0 3-2 4-4 4C10 21 3 14 3 7c0-2 1-4 4-4Z" />
+            </svg>
           </span>
           <div>
-            <span className="flow-step">03 / MAKE IT EASY TO CALL</span>
-            <strong>
-              Less searching.
-              <br />
-              More getting in touch.
-            </strong>
+            <span className="flow-step">3. Get in touch</span>
+            <strong>Give visitors a clear way to contact you.</strong>
           </div>
         </div>
       </div>
@@ -199,8 +189,8 @@ function Portrait() {
         <span className="portrait-corner bottom-right" />
       </div>
       <figcaption>
-        <span>JACOB / DESIGN & DEVELOPMENT</span>
-        <span>SOCAL</span>
+        <span>Jacob Wainwright</span>
+        <span>SoCal</span>
       </figcaption>
     </figure>
   );
@@ -437,7 +427,7 @@ function App() {
             href="#contact"
             onClick={() => setMenu(false)}
           >
-            Free mockup <Arrow />
+            Free mockup
           </a>
         </nav>
         <div className="header-tools">
@@ -480,16 +470,10 @@ function App() {
       <main id="main">
         <section className="hero trade-hero">
           <div className="hero-kicker">
-            <span>
-              <i className="status-dot" /> WEB DESIGN FOR INDEPENDENT BUSINESSES
-            </span>
-            <span className="hero-location">
-              SOCAL / WORKING WITH LOCAL BUSINESSES
-            </span>
+            <span>Independent web design & development · SoCal</span>
           </div>
           <div className="hero-layout">
             <div className="hero-copy">
-              <span className="hero-label">YOU HANDLE THE HARD WORK.</span>
               <h1>
                 <span>
                   <b>GOOD WORK</b>
@@ -502,75 +486,48 @@ function App() {
                 </span>
               </h1>
               <p className="hero-intro">
-                I build websites that help customers find your business, trust
-                what you do, and get in touch.
+                I design, build, and maintain websites for independent
+                businesses. You work directly with me throughout the project.
               </p>
               <div className="hero-actions">
                 <a className="button primary" href="#contact">
-                  Get my free mockup <Arrow />
+                  Get my free mockup
                 </a>
                 <a className="text-link" href="#work">
-                  See the redesigns <span aria-hidden="true">↓</span>
+                  See my work
                 </a>
               </div>
               <p className="offer-note">
-                A free homepage design preview. No payment. No obligation.
+                See a homepage design for your business before committing to a
+                paid build.
               </p>
-              <span className="hero-byline">
-                LOCAL SERVICES · SHOPS · STUDIOS · TRADES
-              </span>
             </div>
             <CallFlow />
           </div>
-          <div className="hero-bottomline">
-            <span>
-              BUILT BY JACOB. FOR PEOPLE BUILDING A BUSINESS OF THEIR OWN.
-            </span>
-            <a href="#work">
-              TAKE A LOOK <span aria-hidden="true">↓</span>
-            </a>
-          </div>
         </section>
-        <div className="trade-ribbon">
-          <span>LOCAL BUSINESS.</span>
-          <span>REAL WORK.</span>
-          <span>A CLEAR WAY TO CALL.</span>
-          <a href="#contact">YOUR FREE MOCKUP STARTS HERE ↗</a>
-        </div>
         <section id="work" className="work section">
           <div className="section-top reveal">
-            <span className="eyebrow">01 / SELECTED WORK</span>
-            <h2>
-              A clearer path
-              <br />
-              <span>to the next call.</span>
-            </h2>
+            <h2>Recent work</h2>
             <p>
-              See how clearer services and easier contact can change a business
-              website. Open a project to explore the design. Independent
-              concepts are clearly labeled.
+              Open a project to see what I changed and why. Independent redesign
+              concepts are labeled separately from commissioned work.
             </p>
           </div>
           <div className="project-grid">
-            {projects.map((p, i) => (
+            {projects.map((p) => (
               <article className={"project reveal " + p.className} key={p.id}>
                 <button
                   className="project-preview"
                   onClick={(e) => openProject(p, e)}
                 >
                   <div className="preview-bar" aria-hidden="true">
-                    <span>
-                      0{i + 1} / {p.type}
-                    </span>
-                    <span className="preview-open">
-                      <Arrow />
-                    </span>
+                    <span>{p.type}</span>
                   </div>
                   <div aria-hidden="true">
                     <ProjectVisual project={p} />
                   </div>
                   <span className="project-hint">
-                    Explore project: {p.name} <span aria-hidden="true">↗</span>
+                    Explore project: {p.name}
                   </span>
                 </button>
                 <div className="project-caption">
@@ -592,21 +549,16 @@ function App() {
             ))}
           </div>
           <div className="work-note">
-            <span aria-hidden="true">↳</span> The KMA study is a self-initiated
-            concept, not commissioned client work.
+            The KMA study is a self-initiated concept, not commissioned client
+            work.
           </div>
         </section>
         <section className="services section" id="services">
           <div className="section-top reveal">
-            <span className="eyebrow">02 / WHAT I DO</span>
-            <h2>
-              Help them find you.
-              <br />
-              <span>Help them call you.</span>
-            </h2>
+            <h2>How I can help</h2>
             <p>
-              A customer needs to know what you do, who you help, and how to
-              reach you. Your site should answer all three.
+              Whether you need your first website, a rebuild, or someone to keep
+              it updated, I can help with the design and the development.
             </p>
           </div>
           <div className="service-list">
@@ -614,35 +566,30 @@ function App() {
               {
                 n: "01",
                 name: "Website design",
-                sub: "Show the work. Earn their confidence.",
+                sub: "Pages organized around what your customers need",
                 body: "Clear pages, your real photos, and a design that helps customers understand what you offer and why to choose your business.",
-                tags: "SERVICES / PRODUCTS / YOUR WORK",
               },
               {
                 n: "02",
                 name: "Website development",
-                sub: "Easy to use. Especially on a phone.",
-                body: "Fast, mobile-friendly pages with clear ways to call, ask a question, or request a quote. Less friction between finding your business and taking the next step.",
-                tags: "MOBILE / CLICK TO CALL / QUOTE REQUESTS",
+                sub: "Responsive websites that work across screen sizes",
+                body: "I turn the design into a responsive website with accessible navigation, considered interactions, and clear ways for customers to get in touch.",
               },
               {
                 n: "03",
                 name: "Website rebuilds",
-                sub: "Make your existing site work harder.",
-                body: "Outdated site? Start with a free homepage mockup. See a new direction for your services and contact flow before deciding on a paid build.",
-                tags: "FREE MOCKUP / REDESIGN / PAID BUILD",
+                sub: "A new direction for an existing website",
+                body: "If your current site no longer reflects your business, I can rethink its layout, content, and contact flow. A free homepage mockup gives you a way to review the direction before a paid build.",
               },
               {
                 n: "04",
                 name: "Website maintenance",
-                sub: "Keep your site in good shape.",
+                sub: "Content changes, updates, and regular checks",
                 body: "Ongoing content changes, dependency updates, and checks on the pages and contact forms that matter. We agree on the scope and schedule for your website before starting.",
-                tags: "CONTENT CHANGES / UPDATES / SITE CHECKS",
               },
             ].map((s) => (
               <details className="service reveal" key={s.n}>
                 <summary>
-                  <span className="service-no">{s.n}</span>
                   <h3>{s.name}</h3>
                   <span className="service-sub">{s.sub}</span>
                   <span className="plus" aria-hidden="true">
@@ -651,13 +598,12 @@ function App() {
                 </summary>
                 <div className="service-body">
                   <p>{s.body}</p>
-                  <span>{s.tags}</span>
                 </div>
               </details>
             ))}
           </div>
           <div className="process reveal">
-            <span className="eyebrow">HOW WE GET THERE</span>
+            <span className="eyebrow">What happens next</span>
             {[
               "Send me your site",
               "See your free mockup",
@@ -674,11 +620,10 @@ function App() {
         <section className="about section" id="about">
           <Portrait />
           <div className="about-copy reveal">
-            <span className="eyebrow">03 / HI, I’M JACOB</span>
-            <h2>One Person. Every Detail.</h2>
+            <h2>About Jacob</h2>
             <p className="large-copy">
-              I’m Jacob Wainwright. I live in SoCal, and I build
-              websites for the businesses around me.
+              I’m Jacob Wainwright. I live in SoCal, and I build websites for
+              the businesses around me.
             </p>
             <p>
               I started this because I want to help small businesses that are
@@ -700,29 +645,25 @@ function App() {
               agree on what your site needs and what’s included.
             </p>
             <a className="text-link" href="#contact">
-              Let me take a look at your site <Arrow />
+              Tell me about your website
             </a>
           </div>
         </section>
         <section className="contact section" id="contact">
           <div className="contact-heading reveal">
-            <span className="eyebrow">04 / YOUR FREE HOMEPAGE MOCKUP</span>
             <h2>
-              Send your site.
+              See what your
               <br />
-              <span className="offer-accent">
-                I’ll redesign
-                <br />
-                it for free.
-              </span>
+              <span className="offer-accent">website could be.</span>
             </h2>
             <p>
-              A free homepage mockup for your business. See the direction before
-              you decide whether to hire me.
+              Send me your current site and tell me what you need. I’ll put
+              together a free homepage mockup so you can decide whether you’d
+              like to work together.
             </p>
             <div className="offer-scope">
-              <span>WHAT’S FREE</span>
-              <strong>A homepage design preview.</strong>
+              <span>The free mockup includes</span>
+              <strong>A design preview of your homepage.</strong>
               <p>
                 A full website build is a separate paid project. No obligation
                 to continue.
@@ -772,7 +713,7 @@ function App() {
                       onChange={() => setService(s)}
                     />
                     {s}
-                    <span aria-hidden="true">{service === s ? "↗" : "+"}</span>
+                    <span aria-hidden="true">{service === s ? "✓" : "+"}</span>
                   </label>
                 ))}
               </div>
@@ -830,7 +771,6 @@ function App() {
                 : service === "Maintenance"
                   ? "Ask about maintenance"
                   : "Get my free mockup"}{" "}
-              <Arrow />
             </button>
             <p className="form-note">
               Goes straight to my inbox at {CONTACT_EMAIL}. I’ll reply by email.
@@ -867,7 +807,7 @@ function App() {
                     encodeURIComponent(draft)
                   }
                 >
-                  Open email draft <Arrow />
+                  Open email draft
                 </a>
                 <details>
                   <summary>View or copy your inquiry</summary>
@@ -903,7 +843,7 @@ function App() {
                 d="M12 .75a11.25 11.25 0 0 0-3.56 21.92c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.64-1.25-1.64-1.02-.7.08-.69.08-.69 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.93.1-.73.39-1.22.71-1.5-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.43.11-2.98 0 0 .95-.3 3.1 1.15a10.8 10.8 0 0 1 5.64 0c2.15-1.45 3.1-1.15 3.1-1.15.61 1.55.23 2.7.11 2.98.72.79 1.16 1.79 1.16 3.02 0 4.32-2.63 5.28-5.14 5.56.4.35.76 1.03.76 2.08v3.09c0 .3.21.65.77.54A11.25 11.25 0 0 0 12 .75Z"
               />
             </svg>
-            GitHub <span aria-hidden="true">↗</span>
+            GitHub <Arrow />
           </a>
           <a href="#main">Back to top ↑</a>
         </div>
@@ -917,7 +857,7 @@ function App() {
         aria-labelledby="project-title"
       >
         <div className="dialog-head">
-          <span>PROJECT NOTES / {active?.tag}</span>
+          <span>{active?.tag}</span>
           <button onClick={closeProject} aria-label="Close project">
             Close ×
           </button>
@@ -962,7 +902,7 @@ function App() {
                   location.hash = "contact";
                 }}
               >
-                Get a free mockup for your business <Arrow />
+                Get a free mockup for your business
               </button>
             </div>
           </>
