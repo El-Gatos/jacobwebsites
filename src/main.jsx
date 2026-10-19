@@ -195,7 +195,11 @@ function Portrait() {
     </figure>
   );
 }
-function App() {
+const isAgreementPage =
+  window.location.pathname.replace(/\/$/, "") === "/service-agreement";
+const homeSection = (hash) => (isAgreementPage ? "/" + hash : hash);
+
+function App({ agreementPage = null }) {
   const [theme, setTheme] = useState(
     document.documentElement.dataset.theme || "dark",
   );
@@ -402,7 +406,11 @@ function App() {
         Skip to content
       </a>
       <header className="header">
-        <a href="#main" className="logo" aria-label="jacobwebsites. home">
+        <a
+          href={isAgreementPage ? "/" : "#main"}
+          className="logo"
+          aria-label="jacobwebsites. home"
+        >
           jacob
           <span>
             websites<span className="logo-dot">.</span>
@@ -413,18 +421,18 @@ function App() {
           aria-label="Main navigation"
           className={menu ? "nav open" : "nav"}
         >
-          <a href="#work" onClick={() => setMenu(false)}>
+          <a href={homeSection("#work")} onClick={() => setMenu(false)}>
             Work
           </a>
-          <a href="#services" onClick={() => setMenu(false)}>
+          <a href={homeSection("#services")} onClick={() => setMenu(false)}>
             Services
           </a>
-          <a href="#about" onClick={() => setMenu(false)}>
+          <a href={homeSection("#about")} onClick={() => setMenu(false)}>
             About
           </a>
           <a
             className="nav-contact"
-            href="#contact"
+            href={homeSection("#contact")}
             onClick={() => setMenu(false)}
           >
             Free mockup
@@ -467,364 +475,384 @@ function App() {
           </button>
         </div>
       </header>
-      <main id="main">
-        <section className="hero trade-hero">
-          <div className="hero-kicker">
-            <span>Independent web design & development · SoCal</span>
-          </div>
-          <div className="hero-layout">
-            <div className="hero-copy">
-              <h1>
-                <span>
-                  <b>GOOD WORK</b>
-                </span>
-                <span>
-                  <b>DESERVES</b>
-                </span>
-                <span className="headline-accent">
-                  <b>MORE CALLS.</b>
-                </span>
-              </h1>
-              <p className="hero-intro">
-                I design, build, and maintain websites for independent
-                businesses. You work directly with me throughout the project.
-              </p>
-              <div className="hero-actions">
-                <a className="button primary" href="#contact">
-                  Get my free mockup
-                </a>
-                <a className="text-link" href="#work">
-                  See my work
-                </a>
+      <main
+        id="main"
+        className={isAgreementPage ? "agreement-main" : undefined}
+      >
+        {isAgreementPage ? (
+          agreementPage
+        ) : (
+          <>
+            <section className="hero trade-hero">
+              <div className="hero-kicker">
+                <span>Independent web design & development · SoCal</span>
               </div>
-              <p className="offer-note">
-                See a homepage design for your business before committing to a
-                paid build.
-              </p>
-            </div>
-            <CallFlow />
-          </div>
-        </section>
-        <section id="work" className="work section">
-          <div className="section-top reveal">
-            <h2>Recent work</h2>
-            <p>
-              Open a project to see what I changed and why. Independent redesign
-              concepts are labeled separately from commissioned work.
-            </p>
-          </div>
-          <div className="project-grid">
-            {projects.map((p) => (
-              <article className={"project reveal " + p.className} key={p.id}>
-                <button
-                  className="project-preview"
-                  onClick={(e) => openProject(p, e)}
-                >
-                  <div className="preview-bar" aria-hidden="true">
-                    <span>{p.type}</span>
+              <div className="hero-layout">
+                <div className="hero-copy">
+                  <h1>
+                    <span>
+                      <b>GOOD WORK</b>
+                    </span>
+                    <span>
+                      <b>DESERVES</b>
+                    </span>
+                    <span className="headline-accent">
+                      <b>MORE CALLS.</b>
+                    </span>
+                  </h1>
+                  <p className="hero-intro">
+                    I design, build, and maintain websites for independent
+                    businesses. You work directly with me throughout the
+                    project.
+                  </p>
+                  <div className="hero-actions">
+                    <a className="button primary" href="#contact">
+                      Get my free mockup
+                    </a>
+                    <a className="text-link" href="#work">
+                      See my work
+                    </a>
                   </div>
-                  <div aria-hidden="true">
-                    <ProjectVisual project={p} />
-                  </div>
-                  <span className="project-hint">
-                    Explore project: {p.name}
-                  </span>
-                </button>
-                <div className="project-caption">
-                  <h3>{p.name}</h3>
-                  <span>{p.tag}</span>
+                  <p className="offer-note">
+                    See a homepage design for your business before committing to
+                    a paid build.
+                  </p>
                 </div>
-                <p>{p.text}</p>
-                {p.liveUrl && (
-                  <a
-                    className="project-live-link"
-                    href={p.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View live redesign <Arrow />
-                  </a>
-                )}
-              </article>
-            ))}
-          </div>
-          <div className="work-note">
-            The KMA study is a self-initiated concept, not commissioned client
-            work.
-          </div>
-        </section>
-        <section className="services section" id="services">
-          <div className="section-top reveal">
-            <h2>How I can help</h2>
-            <p>
-              Whether you need your first website, a rebuild, or someone to keep
-              it updated, I can help with the design and the development.
-            </p>
-          </div>
-          <div className="service-list">
-            {[
-              {
-                n: "01",
-                name: "Website design",
-                sub: "Pages organized around what your customers need",
-                body: "Clear pages, your real photos, and a design that helps customers understand what you offer and why to choose your business.",
-              },
-              {
-                n: "02",
-                name: "Website development",
-                sub: "Responsive websites that work across screen sizes",
-                body: "I turn the design into a responsive website with accessible navigation, considered interactions, and clear ways for customers to get in touch.",
-              },
-              {
-                n: "03",
-                name: "Website rebuilds",
-                sub: "A new direction for an existing website",
-                body: "If your current site no longer reflects your business, I can rethink its layout, content, and contact flow. A free homepage mockup gives you a way to review the direction before a paid build.",
-              },
-              {
-                n: "04",
-                name: "Website maintenance",
-                sub: "Content changes, updates, and regular checks",
-                body: "Ongoing content changes, dependency updates, and checks on the pages and contact forms that matter. We agree on the scope and schedule for your website before starting.",
-              },
-            ].map((s) => (
-              <details className="service reveal" key={s.n}>
-                <summary>
-                  <h3>{s.name}</h3>
-                  <span className="service-sub">{s.sub}</span>
-                  <span className="plus" aria-hidden="true">
-                    +
-                  </span>
-                </summary>
-                <div className="service-body">
-                  <p>{s.body}</p>
-                </div>
-              </details>
-            ))}
-          </div>
-          <div className="process reveal">
-            <span className="eyebrow">What happens next</span>
-            {[
-              "Send me your site",
-              "See your free mockup",
-              "Choose a paid build",
-              "Refine & launch",
-            ].map((s, i) => (
-              <div key={s}>
-                <small>0{i + 1}</small>
-                <span>{s}</span>
+                <CallFlow />
               </div>
-            ))}
-          </div>
-        </section>
-        <section className="about section" id="about">
-          <Portrait />
-          <div className="about-copy reveal">
-            <h2>About Jacob</h2>
-            <p className="large-copy">
-              I’m Jacob Wainwright. I live in SoCal, and I build websites for
-              the businesses around me.
-            </p>
-            <p>
-              I started this because I want to help small businesses that are
-              struggling. A lot of them do great work, but their website doesn’t
-              show it: the phone number is buried, the contact form goes
-              nowhere, or the site hasn’t changed in years. As someone who's
-              been part of small business for a long time, I understand the
-              challenges they face. That’s one of the easiest problems a
-              business can fix, so that’s where I come in.
-            </p>
-            <p>
-              I’m in my first year running this on my own, which means you’re
-              not one of a hundred accounts. I build every site from scratch, by
-              hand, and you talk to me directly the whole way through, not an
-              account manager or a support ticket.
-            </p>
-            <p>
-              After launch I stick around. If you need updates or fixes, we’ll
-              agree on what your site needs and what’s included.
-            </p>
-            <a className="text-link" href="#contact">
-              Tell me about your website
-            </a>
-          </div>
-        </section>
-        <section className="contact section" id="contact">
-          <div className="contact-heading reveal">
-            <h2>
-              See what your
-              <br />
-              <span className="offer-accent">website could be.</span>
-            </h2>
-            <p>
-              Send me your current site and tell me what you need. I’ll put
-              together a free homepage mockup so you can decide whether you’d
-              like to work together.
-            </p>
-            <div className="offer-scope">
-              <span>The free mockup includes</span>
-              <strong>A design preview of your homepage.</strong>
-              <p>
-                A full website build is a separate paid project. No obligation
-                to continue.
-              </p>
-            </div>
-            <p className="contact-email">
-              Rather email me directly?{" "}
-              <a href={"mailto:" + CONTACT_EMAIL}>{CONTACT_EMAIL}</a>
-            </p>
-          </div>
-          <form
-            onSubmit={submitInquiry}
-            className="inquiry reveal"
-            onChange={() => {
-              if (formStatus === "sent" || formStatus === "failed") {
-                setFormStatus("idle");
-                setDraft("");
-              }
-            }}
-          >
-            <input
-              type="text"
-              name="_honey"
-              className="honeypot"
-              tabIndex={-1}
-              autoComplete="off"
-              aria-hidden="true"
-            />
-            <fieldset>
-              <legend>What does your business need?</legend>
-              <div className="service-choices">
-                {[
-                  "New website",
-                  "Website rebuild",
-                  "Maintenance",
-                  "Something else",
-                ].map((s) => (
-                  <label
-                    key={s}
-                    className={service === s ? "choice selected" : "choice"}
+            </section>
+            <section id="work" className="work section">
+              <div className="section-top reveal">
+                <h2>Recent work</h2>
+                <p>
+                  Open a project to see what I changed and why. Independent
+                  redesign concepts are labeled separately from commissioned
+                  work.
+                </p>
+              </div>
+              <div className="project-grid">
+                {projects.map((p) => (
+                  <article
+                    className={"project reveal " + p.className}
+                    key={p.id}
                   >
-                    <input
-                      type="radio"
-                      name="service"
-                      value={s}
-                      checked={service === s}
-                      onChange={() => setService(s)}
-                    />
-                    {s}
-                    <span aria-hidden="true">{service === s ? "✓" : "+"}</span>
-                  </label>
+                    <button
+                      className="project-preview"
+                      onClick={(e) => openProject(p, e)}
+                    >
+                      <div className="preview-bar" aria-hidden="true">
+                        <span>{p.type}</span>
+                      </div>
+                      <div aria-hidden="true">
+                        <ProjectVisual project={p} />
+                      </div>
+                      <span className="project-hint">
+                        Explore project: {p.name}
+                      </span>
+                    </button>
+                    <div className="project-caption">
+                      <h3>{p.name}</h3>
+                      <span>{p.tag}</span>
+                    </div>
+                    <p>{p.text}</p>
+                    {p.liveUrl && (
+                      <a
+                        className="project-live-link"
+                        href={p.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View live redesign <Arrow />
+                      </a>
+                    )}
+                  </article>
                 ))}
               </div>
-            </fieldset>
-            <div className="form-grid">
-              <label>
-                Your name{" "}
-                <input
-                  name="name"
-                  autoComplete="name"
-                  required
-                  maxLength={100}
-                  placeholder="First & last name"
-                />
-              </label>
-              <label>
-                Email address{" "}
-                <input
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  maxLength={254}
-                  placeholder="you@yourbusiness.com"
-                />
-              </label>
-            </div>
-            <label>
-              Current website <span className="optional">(optional)</span>
-              <input
-                name="website"
-                type="url"
-                placeholder="https://yourbusiness.com"
-                maxLength={500}
-              />
-            </label>
-            <label>
-              Your business & what you need{" "}
-              <textarea
-                name="message"
-                required
-                minLength={10}
-                maxLength={5000}
-                rows={3}
-                placeholder="e.g. A local gift shop. We want more product inquiries."
-              />
-            </label>
-            <button
-              className="button primary submit"
-              type="submit"
-              disabled={formStatus === "sending"}
-            >
-              {formStatus === "sending"
-                ? "Sending…"
-                : service === "Maintenance"
-                  ? "Ask about maintenance"
-                  : "Get my free mockup"}{" "}
-            </button>
-            <p className="form-note">
-              Goes straight to my inbox at {CONTACT_EMAIL}. I’ll reply by email.
-            </p>
-            {formStatus === "sent" && (
-              <div className="draft" role="status">
-                <strong>
-                  {service === "Maintenance"
-                    ? "Your maintenance inquiry was sent."
-                    : "Your free mockup request was sent."}
-                </strong>
-                <p>Thanks! I’ll get back to you at the email you gave me.</p>
+              <div className="work-note">
+                The KMA study is a self-initiated concept, not commissioned
+                client work.
               </div>
-            )}
-            {formStatus === "failed" && draft && (
-              <div className="draft" role="status">
-                <strong>That didn’t go through.</strong>
+            </section>
+            <section className="services section" id="services">
+              <div className="section-top reveal">
+                <h2>How I can help</h2>
                 <p>
-                  Your message wasn’t sent. Your request is ready as an email
-                  instead: open it in your email app and hit send.
+                  Whether you need your first website, a rebuild, or someone to
+                  keep it updated, I can help with the design and the
+                  development.
                 </p>
-                <a
-                  className="button"
-                  href={
-                    "mailto:" +
-                    CONTACT_EMAIL +
-                    "?subject=" +
-                    encodeURIComponent(
-                      service === "Maintenance"
-                        ? "Website maintenance inquiry"
-                        : "Free homepage mockup request",
-                    ) +
-                    "&body=" +
-                    encodeURIComponent(draft)
-                  }
-                >
-                  Open email draft
-                </a>
-                <details>
-                  <summary>View or copy your inquiry</summary>
-                  <textarea
-                    readOnly
-                    aria-label="Prepared inquiry"
-                    value={draft}
-                    rows={7}
-                  />
-                </details>
               </div>
-            )}
-          </form>
-        </section>
+              <div className="service-list">
+                {[
+                  {
+                    n: "01",
+                    name: "Website design",
+                    sub: "Pages organized around what your customers need",
+                    body: "Clear pages, your real photos, and a design that helps customers understand what you offer and why to choose your business.",
+                  },
+                  {
+                    n: "02",
+                    name: "Website development",
+                    sub: "Responsive websites that work across screen sizes",
+                    body: "I turn the design into a responsive website with accessible navigation, considered interactions, and clear ways for customers to get in touch.",
+                  },
+                  {
+                    n: "03",
+                    name: "Website rebuilds",
+                    sub: "A new direction for an existing website",
+                    body: "If your current site no longer reflects your business, I can rethink its layout, content, and contact flow. A free homepage mockup gives you a way to review the direction before a paid build.",
+                  },
+                  {
+                    n: "04",
+                    name: "Website maintenance",
+                    sub: "Content changes, updates, and regular checks",
+                    body: "Ongoing content changes, dependency updates, and checks on the pages and contact forms that matter. We agree on the scope and schedule for your website before starting.",
+                  },
+                ].map((s) => (
+                  <details className="service reveal" key={s.n}>
+                    <summary>
+                      <h3>{s.name}</h3>
+                      <span className="service-sub">{s.sub}</span>
+                      <span className="plus" aria-hidden="true">
+                        +
+                      </span>
+                    </summary>
+                    <div className="service-body">
+                      <p>{s.body}</p>
+                    </div>
+                  </details>
+                ))}
+              </div>
+              <div className="process reveal">
+                <span className="eyebrow">What happens next</span>
+                {[
+                  "Send me your site",
+                  "See your free mockup",
+                  "Choose a paid build",
+                  "Refine & launch",
+                ].map((s, i) => (
+                  <div key={s}>
+                    <small>0{i + 1}</small>
+                    <span>{s}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+            <section className="about section" id="about">
+              <Portrait />
+              <div className="about-copy reveal">
+                <h2>About Jacob</h2>
+                <p className="large-copy">
+                  I’m Jacob Wainwright. I live in SoCal, and I build websites
+                  for the businesses around me.
+                </p>
+                <p>
+                  I started this because I want to help small businesses that
+                  are struggling. A lot of them do great work, but their website
+                  doesn’t show it: the phone number is buried, the contact form
+                  goes nowhere, or the site hasn’t changed in years. As someone
+                  who's been part of small business for a long time, I
+                  understand the challenges they face. That’s one of the easiest
+                  problems a business can fix, so that’s where I come in.
+                </p>
+                <p>
+                  I’m in my first year running this on my own, which means
+                  you’re not one of a hundred accounts. I build every site from
+                  scratch, by hand, and you talk to me directly the whole way
+                  through, not an account manager or a support ticket.
+                </p>
+                <p>
+                  After launch I stick around. If you need updates or fixes,
+                  we’ll agree on what your site needs and what’s included.
+                </p>
+                <a className="text-link" href="#contact">
+                  Tell me about your website
+                </a>
+              </div>
+            </section>
+            <section className="contact section" id="contact">
+              <div className="contact-heading reveal">
+                <h2>
+                  See what your
+                  <br />
+                  <span className="offer-accent">website could be.</span>
+                </h2>
+                <p>
+                  Send me your current site and tell me what you need. I’ll put
+                  together a free homepage mockup so you can decide whether
+                  you’d like to work together.
+                </p>
+                <div className="offer-scope">
+                  <span>The free mockup includes</span>
+                  <strong>A design preview of your homepage.</strong>
+                  <p>
+                    A full website build is a separate paid project. No
+                    obligation to continue.
+                  </p>
+                </div>
+                <p className="contact-email">
+                  Rather email me directly?{" "}
+                  <a href={"mailto:" + CONTACT_EMAIL}>{CONTACT_EMAIL}</a>
+                </p>
+              </div>
+              <form
+                onSubmit={submitInquiry}
+                className="inquiry reveal"
+                onChange={() => {
+                  if (formStatus === "sent" || formStatus === "failed") {
+                    setFormStatus("idle");
+                    setDraft("");
+                  }
+                }}
+              >
+                <input
+                  type="text"
+                  name="_honey"
+                  className="honeypot"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                />
+                <fieldset>
+                  <legend>What does your business need?</legend>
+                  <div className="service-choices">
+                    {[
+                      "New website",
+                      "Website rebuild",
+                      "Maintenance",
+                      "Something else",
+                    ].map((s) => (
+                      <label
+                        key={s}
+                        className={service === s ? "choice selected" : "choice"}
+                      >
+                        <input
+                          type="radio"
+                          name="service"
+                          value={s}
+                          checked={service === s}
+                          onChange={() => setService(s)}
+                        />
+                        {s}
+                        <span aria-hidden="true">
+                          {service === s ? "✓" : "+"}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+                <div className="form-grid">
+                  <label>
+                    Your name{" "}
+                    <input
+                      name="name"
+                      autoComplete="name"
+                      required
+                      maxLength={100}
+                      placeholder="First & last name"
+                    />
+                  </label>
+                  <label>
+                    Email address{" "}
+                    <input
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      maxLength={254}
+                      placeholder="you@yourbusiness.com"
+                    />
+                  </label>
+                </div>
+                <label>
+                  Current website <span className="optional">(optional)</span>
+                  <input
+                    name="website"
+                    type="url"
+                    placeholder="https://yourbusiness.com"
+                    maxLength={500}
+                  />
+                </label>
+                <label>
+                  Your business & what you need{" "}
+                  <textarea
+                    name="message"
+                    required
+                    minLength={10}
+                    maxLength={5000}
+                    rows={3}
+                    placeholder="e.g. A local gift shop. We want more product inquiries."
+                  />
+                </label>
+                <button
+                  className="button primary submit"
+                  type="submit"
+                  disabled={formStatus === "sending"}
+                >
+                  {formStatus === "sending"
+                    ? "Sending…"
+                    : service === "Maintenance"
+                      ? "Ask about maintenance"
+                      : "Get my free mockup"}{" "}
+                </button>
+                <p className="form-note">
+                  Goes straight to my inbox at {CONTACT_EMAIL}. I’ll reply by
+                  email.
+                </p>
+                {formStatus === "sent" && (
+                  <div className="draft" role="status">
+                    <strong>
+                      {service === "Maintenance"
+                        ? "Your maintenance inquiry was sent."
+                        : "Your free mockup request was sent."}
+                    </strong>
+                    <p>
+                      Thanks! I’ll get back to you at the email you gave me.
+                    </p>
+                  </div>
+                )}
+                {formStatus === "failed" && draft && (
+                  <div className="draft" role="status">
+                    <strong>That didn’t go through.</strong>
+                    <p>
+                      Your message wasn’t sent. Your request is ready as an
+                      email instead: open it in your email app and hit send.
+                    </p>
+                    <a
+                      className="button"
+                      href={
+                        "mailto:" +
+                        CONTACT_EMAIL +
+                        "?subject=" +
+                        encodeURIComponent(
+                          service === "Maintenance"
+                            ? "Website maintenance inquiry"
+                            : "Free homepage mockup request",
+                        ) +
+                        "&body=" +
+                        encodeURIComponent(draft)
+                      }
+                    >
+                      Open email draft
+                    </a>
+                    <details>
+                      <summary>View or copy your inquiry</summary>
+                      <textarea
+                        readOnly
+                        aria-label="Prepared inquiry"
+                        value={draft}
+                        rows={7}
+                      />
+                    </details>
+                  </div>
+                )}
+              </form>
+            </section>
+          </>
+        )}
       </main>
       <footer>
-        <a className="footer-logo" href="#main">
+        <a className="footer-logo" href={isAgreementPage ? "/" : "#main"}>
           jacobwebsites<span>.</span>
         </a>
         <div className="footer-bottom">
@@ -844,6 +872,12 @@ function App() {
               />
             </svg>
             GitHub <Arrow />
+          </a>
+          <a
+            href="/service-agreement"
+            aria-current={isAgreementPage ? "page" : undefined}
+          >
+            Service Agreement
           </a>
           <a href="#main">Back to top ↑</a>
         </div>
@@ -911,4 +945,12 @@ function App() {
     </>
   );
 }
-createRoot(document.getElementById("root")).render(<App />);
+if (isAgreementPage) {
+  import("./ServiceAgreement").then(({ default: ServiceAgreement }) => {
+    createRoot(document.getElementById("root")).render(
+      <App agreementPage={<ServiceAgreement />} />,
+    );
+  });
+} else {
+  createRoot(document.getElementById("root")).render(<App />);
+}

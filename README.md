@@ -35,6 +35,16 @@ Theme follows the system on first visit and persists an explicit choice. Navigat
 
 Install the test browser with `npx playwright install chromium`, then run `npm test`. The suite starts Vite and checks mobile and desktop overflow, theme persistence, mobile navigation, dialog focus restoration, form sending and its email fallback (FormSubmit is mocked, so tests never send real email), reduced motion, and axe accessibility in both themes.
 
+## Service Agreement
+
+The public document is served at `/service-agreement`, with its own title and canonical URL. The shared footer links directly to that route; navigation from the document returns to the homepage sections.
+
+`src/content/service-agreement.md` is the approved source. It is copied verbatim from `Jacob-Websites-Service-Agreement-Final.md`, including all 41 numbered sections and both signature sections. Do not reformat or edit its wording without explicit review. The separate public-reference note is outside the agreement.
+
+Vite renders the Markdown into the initial HTML and a separate, deferred React chunk. The document is readable without JavaScript and does not add its text to the homepage JavaScript bundle. The Markdown renderer runs only at build time.
+
+After `npm run build`, run `npm run test:agreement-content` to verify the approved source hash, all sections, and the complete rendered agreement. `tests/service-agreement.spec.js` covers the direct footer link, refresh, desktop/mobile layouts, both themes, mobile navigation, and reading without JavaScript. Browser checks require the Playwright browser as described above.
+
 ## Credits
 
 Fonts: Barlow Condensed and DM Sans, under the SIL Open Font License. License files are in `public/fonts`.

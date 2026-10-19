@@ -1,0 +1,107 @@
+.agreement-main {
+  padding: clamp(36px, 6vw, 84px) var(--pad) clamp(64px, 9vw, 120px);
+  border-bottom: 1px solid var(--line);
+}
+
+.agreement-page {
+  max-width: 74ch;
+  margin-inline: auto;
+  min-width: 0;
+}
+
+.agreement-reference {
+  margin: 0 0 32px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.agreement-document {
+  font-size: 17px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.agreement-document h1 {
+  font-family: "DM Sans", Arial, sans-serif;
+  font-size: clamp(27px, 3.3vw, 42px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.035em;
+  text-transform: none;
+  margin: 0 0 24px;
+}
+
+.agreement-document h2 {
+  font-family: "DM Sans", Arial, sans-serif;
+  font-size: clamp(21px, 2.2vw, 25px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  margin: 48px 0 18px;
+  break-after: avoid;
+}
+
+.agreement-document p {
+  margin: 0 0 20px;
+}
+
+.agreement-document ul {
+  list-style: disc;
+  margin: 0 0 24px;
+  padding-inline-start: 1.5em;
+}
+
+.agreement-document li {
+  margin-block: 7px;
+  padding-inline-start: 0.2em;
+}
+
+.agreement-document li::marker {
+  color: var(--fg);
+}
+
+.agreement-document strong {
+  font-weight: 700;
+}
+
+.agreement-document hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 48px 0;
+}
+
+@media (max-width: 600px) {
+  .agreement-document {
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  .agreement-document h2 {
+    margin-top: 36px;
+  }
+}
+
+@media print {
+  .header,
+  footer,
+  .reading-progress,
+  .skip {
+    display: none !important;
+  }
+
+  .agreement-main {
+    padding: 0;
+    border: 0;
+    color: #000;
+  }
+
+  .agreement-reference {
+    color: #333;
+  }
+
+  .agreement-page {
+    max-width: none;
+  }
+}
