@@ -3,6 +3,10 @@
     {
       "source": "/service-agreement",
       "destination": "/service-agreement/index.html"
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/privacy-policy/index.html"
     }
   ]
 }
