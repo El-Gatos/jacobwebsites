@@ -198,9 +198,12 @@ function Portrait() {
 }
 const isAgreementPage =
   window.location.pathname.replace(/\/$/, "") === "/service-agreement";
-const homeSection = (hash) => (isAgreementPage ? "/" + hash : hash);
+const isPrivacyPage =
+  window.location.pathname.replace(/\/$/, "") === "/privacy-policy";
+const isDocumentPage = isAgreementPage || isPrivacyPage;
+const homeSection = (hash) => (isDocumentPage ? "/" + hash : hash);
 
-function App({ agreementPage = null }) {
+function App({ documentPage = null }) {
   const [theme, setTheme] = useState(
     document.documentElement.dataset.theme || "dark",
   );
@@ -409,7 +412,7 @@ function App({ agreementPage = null }) {
       </a>
       <header className="header">
         <a
-          href={isAgreementPage ? "/" : "#main"}
+          href={isDocumentPage ? "/" : "#main"}
           className="logo"
           aria-label="jacobwebsites. home"
         >
@@ -479,10 +482,10 @@ function App({ agreementPage = null }) {
       </header>
       <main
         id="main"
-        className={isAgreementPage ? "agreement-main" : undefined}
+        className={isDocumentPage ? "agreement-main" : undefined}
       >
-        {isAgreementPage ? (
-          agreementPage
+        {isDocumentPage ? (
+          documentPage
         ) : (
           <>
             <section className="hero trade-hero">
@@ -854,7 +857,7 @@ function App({ agreementPage = null }) {
         )}
       </main>
       <footer>
-        <a className="footer-logo" href={isAgreementPage ? "/" : "#main"}>
+        <a className="footer-logo" href={isDocumentPage ? "/" : "#main"}>
           jacobwebsites<span>.</span>
         </a>
         <div className="footer-bottom">
@@ -880,6 +883,12 @@ function App({ agreementPage = null }) {
             aria-current={isAgreementPage ? "page" : undefined}
           >
             Service Agreement
+          </a>
+          <a
+            href="/privacy-policy"
+            aria-current={isPrivacyPage ? "page" : undefined}
+          >
+            Privacy Policy
           </a>
           <a href="#main">Back to top ↑</a>
         </div>
@@ -947,10 +956,13 @@ function App({ agreementPage = null }) {
     </>
   );
 }
-if (isAgreementPage) {
-  import("./ServiceAgreement").then(({ default: ServiceAgreement }) => {
+if (isDocumentPage) {
+  const pageModule = isAgreementPage
+    ? import("./ServiceAgreement")
+    : import("./PrivacyPolicy");
+  pageModule.then(({ default: DocumentPage }) => {
     createRoot(document.getElementById("root")).render(
-      <App agreementPage={<ServiceAgreement />} />,
+      <App documentPage={<DocumentPage />} />,
     );
   });
 } else {

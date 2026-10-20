@@ -14,12 +14,18 @@ const agreementHtml = marked.parse(readFileSync(agreementPath, "utf8"), {
 const publicCopyNote =
   '<p class="agreement-reference" role="note">Public reference copy. Publishing this page does not represent a client’s acceptance.</p>';
 
-function agreementRoute(server) {
+const privacyPath = new URL("./src/content/privacy-policy.md", import.meta.url);
+const privacyHtml = marked.parse(readFileSync(privacyPath, "utf8"), {
+  gfm: false,
+  breaks: false,
+});
+
+function documentRoutes(server) {
   server.middlewares.use((request, _response, next) => {
     const [path, query] = (request.url || "").split("?");
-    if (path === "/service-agreement" || path === "/service-agreement/") {
-      request.url =
-        "/service-agreement/index.html" + (query ? "?" + query : "");
+    const route = path.replace(/\/$/, "");
+    if (route === "/service-agreement" || route === "/privacy-policy") {
+      request.url = route + "/index.html" + (query ? "?" + query : "");
     }
     next();
   });
@@ -29,8 +35,8 @@ export default defineConfig({
   plugins: [
     {
       name: "service-agreement-document",
-      configureServer: agreementRoute,
-      configurePreviewServer: agreementRoute,
+      configureServer: documentRoutes,
+      configurePreviewServer: documentRoutes,
       resolveId(id) {
         if (id === "virtual:service-agreement") return "\0service-agreement";
       },
@@ -47,11 +53,32 @@ export default defineConfig({
         );
       },
     },
+    {
+      name: "privacy-policy-document",
+      resolveId(id) {
+        if (id === "virtual:privacy-policy") return "\0privacy-policy";
+      },
+      load(id) {
+        if (id === "\0privacy-policy") {
+          this.addWatchFile(fileURLToPath(privacyPath));
+          return `export const html = ${JSON.stringify(privacyHtml)};`;
+        }
+      },
+      transformIndexHtml(html) {
+        return html.replace(
+          "<!-- privacy-content -->",
+          `<main id="main" class="agreement-main"><div class="agreement-page"><article class="agreement-document" aria-label="Privacy Policy">${privacyHtml}</article></div></main>`,
+        );
+      },
+    },
   ],
   build: {
     rollupOptions: {
       input: {
         home: fileURLToPath(new URL("./index.html", import.meta.url)),
+        privacy: fileURLToPath(
+          new URL("./privacy-policy/index.html", import.meta.url),
+        ),
         agreement: fileURLToPath(
           new URL("./service-agreement/index.html", import.meta.url),
         ),

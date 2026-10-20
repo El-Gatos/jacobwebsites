@@ -62,6 +62,11 @@
   color: var(--fg);
 }
 
+.agreement-document a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .agreement-document strong {
   font-weight: 700;
 }
