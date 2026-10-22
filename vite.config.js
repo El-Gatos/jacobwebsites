@@ -55,6 +55,8 @@ export default defineConfig({
         agreement: fileURLToPath(
           new URL("./service-agreement/index.html", import.meta.url),
         ),
+        terms: fileURLToPath(new URL("./terms/index.html", import.meta.url)),
+        privacy: fileURLToPath(new URL("./privacy/index.html", import.meta.url)),
       },
     },
   },
