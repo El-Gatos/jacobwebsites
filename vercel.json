@@ -3,6 +3,14 @@
     {
       "source": "/service-agreement",
       "destination": "/service-agreement/index.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms/index.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy/index.html"
     }
   ]
 }
