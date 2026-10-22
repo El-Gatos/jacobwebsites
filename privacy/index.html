@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#151a22" />
+    <title>Privacy Policy | Jacob Websites</title>
+    <meta name="description" content="Privacy practices for the Jacob Websites public website and inquiry form." />
+    <link rel="canonical" href="https://www.jacobwebsites.com/privacy" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Privacy Policy | Jacob Websites" />
+    <meta property="og:description" content="Privacy practices for the Jacob Websites public website and inquiry form." />
+    <meta property="og:url" content="https://www.jacobwebsites.com/privacy" />
+    <meta property="og:site_name" content="Jacob Websites" />
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem("jw-theme") ||
+          (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      } catch { document.documentElement.dataset.theme = "dark"; }
+      try {
+        var motion = localStorage.getItem("jw-motion");
+        document.documentElement.dataset.motion =
+          motion === "reduce" || (!motion && matchMedia("(prefers-reduced-motion: reduce)").matches)
+            ? "reduce" : "full";
+      } catch {
+        document.documentElement.dataset.motion =
+          matchMedia("(prefers-reduced-motion: reduce)").matches ? "reduce" : "full";
+      }
+    </script>
+    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="/src/trades.css" />
+    <link rel="stylesheet" href="/src/service-agreement.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
