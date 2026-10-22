@@ -196,9 +196,12 @@ function Portrait() {
     </figure>
   );
 }
-const isAgreementPage =
-  window.location.pathname.replace(/\/$/, "") === "/service-agreement";
-const homeSection = (hash) => (isAgreementPage ? "/" + hash : hash);
+const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+const isAgreementPage = currentPath === "/service-agreement";
+const isTermsPage = currentPath === "/terms";
+const isPrivacyPage = currentPath === "/privacy";
+const isLegalPage = isAgreementPage || isTermsPage || isPrivacyPage;
+const homeSection = (hash) => (isLegalPage ? "/" + hash : hash);
 
 function App({ agreementPage = null }) {
   const [theme, setTheme] = useState(
@@ -409,7 +412,7 @@ function App({ agreementPage = null }) {
       </a>
       <header className="header">
         <a
-          href={isAgreementPage ? "/" : "#main"}
+          href={isLegalPage ? "/" : "#main"}
           className="logo"
           aria-label="jacobwebsites. home"
         >
@@ -479,9 +482,9 @@ function App({ agreementPage = null }) {
       </header>
       <main
         id="main"
-        className={isAgreementPage ? "agreement-main" : undefined}
+        className={isLegalPage ? "agreement-main" : undefined}
       >
-        {isAgreementPage ? (
+        {isLegalPage ? (
           agreementPage
         ) : (
           <>
@@ -854,7 +857,7 @@ function App({ agreementPage = null }) {
         )}
       </main>
       <footer>
-        <a className="footer-logo" href={isAgreementPage ? "/" : "#main"}>
+        <a className="footer-logo" href={isLegalPage ? "/" : "#main"}>
           jacobwebsites<span>.</span>
         </a>
         <div className="footer-bottom">
@@ -875,13 +878,19 @@ function App({ agreementPage = null }) {
             </svg>
             GitHub <Arrow />
           </a>
+          <a href="/privacy" aria-current={isPrivacyPage ? "page" : undefined}>
+            Privacy Policy
+          </a>
+          <a href="/terms" aria-current={isTermsPage ? "page" : undefined}>
+            Terms of Use
+          </a>
           <a
             href="/service-agreement"
             aria-current={isAgreementPage ? "page" : undefined}
           >
             Service Agreement
           </a>
-          <a href="#main">Back to top ↑</a>
+          <a href={isLegalPage ? "/" : "#main"}>Back to top ↑</a>
         </div>
       </footer>
       <dialog
@@ -951,6 +960,18 @@ if (isAgreementPage) {
   import("./ServiceAgreement").then(({ default: ServiceAgreement }) => {
     createRoot(document.getElementById("root")).render(
       <App agreementPage={<ServiceAgreement />} />,
+    );
+  });
+} else if (isTermsPage) {
+  import("./TermsOfUse").then(({ default: TermsOfUse }) => {
+    createRoot(document.getElementById("root")).render(
+      <App agreementPage={<TermsOfUse />} />,
+    );
+  });
+} else if (isPrivacyPage) {
+  import("./PrivacyPolicy").then(({ default: PrivacyPolicy }) => {
+    createRoot(document.getElementById("root")).render(
+      <App agreementPage={<PrivacyPolicy />} />,
     );
   });
 } else {
