@@ -393,14 +393,21 @@ function App({ agreementPage = null }) {
           _template: "table",
           _honey: data.get("_honey") || "",
         }),
-        signal: AbortSignal.timeout(12000),
+        // A slow acknowledgement does not mean FormSubmit rejected the email.
+        signal: AbortSignal.timeout(60000),
       });
       const result = await response.json().catch(() => null);
       const sent =
         response.ok && (result?.success === true || result?.success === "true");
-      setFormStatus(sent ? "sent" : "failed");
+      setFormStatus(
+        sent
+          ? "sent"
+          : result?.success === false || result?.success === "false"
+            ? "failed"
+            : "unconfirmed",
+      );
     } catch {
-      setFormStatus("failed");
+      setFormStatus("unconfirmed");
     }
   }
   return (
@@ -480,10 +487,7 @@ function App({ agreementPage = null }) {
           </button>
         </div>
       </header>
-      <main
-        id="main"
-        className={isLegalPage ? "agreement-main" : undefined}
-      >
+      <main id="main" className={isLegalPage ? "agreement-main" : undefined}>
         {isLegalPage ? (
           agreementPage
         ) : (
@@ -704,7 +708,7 @@ function App({ agreementPage = null }) {
                 onSubmit={submitInquiry}
                 className="inquiry reveal"
                 onChange={() => {
-                  if (formStatus === "sent" || formStatus === "failed") {
+                  if (["sent", "failed", "unconfirmed"].includes(formStatus)) {
                     setFormStatus("idle");
                     setDraft("");
                   }
@@ -816,12 +820,17 @@ function App({ agreementPage = null }) {
                     </p>
                   </div>
                 )}
-                {formStatus === "failed" && draft && (
+                {["failed", "unconfirmed"].includes(formStatus) && draft && (
                   <div className="draft" role="status">
-                    <strong>That didn’t go through.</strong>
+                    <strong>
+                      {formStatus === "failed"
+                        ? "Your request wasn’t accepted."
+                        : "We couldn’t confirm delivery."}
+                    </strong>
                     <p>
-                      Your message wasn’t sent. Your request is ready as an
-                      email instead: open it in your email app and hit send.
+                      {formStatus === "failed"
+                        ? "The form service rejected this request. You can send your inquiry by email instead."
+                        : "Your inquiry may still reach me. Please don’t submit it again. If you want to follow up, use the prepared email below and mention that you already submitted the form."}
                     </p>
                     <a
                       className="button"

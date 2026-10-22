@@ -74,7 +74,7 @@ test("navigation, project dialog, services, and honest inquiry draft", async ({
     .click();
   await page.getByRole("button", { name: "Get my free mockup" }).click();
   await expect(page.getByRole("status")).toContainText(
-    "Your message wasn’t sent",
+    "We couldn’t confirm delivery",
   );
   const href = await page
     .getByRole("link", { name: "Open email draft" })
@@ -192,3 +192,59 @@ test("maintenance offering, clean navigation, and GitHub link", async ({
   expect(posted._subject).toContain("Website maintenance inquiry");
   expect(posted.email).toBe("test@example.com");
 });
+
+test("slow FormSubmit acknowledgement still shows success", async ({
+  page,
+}) => {
+  test.setTimeout(25000);
+  await page.route("https://formsubmit.co/**", async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 13000));
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ success: true }),
+    });
+  });
+  await page.goto("/");
+  await page.getByLabel("Your name").fill("Delivery test");
+  await page.getByLabel("Email address").fill("test@example.com");
+  await page
+    .getByLabel("Your business & what you need")
+    .fill("A delayed acknowledgement regression test.");
+  await page.getByRole("button", { name: "Get my free mockup" }).click();
+  await expect(page.getByRole("status")).toContainText(
+    "Your free mockup request was sent",
+    { timeout: 18000 },
+  );
+});
+
+for (const outcome of ["network", "rejection"]) {
+  test(`inquiry handles ${outcome} without claiming unverified delivery`, async ({
+    page,
+  }) => {
+    await page.route("https://formsubmit.co/**", (route) =>
+      outcome === "network"
+        ? route.abort("failed")
+        : route.fulfill({
+            status: 200,
+            contentType: "application/json",
+            body: JSON.stringify({ success: false }),
+          }),
+    );
+    await page.goto("/");
+    await page.getByLabel("Your name").fill("Delivery test");
+    await page.getByLabel("Email address").fill("test@example.com");
+    await page
+      .getByLabel("Your business & what you need")
+      .fill("An error handling regression test.");
+    await page.getByRole("button", { name: "Get my free mockup" }).click();
+    await expect(page.getByRole("status")).toContainText(
+      outcome === "network"
+        ? "Your inquiry may still reach me"
+        : "The form service rejected this request",
+    );
+    await expect(
+      page.getByRole("link", { name: "Open email draft" }),
+    ).toHaveAttribute("href", /mailto:jacob@jacobwebsites.com/);
+  });
+}
