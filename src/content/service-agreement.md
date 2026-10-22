@@ -430,7 +430,7 @@ Unless otherwise stated in writing, recurring Website Care and Website
 Growth plans are month-to-month and optional.
 
 Client may cancel future recurring care-plan service by emailing
-**help@jacobwebsites.com** before the next billing date.
+**info@jacobwebsites.com** before the next billing date.
 
 Cancellation stops future recurring charges but does not ordinarily
 create a refund for a service period already begun.
@@ -646,7 +646,7 @@ A notice sent by email will be considered given when sent, provided the
 sender does not receive an automated notice that delivery failed.
 
 Care-plan cancellation notices must be sent to
-**help@jacobwebsites.com** as provided in Section 22.
+**info@jacobwebsites.com** as provided in Section 22.
 
 Each party is responsible for notifying the other of changes to its
 notice email address.
@@ -709,7 +709,7 @@ circumstance for which it is given.
 
 **Provider:** Jacob Ryan Wainwright, doing business as Jacob Websites
 
-**Email:** help@jacobwebsites.com
+**Email:** info@jacobwebsites.com
 
 **Signature:**
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
