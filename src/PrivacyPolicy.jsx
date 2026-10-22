@@ -14,7 +14,7 @@ export default function PrivacyPolicy() {
         <p>Please do not submit sensitive personal information through the general inquiry form.</p>
 
         <h2>2. Information Collected Through Site Operation</h2>
-        <p>The Site is hosted using Vercel and uses Vercel Web Analytics. Those services may process technical and usage information needed to deliver, secure, measure, and operate the Site, such as page views, referral information, browser or device information, IP-derived location information, and related request or telemetry data, subject to Vercel’s own practices.</p>
+        <p>The Site is hosted using Vercel and uses Vercel Web Analytics. Vercel states that Web Analytics uses anonymous, aggregated data without third-party cookies and does not associate analytics data with an individual or IP address. Analytics data may include page views, referrers, general geolocation, browser, operating system, and device type.</p>
         <p>The Site also stores your theme and reduced-motion preferences in your browser’s local storage so those display choices can persist between visits. Those preferences are stored on your device.</p>
 
         <h2>3. Inquiry Form Processing</h2>
