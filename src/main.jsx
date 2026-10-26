@@ -200,7 +200,9 @@ const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
 const isAgreementPage = currentPath === "/service-agreement";
 const isTermsPage = currentPath === "/terms";
 const isPrivacyPage = currentPath === "/privacy";
-const isLegalPage = isAgreementPage || isTermsPage || isPrivacyPage;
+const isLegalHubPage = currentPath === "/legal";
+const isLegalPage =
+  isAgreementPage || isTermsPage || isPrivacyPage || isLegalHubPage;
 const homeSection = (hash) => (isLegalPage ? "/" + hash : hash);
 
 function App({ agreementPage = null }) {
@@ -441,6 +443,13 @@ function App({ agreementPage = null }) {
           </a>
           <a href={homeSection("#about")} onClick={() => setMenu(false)}>
             About
+          </a>
+          <a
+            href="/legal"
+            aria-current={isLegalHubPage ? "page" : undefined}
+            onClick={() => setMenu(false)}
+          >
+            Legal
           </a>
           <a
             className="nav-contact"
@@ -887,17 +896,8 @@ function App({ agreementPage = null }) {
             </svg>
             GitHub <Arrow />
           </a>
-          <a href="/privacy" aria-current={isPrivacyPage ? "page" : undefined}>
-            Privacy Policy
-          </a>
-          <a href="/terms" aria-current={isTermsPage ? "page" : undefined}>
-            Terms of Use
-          </a>
-          <a
-            href="/service-agreement"
-            aria-current={isAgreementPage ? "page" : undefined}
-          >
-            Service Agreement
+          <a href="/legal" aria-current={isLegalHubPage ? "page" : undefined}>
+            Legal
           </a>
           <a href={isLegalPage ? "/" : "#main"}>Back to top ↑</a>
         </div>
@@ -981,6 +981,12 @@ if (isAgreementPage) {
   import("./PrivacyPolicy").then(({ default: PrivacyPolicy }) => {
     createRoot(document.getElementById("root")).render(
       <App agreementPage={<PrivacyPolicy />} />,
+    );
+  });
+} else if (isLegalHubPage) {
+  import("./LegalHub").then(({ default: LegalHub }) => {
+    createRoot(document.getElementById("root")).render(
+      <App agreementPage={<LegalHub />} />,
     );
   });
 } else {
