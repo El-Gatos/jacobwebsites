@@ -58,6 +58,7 @@ export default defineConfig({
         terms: fileURLToPath(new URL("./terms/index.html", import.meta.url)),
         privacy: fileURLToPath(new URL("./privacy/index.html", import.meta.url)),
         legal: fileURLToPath(new URL("./legal/index.html", import.meta.url)),
+        services: fileURLToPath(new URL("./services/index.html", import.meta.url)),
       },
     },
   },
