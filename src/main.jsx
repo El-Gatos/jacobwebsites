@@ -902,6 +902,9 @@ function App({ standalonePage = null }) {
             </svg>
             GitHub <Arrow />
           </a>
+          <a href="https://billing.stripe.com/p/login/3cIdR1gMp8fI27T9vWasg00">
+            Manage billing
+          </a>
           <a href="/legal" aria-current={isLegalHubPage ? "page" : undefined}>
             Legal
           </a>
