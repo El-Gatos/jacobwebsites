@@ -15,6 +15,10 @@
     {
       "source": "/legal",
       "destination": "/legal/index.html"
+    },
+    {
+      "source": "/services",
+      "destination": "/services/index.html"
     }
   ]
 }
