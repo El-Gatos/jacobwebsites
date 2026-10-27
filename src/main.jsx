@@ -201,11 +201,13 @@ const isAgreementPage = currentPath === "/service-agreement";
 const isTermsPage = currentPath === "/terms";
 const isPrivacyPage = currentPath === "/privacy";
 const isLegalHubPage = currentPath === "/legal";
+const isServicesPage = currentPath === "/services";
 const isLegalPage =
   isAgreementPage || isTermsPage || isPrivacyPage || isLegalHubPage;
-const homeSection = (hash) => (isLegalPage ? "/" + hash : hash);
+const isStandalonePage = isLegalPage || isServicesPage;
+const homeSection = (hash) => (isStandalonePage ? "/" + hash : hash);
 
-function App({ agreementPage = null }) {
+function App({ standalonePage = null }) {
   const [theme, setTheme] = useState(
     document.documentElement.dataset.theme || "dark",
   );
@@ -421,7 +423,7 @@ function App({ agreementPage = null }) {
       </a>
       <header className="header">
         <a
-          href={isLegalPage ? "/" : "#main"}
+          href={isStandalonePage ? "/" : "#main"}
           className="logo"
           aria-label="jacobwebsites. home"
         >
@@ -438,7 +440,11 @@ function App({ agreementPage = null }) {
           <a href={homeSection("#work")} onClick={() => setMenu(false)}>
             Work
           </a>
-          <a href={homeSection("#services")} onClick={() => setMenu(false)}>
+          <a
+            href="/services"
+            aria-current={isServicesPage ? "page" : undefined}
+            onClick={() => setMenu(false)}
+          >
             Services
           </a>
           <a href={homeSection("#about")} onClick={() => setMenu(false)}>
@@ -497,8 +503,8 @@ function App({ agreementPage = null }) {
         </div>
       </header>
       <main id="main" className={isLegalPage ? "agreement-main" : undefined}>
-        {isLegalPage ? (
-          agreementPage
+        {isStandalonePage ? (
+          standalonePage
         ) : (
           <>
             <section className="hero trade-hero">
@@ -875,7 +881,7 @@ function App({ agreementPage = null }) {
         )}
       </main>
       <footer>
-        <a className="footer-logo" href={isLegalPage ? "/" : "#main"}>
+        <a className="footer-logo" href={isStandalonePage ? "/" : "#main"}>
           jacobwebsites<span>.</span>
         </a>
         <div className="footer-bottom">
@@ -899,7 +905,7 @@ function App({ agreementPage = null }) {
           <a href="/legal" aria-current={isLegalHubPage ? "page" : undefined}>
             Legal
           </a>
-          <a href={isLegalPage ? "/" : "#main"}>Back to top ↑</a>
+          <a href={isStandalonePage ? "/" : "#main"}>Back to top ↑</a>
         </div>
       </footer>
       <dialog
@@ -968,25 +974,31 @@ function App({ agreementPage = null }) {
 if (isAgreementPage) {
   import("./ServiceAgreement").then(({ default: ServiceAgreement }) => {
     createRoot(document.getElementById("root")).render(
-      <App agreementPage={<ServiceAgreement />} />,
+      <App standalonePage={<ServiceAgreement />} />,
     );
   });
 } else if (isTermsPage) {
   import("./TermsOfUse").then(({ default: TermsOfUse }) => {
     createRoot(document.getElementById("root")).render(
-      <App agreementPage={<TermsOfUse />} />,
+      <App standalonePage={<TermsOfUse />} />,
     );
   });
 } else if (isPrivacyPage) {
   import("./PrivacyPolicy").then(({ default: PrivacyPolicy }) => {
     createRoot(document.getElementById("root")).render(
-      <App agreementPage={<PrivacyPolicy />} />,
+      <App standalonePage={<PrivacyPolicy />} />,
     );
   });
 } else if (isLegalHubPage) {
   import("./LegalHub").then(({ default: LegalHub }) => {
     createRoot(document.getElementById("root")).render(
-      <App agreementPage={<LegalHub />} />,
+      <App standalonePage={<LegalHub />} />,
+    );
+  });
+} else if (isServicesPage) {
+  import("./ServicesPage").then(({ default: ServicesPage }) => {
+    createRoot(document.getElementById("root")).render(
+      <App standalonePage={<ServicesPage />} />,
     );
   });
 } else {
