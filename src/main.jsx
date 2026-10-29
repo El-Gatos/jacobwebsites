@@ -22,15 +22,17 @@ const projects = [
     originalUrl: "https://kmahvacandconstruction.com/",
   },
   {
-    id: "jacob",
-    name: "Jacob Websites",
-    type: "Design & development",
-    tag: "Own business · Website",
-    title: "A website for my own business",
-    text: "My own website, with a free mockup offer, examples of my work, and a direct way to contact me.",
+    id: "beat-garden",
+    name: "Beat Garden",
+    type: "Interactive music tool",
+    tag: "Personal project · Web Audio",
+    title: "A musical garden you can play",
+    text: "A browser-based sequencer where you plant sounds, shape a rhythm, and download your loop.",
     detail:
-      "The main decisions were to explain the free mockup offer up front, show the work behind a redesign, and let visitors contact me without leaving the page. The site also includes light and dark themes and a saved reduced-motion preference. This is my own business website, not a client commission.",
-    className: "jacob",
+      "Beat Garden turns a 16-step sequencer into a garden of animated plants. Six sounds are synthesized in the browser, with adjustable tempo and swing, starter patterns, saved gardens, shareable links, and WAV downloads. The interface supports keyboard controls and reduced motion. This is a personal interactive project, not a client commission.",
+    className: "beat-garden",
+    liveUrl: "/beat-garden/",
+    liveLabel: "Play Beat Garden",
   },
 ];
 function ProjectVisual({ project }) {
@@ -51,21 +53,23 @@ function ProjectVisual({ project }) {
       />
     </div>
   ) : (
-    <div className="mock own-mock" aria-label="Jacob Websites identity study">
-      <span className="own-top">
-        Jacob Websites <span>Design & development</span>
-      </span>
-      <div className="own-word">
-        jacob<span>websites</span>
-      </div>
-      <div className="own-bottom">
-        <span>
-          Websites for
-          <br />
-          independent businesses
+    <div
+      className="site-preview"
+      aria-label="Beat Garden music sequencer preview"
+    >
+      <div className="site-preview-chrome">
+        <span className="site-preview-dots" aria-hidden="true">
+          ● ● ●
         </span>
-        <span className="own-mark">jw.</span>
+        <span>jacobwebsites.com/beat-garden/</span>
       </div>
+      <img
+        src="/work/beat-garden.webp"
+        width="835"
+        height="475"
+        loading="lazy"
+        alt="Beat Garden’s six rows of colorful plants representing sounds in a music sequencer"
+      />
     </div>
   );
 }
@@ -586,7 +590,7 @@ function App({ standalonePage = null }) {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        View live redesign <Arrow />
+                        {p.liveLabel || "View live redesign"} <Arrow />
                       </a>
                     )}
                   </article>
@@ -947,16 +951,18 @@ function App({ standalonePage = null }) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Open live redesign <Arrow />
+                    {active.liveLabel || "Open live redesign"} <Arrow />
                   </a>
-                  <a
-                    className="button"
-                    href={active.originalUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Visit original site <Arrow />
-                  </a>
+                  {active.originalUrl && (
+                    <a
+                      className="button"
+                      href={active.originalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Visit original site <Arrow />
+                    </a>
+                  )}
                 </div>
               )}
               <button
