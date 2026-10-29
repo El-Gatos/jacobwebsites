@@ -105,3 +105,87 @@
     max-width: none;
   }
 }
+
+
+.legal-hub {
+  max-width: 900px;
+}
+
+.legal-hub-intro {
+  max-width: 680px;
+  margin-bottom: clamp(36px, 6vw, 64px);
+}
+
+.legal-hub-intro .eyebrow {
+  display: block;
+  margin-bottom: 16px;
+  color: var(--muted);
+}
+
+.legal-hub-intro h1 {
+  margin: 0 0 18px;
+  font-family: "DM Sans", Arial, sans-serif;
+  font-size: clamp(44px, 8vw, 88px);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+}
+
+.legal-hub-intro p {
+  margin: 0;
+  max-width: 58ch;
+  color: var(--muted);
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.6;
+}
+
+.legal-links {
+  border-top: 1px solid var(--line);
+}
+
+.legal-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.legal-link strong,
+.legal-link small {
+  display: block;
+}
+
+.legal-link strong {
+  margin-bottom: 8px;
+  font-size: clamp(20px, 2.5vw, 28px);
+  line-height: 1.15;
+}
+
+.legal-link small {
+  max-width: 62ch;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.legal-arrow {
+  flex: 0 0 auto;
+  font-size: 24px;
+  transition: transform 180ms ease;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .legal-link:hover .legal-arrow {
+    transform: translate(4px, -4px);
+  }
+}
+
+@media (max-width: 600px) {
+  .legal-link {
+    gap: 18px;
+    padding: 24px 0;
+  }
+}

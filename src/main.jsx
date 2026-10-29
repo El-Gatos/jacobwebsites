@@ -200,10 +200,14 @@ const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
 const isAgreementPage = currentPath === "/service-agreement";
 const isTermsPage = currentPath === "/terms";
 const isPrivacyPage = currentPath === "/privacy";
-const isLegalPage = isAgreementPage || isTermsPage || isPrivacyPage;
-const homeSection = (hash) => (isLegalPage ? "/" + hash : hash);
+const isLegalHubPage = currentPath === "/legal";
+const isServicesPage = currentPath === "/services";
+const isLegalPage =
+  isAgreementPage || isTermsPage || isPrivacyPage || isLegalHubPage;
+const isStandalonePage = isLegalPage || isServicesPage;
+const homeSection = (hash) => (isStandalonePage ? "/" + hash : hash);
 
-function App({ agreementPage = null }) {
+function App({ standalonePage = null }) {
   const [theme, setTheme] = useState(
     document.documentElement.dataset.theme || "dark",
   );
@@ -393,14 +397,21 @@ function App({ agreementPage = null }) {
           _template: "table",
           _honey: data.get("_honey") || "",
         }),
-        signal: AbortSignal.timeout(12000),
+        // A slow acknowledgement does not mean FormSubmit rejected the email.
+        signal: AbortSignal.timeout(60000),
       });
       const result = await response.json().catch(() => null);
       const sent =
         response.ok && (result?.success === true || result?.success === "true");
-      setFormStatus(sent ? "sent" : "failed");
+      setFormStatus(
+        sent
+          ? "sent"
+          : result?.success === false || result?.success === "false"
+            ? "failed"
+            : "unconfirmed",
+      );
     } catch {
-      setFormStatus("failed");
+      setFormStatus("unconfirmed");
     }
   }
   return (
@@ -412,7 +423,7 @@ function App({ agreementPage = null }) {
       </a>
       <header className="header">
         <a
-          href={isLegalPage ? "/" : "#main"}
+          href={isStandalonePage ? "/" : "#main"}
           className="logo"
           aria-label="jacobwebsites. home"
         >
@@ -429,11 +440,22 @@ function App({ agreementPage = null }) {
           <a href={homeSection("#work")} onClick={() => setMenu(false)}>
             Work
           </a>
-          <a href={homeSection("#services")} onClick={() => setMenu(false)}>
+          <a
+            href="/services"
+            aria-current={isServicesPage ? "page" : undefined}
+            onClick={() => setMenu(false)}
+          >
             Services
           </a>
           <a href={homeSection("#about")} onClick={() => setMenu(false)}>
             About
+          </a>
+          <a
+            href="/legal"
+            aria-current={isLegalHubPage ? "page" : undefined}
+            onClick={() => setMenu(false)}
+          >
+            Legal
           </a>
           <a
             className="nav-contact"
@@ -480,12 +502,9 @@ function App({ agreementPage = null }) {
           </button>
         </div>
       </header>
-      <main
-        id="main"
-        className={isLegalPage ? "agreement-main" : undefined}
-      >
-        {isLegalPage ? (
-          agreementPage
+      <main id="main" className={isLegalPage ? "agreement-main" : undefined}>
+        {isStandalonePage ? (
+          standalonePage
         ) : (
           <>
             <section className="hero trade-hero">
@@ -704,7 +723,7 @@ function App({ agreementPage = null }) {
                 onSubmit={submitInquiry}
                 className="inquiry reveal"
                 onChange={() => {
-                  if (formStatus === "sent" || formStatus === "failed") {
+                  if (["sent", "failed", "unconfirmed"].includes(formStatus)) {
                     setFormStatus("idle");
                     setDraft("");
                   }
@@ -816,12 +835,17 @@ function App({ agreementPage = null }) {
                     </p>
                   </div>
                 )}
-                {formStatus === "failed" && draft && (
+                {["failed", "unconfirmed"].includes(formStatus) && draft && (
                   <div className="draft" role="status">
-                    <strong>That didn’t go through.</strong>
+                    <strong>
+                      {formStatus === "failed"
+                        ? "Your request wasn’t accepted."
+                        : "We couldn’t confirm delivery."}
+                    </strong>
                     <p>
-                      Your message wasn’t sent. Your request is ready as an
-                      email instead: open it in your email app and hit send.
+                      {formStatus === "failed"
+                        ? "The form service rejected this request. You can send your inquiry by email instead."
+                        : "Your inquiry may still reach me. Please don’t submit it again. If you want to follow up, use the prepared email below and mention that you already submitted the form."}
                     </p>
                     <a
                       className="button"
@@ -857,7 +881,7 @@ function App({ agreementPage = null }) {
         )}
       </main>
       <footer>
-        <a className="footer-logo" href={isLegalPage ? "/" : "#main"}>
+        <a className="footer-logo" href={isStandalonePage ? "/" : "#main"}>
           jacobwebsites<span>.</span>
         </a>
         <div className="footer-bottom">
@@ -878,19 +902,13 @@ function App({ agreementPage = null }) {
             </svg>
             GitHub <Arrow />
           </a>
-          <a href="/privacy" aria-current={isPrivacyPage ? "page" : undefined}>
-            Privacy Policy
+          <a href="https://billing.stripe.com/p/login/3cIdR1gMp8fI27T9vWasg00">
+            Manage billing
           </a>
-          <a href="/terms" aria-current={isTermsPage ? "page" : undefined}>
-            Terms of Use
+          <a href="/legal" aria-current={isLegalHubPage ? "page" : undefined}>
+            Legal
           </a>
-          <a
-            href="/service-agreement"
-            aria-current={isAgreementPage ? "page" : undefined}
-          >
-            Service Agreement
-          </a>
-          <a href={isLegalPage ? "/" : "#main"}>Back to top ↑</a>
+          <a href={isStandalonePage ? "/" : "#main"}>Back to top ↑</a>
         </div>
       </footer>
       <dialog
@@ -959,19 +977,31 @@ function App({ agreementPage = null }) {
 if (isAgreementPage) {
   import("./ServiceAgreement").then(({ default: ServiceAgreement }) => {
     createRoot(document.getElementById("root")).render(
-      <App agreementPage={<ServiceAgreement />} />,
+      <App standalonePage={<ServiceAgreement />} />,
     );
   });
 } else if (isTermsPage) {
   import("./TermsOfUse").then(({ default: TermsOfUse }) => {
     createRoot(document.getElementById("root")).render(
-      <App agreementPage={<TermsOfUse />} />,
+      <App standalonePage={<TermsOfUse />} />,
     );
   });
 } else if (isPrivacyPage) {
   import("./PrivacyPolicy").then(({ default: PrivacyPolicy }) => {
     createRoot(document.getElementById("root")).render(
-      <App agreementPage={<PrivacyPolicy />} />,
+      <App standalonePage={<PrivacyPolicy />} />,
+    );
+  });
+} else if (isLegalHubPage) {
+  import("./LegalHub").then(({ default: LegalHub }) => {
+    createRoot(document.getElementById("root")).render(
+      <App standalonePage={<LegalHub />} />,
+    );
+  });
+} else if (isServicesPage) {
+  import("./ServicesPage").then(({ default: ServicesPage }) => {
+    createRoot(document.getElementById("root")).render(
+      <App standalonePage={<ServicesPage />} />,
     );
   });
 } else {

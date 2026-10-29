@@ -19,7 +19,7 @@ npm test
 The free mockup form sends through [FormSubmit](https://formsubmit.co) to jacob@jacobwebsites.com, with no backend to maintain.
 
 - **First-time setup:** the first submission triggers a confirmation email from FormSubmit to jacob@jacobwebsites.com. Click the link in it to activate the form. Until then, submissions are not delivered.
-- **Honest states:** the form only says "sent" when FormSubmit confirms it. If sending fails, it tells the visitor nothing was sent and offers an email draft to jacob@jacobwebsites.com instead.
+- **Honest states:** the form only says "sent" when FormSubmit confirms it. It waits up to 60 seconds for acknowledgement. An explicit rejection offers an email draft; a timeout, connection error, or unreadable response says delivery is unconfirmed and discourages duplicate submissions.
 - **Spam:** a hidden `_honey` field catches basic bots.
 - The address is also shown in the contact section and footer, so visitors can always email directly.
 

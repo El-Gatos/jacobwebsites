@@ -1,0 +1,29 @@
+.services-page{padding:clamp(44px,7vw,96px) var(--pad) clamp(72px,10vw,140px);border-bottom:1px solid var(--line)}
+.services-page>section{max-width:1180px;margin-inline:auto}
+.services-hero{padding:clamp(30px,5vw,70px) 0 clamp(72px,10vw,130px)}
+.services-hero .eyebrow,.services-section-heading .eyebrow,.plan-boundaries .eyebrow,.services-cta .eyebrow{display:block;color:var(--muted);margin-bottom:18px}
+.services-hero h1{max-width:900px;margin:0;font-size:clamp(54px,9vw,124px);line-height:.88;letter-spacing:-.065em}
+.services-hero>p{max-width:700px;margin:34px 0 0;font-size:clamp(18px,2.2vw,24px);line-height:1.55;color:var(--muted)}
+.services-hero-actions{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-top:36px}
+.services-build,.services-management,.services-cta{padding:clamp(70px,9vw,120px) 0;border-top:1px solid var(--line)}
+.services-section-heading{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);column-gap:8vw;margin-bottom:52px}
+.services-section-heading .eyebrow{grid-column:1/-1}
+.services-section-heading h2{margin:0;font-size:clamp(38px,5.6vw,72px);line-height:.96;letter-spacing:-.05em}
+.services-section-heading p{margin:4px 0 0;color:var(--muted);font-size:18px;line-height:1.65}
+.services-build-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.services-build-grid article{padding:34px 30px 38px;border-right:1px solid var(--line)}
+.services-build-grid article:first-child{padding-left:0}.services-build-grid article:last-child{border-right:0;padding-right:0}
+.services-build-grid article>span{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.services-build-grid h3{font-size:clamp(23px,2.5vw,31px);line-height:1.08;letter-spacing:-.035em;margin:22px 0 16px}
+.services-build-grid p,.services-ownership p,.plan-intro p,.plan-boundaries p,.plan-note,.services-cta p{color:var(--muted);line-height:1.65}
+.services-ownership{display:grid;grid-template-columns:1fr 2fr;gap:32px;padding:34px 0 0}.services-ownership strong{font-size:20px}.services-ownership p{margin:0;max-width:65ch}
+.plan-intro{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);margin-bottom:28px}
+.plan-intro article{padding:32px}.plan-intro article+article{border-left:1px solid var(--line)}
+.plan-intro article>span{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.plan-price{display:flex;align-items:baseline;gap:8px;margin:12px 0}.plan-price strong{font-size:clamp(48px,6vw,76px);line-height:1;letter-spacing:-.06em}.plan-price small{color:var(--muted)}
+.plan-intro p{margin:0;max-width:42ch}.plan-featured{background:var(--fg);color:var(--bg)}.plan-featured p,.plan-featured>span,.plan-featured .plan-price small{color:inherit;opacity:.72}
+.plan-table-wrap{overflow-x:auto;border-top:1px solid var(--line)}.plan-table{width:100%;border-collapse:collapse;min-width:650px}
+.plan-table th,.plan-table td{padding:17px 18px;border-bottom:1px solid var(--line);text-align:left}.plan-table th:first-child{padding-left:0;width:52%;font-weight:500}.plan-table thead th{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.plan-table td{font-weight:600}
+.plan-boundaries{display:grid;grid-template-columns:1fr 1fr;gap:56px;padding:46px 0 26px}.plan-boundaries p{margin:0}.plan-note{font-size:14px;border-top:1px solid var(--line);padding-top:24px;margin:0}
+.services-cta{max-width:900px!important;margin-left:max(0px,calc((100% - 1180px)/2))!important}.services-cta h2{font-size:clamp(40px,6vw,76px);line-height:.96;letter-spacing:-.05em;margin:0;max-width:850px}.services-cta p{font-size:18px;max-width:65ch;margin:26px 0 32px}
+@media(max-width:760px){.services-section-heading{grid-template-columns:1fr;gap:24px}.services-build-grid{grid-template-columns:1fr}.services-build-grid article,.services-build-grid article:first-child,.services-build-grid article:last-child{padding:28px 0;border-right:0;border-bottom:1px solid var(--line)}.services-build-grid article:last-child{border-bottom:0}.services-ownership,.plan-boundaries{grid-template-columns:1fr;gap:18px}.plan-intro{grid-template-columns:1fr}.plan-intro article+article{border-left:0;border-top:1px solid var(--line)}.services-hero h1{font-size:clamp(50px,16vw,78px)}}

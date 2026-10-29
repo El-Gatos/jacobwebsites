@@ -11,6 +11,14 @@
     {
       "source": "/privacy",
       "destination": "/privacy/index.html"
+    },
+    {
+      "source": "/legal",
+      "destination": "/legal/index.html"
+    },
+    {
+      "source": "/services",
+      "destination": "/services/index.html"
     }
   ]
 }
