@@ -603,7 +603,7 @@ function App({ standalonePage = null }) {
                 <p>
                   Whether you need your first website, a rebuild, or someone to
                   keep it updated, I can help with the design and the
-                  development.
+                  development and so much more.
                 </p>
               </div>
               <div className="service-list">
@@ -667,7 +667,7 @@ function App({ standalonePage = null }) {
               <div className="about-copy reveal">
                 <h2>About Jacob</h2>
                 <p className="large-copy">
-                  I’m Jacob Wainwright. I live in SoCal, and I build websites
+                  I’m Jacob. I live in SoCal, and I build websites
                   for the businesses around me.
                 </p>
                 <p>
@@ -682,11 +682,12 @@ function App({ standalonePage = null }) {
                 <p>
                   I’m in my first year running this on my own, which means
                   you’re not one of a hundred accounts. I build every site from
-                  scratch, by hand, and you talk to me directly the whole way
-                  through, not an account manager or a support ticket.
+                  scratch, and take time and put tremendous effort into each one, 
+                  and you talk to me directly the whole way
+                  through. Your page doesn't get managed by an account manager or a support ticket.
                 </p>
                 <p>
-                  After launch I stick around. If you need updates or fixes,
+                  After launch I'll be here to help. If you need updates or fixes,
                   we’ll agree on what your site needs and what’s included.
                 </p>
                 <a className="text-link" href="#contact">
