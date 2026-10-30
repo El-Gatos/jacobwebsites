@@ -674,23 +674,26 @@ function App({ standalonePage = null }) {
               <div className="about-copy reveal">
                 <h2>About Jacob</h2>
                 <p className="large-copy">
-                  I’m Jacob. I live in SoCal, and I build websites
-                  for the businesses around me.
+                  Hey, I’m Jacob. I’m based in SoCal, and Jacob Websites
+                  is just me.
                 </p>
                 <p>
-                  I design and build websites for independent businesses. My
-                  projects focus on practical details: clear service information,
-                  easy-to-find contact options, and layouts that work on a phone.
+                  I’m in my first year doing this on my own. I like taking a
+                  website that feels confusing or out of date and figuring out
+                  how to make it easier to use. Sometimes that means starting
+                  over. Sometimes the site just needs a few things fixed.
                 </p>
                 <p>
-                  I’m in my first year running this on my own. I handle the
-                  design, development, and revisions myself, and you talk to me
-                  directly throughout the project. Before a build begins, you
-                  can review a free homepage mockup and decide whether to continue.
+                  I do the design and coding myself, so when you send feedback
+                  or have a question, it comes straight to me. You don’t need
+                  to know anything about building websites. Tell me about your
+                  business and what’s bothering you about the one you have,
+                  and we can work from there.
                 </p>
                 <p>
-                  After launch I'll be here to help. If you need updates or fixes,
-                  we’ll agree on what your site needs and what’s included.
+                  If you’re thinking about a new site, I’ll make a free homepage
+                  mockup first. You can see what I have in mind before deciding
+                  whether to hire me.
                 </p>
                 <a className="text-link" href="#contact">
                   Tell me about your website
