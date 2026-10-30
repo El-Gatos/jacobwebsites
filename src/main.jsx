@@ -691,6 +691,12 @@ function App({ standalonePage = null }) {
                   and we can work from there.
                 </p>
                 <p>
+                <p>
+                  Outside of work, I’m really into cars. I love checking them out 
+                  and getting hands-on to work on them. I also enjoy hiking, working out, 
+                  playing games, and spending time with friends. It’s a good mix of getting out, 
+                  tinkering with things, and relaxing.
+                </p>
                   If you’re thinking about a new site, I’ll make a free homepage
                   mockup first. You can see what I have in mind before deciding
                   whether to hire me.
