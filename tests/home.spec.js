@@ -180,6 +180,8 @@ test("maintenance offering, clean navigation, and GitHub link", async ({
       has: page.getByRole("radio", { name: "Maintenance", exact: true }),
     })
     .click();
+  await expect(page.getByLabel("Phone number")).not.toHaveAttribute("required");
+  await page.getByLabel("Phone number").fill("+1 555 010 1234");
   await page.getByLabel("Your name").fill("Test User");
   await page.getByLabel("Email address").fill("test@example.com");
   await page
@@ -191,6 +193,7 @@ test("maintenance offering, clean navigation, and GitHub link", async ({
   );
   expect(posted._subject).toContain("Website maintenance inquiry");
   expect(posted.email).toBe("test@example.com");
+  expect(posted.phone).toBe("+1 555 010 1234");
 });
 
 test("slow FormSubmit acknowledgement still shows success", async ({
