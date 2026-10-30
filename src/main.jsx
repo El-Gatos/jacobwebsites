@@ -378,6 +378,8 @@ function App({ standalonePage = null }) {
       data.get("name") +
       "\nEmail: " +
       data.get("email") +
+      "\nPhone: " +
+      (data.get("phone") || "Not provided") +
       "\nWebsite: " +
       (data.get("website") || "Not yet") +
       "\n\n" +
@@ -395,6 +397,7 @@ function App({ standalonePage = null }) {
           service,
           name: data.get("name"),
           email: data.get("email"),
+          phone: data.get("phone") || "Not provided",
           website: data.get("website") || "Not yet",
           message: data.get("message"),
           _subject: subject + " — " + service,
@@ -607,7 +610,7 @@ function App({ standalonePage = null }) {
                 <p>
                   Whether you need your first website, a rebuild, or someone to
                   keep it updated, I can help with the design and the
-                  development and so much more.
+                  development, and ongoing maintenance.
                 </p>
               </div>
               <div className="service-list">
@@ -675,20 +678,15 @@ function App({ standalonePage = null }) {
                   for the businesses around me.
                 </p>
                 <p>
-                  I started this because I want to help small businesses that
-                  are struggling. A lot of them do great work, but their website
-                  doesn’t show it: the phone number is buried, the contact form
-                  goes nowhere, or the site hasn’t changed in years. As someone
-                  who's been part of small business for a long time, I
-                  understand the challenges they face. That’s one of the easiest
-                  problems a business can fix, so that’s where I come in.
+                  I design and build websites for independent businesses. My
+                  projects focus on practical details: clear service information,
+                  easy-to-find contact options, and layouts that work on a phone.
                 </p>
                 <p>
-                  I’m in my first year running this on my own, which means
-                  you’re not one of a hundred accounts. I build every site from
-                  scratch, and take time and put tremendous effort into each one, 
-                  and you talk to me directly the whole way
-                  through. Your page doesn't get managed by an account manager or a support ticket.
+                  I’m in my first year running this on my own. I handle the
+                  design, development, and revisions myself, and you talk to me
+                  directly throughout the project. Before a build begins, you
+                  can review a free homepage mockup and decide whether to continue.
                 </p>
                 <p>
                   After launch I'll be here to help. If you need updates or fixes,
@@ -793,6 +791,16 @@ function App({ standalonePage = null }) {
                     />
                   </label>
                 </div>
+                <label>
+                  Phone number <span className="optional">(optional)</span>
+                  <input
+                    name="phone"
+                    type="tel"
+                    autoComplete="tel"
+                    maxLength={50}
+                    placeholder="Your preferred contact number"
+                  />
+                </label>
                 <label>
                   Current website <span className="optional">(optional)</span>
                   <input
