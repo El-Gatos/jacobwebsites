@@ -27,32 +27,37 @@ export default function ServicesPage() {
     <div className="services-page">
       <section className="services-hero">
         <span className="eyebrow">Services / Jacob Websites</span>
-        <h1>Websites built around the business.</h1>
+        <h1>Website design, development, and maintenance.</h1>
         <p>
           Custom website design and development for independent businesses,
           followed by an optional monthly plan if you want me to keep managing
           the site after launch.
         </p>
         <div className="services-hero-actions">
-          <a className="button primary" href="/#contact">Get a free homepage mockup</a>
-          <a className="text-link" href="#management">See monthly plans</a>
+          <a className="button primary" href="/#contact">
+            Discuss your project
+          </a>
+          <a className="text-link" href="#management">
+            See monthly plans
+          </a>
         </div>
       </section>
 
       <section className="services-build">
         <div className="services-section-heading">
-          <span className="eyebrow">01 / Design & development</span>
-          <h2>The website itself is a custom project.</h2>
+          <span className="eyebrow">Design & development</span>
+          <h2>A defined scope before work begins.</h2>
           <p>
-            There is no one-size-fits-all website package. I scope the project
-            around what your business actually needs, then quote it before the
-            build starts.
+            We agree on the pages, features, and responsibilities before the
+            build starts. I’m currently offering free design and development for
+            a limited number of portfolio projects. Hosting, domain fees, and
+            ongoing maintenance are separate.
           </p>
         </div>
         <div className="services-build-grid">
           <article>
             <span>Design</span>
-            <h3>Make the business easier to understand.</h3>
+            <h3>Page layouts and content.</h3>
             <p>
               Page structure, visual direction, calls to action, responsive
               layouts, and content presentation built around your customers.
@@ -60,60 +65,76 @@ export default function ServicesPage() {
           </article>
           <article>
             <span>Development</span>
-            <h3>Turn the direction into a working site.</h3>
+            <h3>Responsive development and launch.</h3>
             <p>
               Responsive development, accessible navigation, forms,
-              integrations, considered interactions, and the technical work
-              needed to launch.
+              integrations, keyboard controls, and the technical work needed to
+              launch.
             </p>
           </article>
           <article>
             <span>Rebuilds</span>
-            <h3>Keep the business. Rethink the website.</h3>
+            <h3>Updates to an existing website.</h3>
             <p>
               If an existing site no longer represents the work you do, I can
-              rebuild its structure, design, content flow, and customer path.
+              reorganize its pages, update the design, and improve service and
+              contact information.
             </p>
           </article>
         </div>
         <div className="services-ownership">
           <strong>No monthly plan is required.</strong>
           <p>
-            After the project is paid for, you can take the completed site and
-            manage it yourself. Ongoing management is an option, not a condition
-            of owning your website.
+            Once the agreed project is complete and any applicable balance is
+            settled, you can take the site and manage it yourself. Ongoing
+            management is an option, not a condition of owning your website.
           </p>
         </div>
       </section>
 
       <section className="services-management" id="management">
         <div className="services-section-heading">
-          <span className="eyebrow">02 / After launch</span>
-          <h2>Want me to keep taking care of it?</h2>
+          <span className="eyebrow">After launch</span>
+          <h2>Optional monthly maintenance.</h2>
           <p>
-            Both plans cover the technical upkeep of your existing website.
-            Full Service adds more hands-on time and a more active improvement
-            cycle.
+            Both plans cover the technical upkeep of your existing website. Full
+            Service adds more hands-on time and a more active improvement cycle.
           </p>
         </div>
 
         <div className="plan-intro">
           <article>
             <span>Basic</span>
-            <div className="plan-price"><strong>$99</strong><small>/ month</small></div>
-            <p>Keep the website running properly, current, and looked after.</p>
+            <div className="plan-price">
+              <strong>$99</strong>
+              <small>/ month</small>
+            </div>
+            <p>
+              Hosting, technical maintenance, and 30 minutes of content updates
+              each month.
+            </p>
           </article>
           <article className="plan-featured">
             <span>Full Service</span>
-            <div className="plan-price"><strong>$199</strong><small>/ month</small></div>
-            <p>Keep it running, then keep improving it.</p>
+            <div className="plan-price">
+              <strong>$199</strong>
+              <small>/ month</small>
+            </div>
+            <p>
+              Maintenance plus 90 minutes of updates and small improvements each
+              month.
+            </p>
           </article>
         </div>
 
         <div className="plan-table-wrap">
           <table className="plan-table">
             <thead>
-              <tr><th scope="col">Included</th><th scope="col">Basic</th><th scope="col">Full Service</th></tr>
+              <tr>
+                <th scope="col">Included</th>
+                <th scope="col">Basic</th>
+                <th scope="col">Full Service</th>
+              </tr>
             </thead>
             <tbody>
               {rows.map(([feature, basic, full]) => (
@@ -157,13 +178,15 @@ export default function ServicesPage() {
 
       <section className="services-cta">
         <span className="eyebrow">Start with the website</span>
-        <h2>See the direction before committing to the build.</h2>
+        <h2>Discuss the pages and features you need.</h2>
         <p>
-          Send me your current site and what you want to improve. I’ll put
-          together a free homepage mockup so you can decide whether the
-          direction makes sense for your business.
+          Send your current website and a short description of the project. I’ll
+          reply to discuss the work, availability, and whether it fits the
+          portfolio offer.
         </p>
-        <a className="button primary" href="/#contact">Get my free mockup</a>
+        <a className="button primary" href="/#contact">
+          Discuss your project
+        </a>
       </section>
     </div>
   );
