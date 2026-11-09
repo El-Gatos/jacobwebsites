@@ -29,7 +29,7 @@ test("responsive page, themes, reduced motion, and accessibility", async ({
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduce");
   expect(
     await page
-      .locator(".flow-connector svg")
+      .locator(".hero-project-preview")
       .evaluate((e) => getComputedStyle(e).animationName),
   ).toBe("none");
   expect(errors).toEqual([]);
@@ -61,7 +61,7 @@ test("navigation, project dialog, services, and honest inquiry draft", async ({
   await expect(trigger).toBeFocused();
   await page.locator(".service summary").first().click();
   await expect(page.locator(".service").first()).toHaveAttribute("open", "");
-  await page.getByRole("button", { name: "Get my free mockup" }).click();
+  await page.getByRole("button", { name: "Discuss my project" }).click();
   await expect(page.getByRole("status")).toHaveCount(0);
   await page.getByLabel("Your name").fill("Test Person");
   await page.getByLabel("Email address").fill("test@example.com");
@@ -72,7 +72,7 @@ test("navigation, project dialog, services, and honest inquiry draft", async ({
     .locator(".choice")
     .filter({ has: page.getByRole("radio", { name: /Website rebuild/ }) })
     .click();
-  await page.getByRole("button", { name: "Get my free mockup" }).click();
+  await page.getByRole("button", { name: "Discuss my project" }).click();
   await expect(page.getByRole("status")).toContainText(
     "We couldn’t confirm delivery",
   );
@@ -85,30 +85,28 @@ test("navigation, project dialog, services, and honest inquiry draft", async ({
   await expect(page.getByRole("status")).toHaveCount(0);
 });
 
-test("trade demo updates, portrait photo, and free mockup offer", async ({
-  page,
-}) => {
+test("featured work, portrait, and portfolio offer", async ({ page }) => {
   await page.goto("/");
-  const demo = page.getByRole("complementary", {
-    name: "Explore a sample business website",
-  });
-  await demo.getByRole("button", { name: "Shop", exact: true }).click();
   await expect(
-    demo.getByRole("button", { name: "Shop", exact: true }),
-  ).toHaveAttribute("aria-pressed", "true");
-  await expect(demo).toContainText("gift shop near me");
-  await expect(demo).toContainText("Gifts from independent makers");
-  await demo.getByRole("button", { name: "Studio", exact: true }).click();
-  await expect(demo).toContainText("photographer near me");
+    page.getByRole("complementary", { name: "Featured website redesign" }),
+  ).toContainText("KMA HVAC");
+  await page
+    .getByRole("button", { name: "View KMA redesign case study" })
+    .click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.keyboard.press("Escape");
   await expect(page.locator(".portrait img")).toHaveAttribute(
     "src",
     "/me.JPEG",
   );
   await expect(page.locator("#contact")).toContainText(
-    "A full website build is a separate paid project",
+    "Free website design and development.",
+  );
+  await expect(page.locator("#contact")).toContainText(
+    "Hosting, domain fees, and optional maintenance are separate.",
   );
   await page
-    .getByRole("link", { name: "Get my free mockup", exact: true })
+    .getByRole("link", { name: "Discuss my project", exact: true })
     .click();
   await expect(page).toHaveURL(/#contact$/);
 });
@@ -134,7 +132,7 @@ test("motion control persists and honors system preference until overridden", as
   await expect(control).toHaveAttribute("aria-pressed", "true");
   expect(
     await page
-      .locator(".flow-connector svg")
+      .locator(".hero-project-preview")
       .evaluate((e) => getComputedStyle(e).animationName),
   ).toBe("none");
   const current = await page.locator("html").getAttribute("data-theme");
@@ -214,9 +212,9 @@ test("slow FormSubmit acknowledgement still shows success", async ({
   await page
     .getByLabel("Your business & what you need")
     .fill("A delayed acknowledgement regression test.");
-  await page.getByRole("button", { name: "Get my free mockup" }).click();
+  await page.getByRole("button", { name: "Discuss my project" }).click();
   await expect(page.getByRole("status")).toContainText(
-    "Your free mockup request was sent",
+    "Your project inquiry was sent",
     { timeout: 18000 },
   );
 });
@@ -240,7 +238,7 @@ for (const outcome of ["network", "rejection"]) {
     await page
       .getByLabel("Your business & what you need")
       .fill("An error handling regression test.");
-    await page.getByRole("button", { name: "Get my free mockup" }).click();
+    await page.getByRole("button", { name: "Discuss my project" }).click();
     await expect(page.getByRole("status")).toContainText(
       outcome === "network"
         ? "Your inquiry may still reach me"

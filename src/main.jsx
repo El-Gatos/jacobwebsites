@@ -14,7 +14,7 @@ const projects = [
     type: "HVAC & construction",
     tag: "Independent redesign concept",
     title: "Helping visitors find the right KMA service",
-    text: "A homepage direction for KMA HVAC & Construction: a clearer route to residential service and commercial inquiries.",
+    text: "A responsive redesign with separate residential and commercial inquiries, service navigation, and prominent contact options.",
     detail:
       "KMA serves both homeowners and commercial clients. I gave those visitors separate routes to service requests and bids, organized the services so they’re easier to find, and made contact options more prominent. This is an independent concept, not commissioned, affiliated with, or endorsed by KMA. No business results are claimed.",
     className: "kma",
@@ -27,7 +27,7 @@ const projects = [
     type: "Interactive music tool",
     tag: "Personal project · Web Audio",
     title: "A musical garden you can play",
-    text: "A browser-based sequencer where you plant sounds, shape a rhythm, and download your loop.",
+    text: "A browser-based music sequencer with synthesized audio, keyboard controls, saved patterns, and WAV export.",
     detail:
       "Beat Garden turns a 16-step sequencer into a garden of animated plants. Six sounds are synthesized in the browser, with adjustable tempo and swing, starter patterns, saved gardens, shareable links, and WAV downloads. The interface supports keyboard controls and reduced motion. This is a personal interactive project, not a client commission.",
     className: "beat-garden",
@@ -71,105 +71,6 @@ function ProjectVisual({ project }) {
         alt="Beat Garden’s six rows of colorful plants representing sounds in a music sequencer"
       />
     </div>
-  );
-}
-const businesses = [
-  {
-    name: "HVAC",
-    query: "AC repair near me",
-    headline: "Local AC repair & installation",
-    service: "AC repair & installation",
-  },
-  {
-    name: "Shop",
-    query: "gift shop near me",
-    headline: "Gifts from independent makers",
-    service: "Thoughtful gifts & everyday favorites",
-  },
-  {
-    name: "Studio",
-    query: "photographer near me",
-    headline: "Photography for your business",
-    service: "Portraits & brand photography",
-  },
-  {
-    name: "Services",
-    query: "cleaning service near me",
-    headline: "Home & office cleaning",
-    service: "Home & office cleaning",
-  },
-];
-function CallFlow() {
-  const [trade, setTrade] = useState(0);
-  const t = businesses[trade];
-  return (
-    <aside className="call-flow" aria-label="Explore a sample business website">
-      <div className="flow-meta">
-        <span>How a visitor becomes a customer</span>
-      </div>
-      <div
-        className="trade-tabs"
-        role="group"
-        aria-label="Choose a business type"
-      >
-        {businesses.map((item, i) => (
-          <button
-            key={item.name}
-            onClick={() => setTrade(i)}
-            aria-pressed={trade === i}
-          >
-            {item.name}
-          </button>
-        ))}
-      </div>
-      <div className="flow-stage" key={t.name}>
-        <div className="search-demo">
-          <span className="flow-step">1. Find your business</span>
-          <div>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="10" cy="10" r="6" />
-              <path d="m15 15 6 6" />
-            </svg>
-            <span>{t.query}</span>
-          </div>
-        </div>
-        <div className="flow-connector" aria-hidden="true">
-          <svg viewBox="0 0 300 44" preserveAspectRatio="none">
-            <path d="M20 0 V20 Q20 30 30 30 H270 Q280 30 280 40 V44" />
-          </svg>
-        </div>
-        <div className="trade-demo">
-          <span className="flow-step">2. Understand what you offer</span>
-          <div className="demo-browser">
-            <span>Your business</span>
-            <span aria-hidden="true">•••</span>
-          </div>
-          <div className="demo-site">
-            <span className="demo-location">Serving your community</span>
-            <strong>{t.headline}</strong>
-            <p>
-              {t.service}. See what’s available and contact the team with your
-              questions.
-            </p>
-            <span className="demo-call">Ask about availability</span>
-          </div>
-        </div>
-        <div className="flow-result">
-          <span className="phone-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path d="m7 3 3 5-3 2c2 4 3 5 7 7l2-3 5 3c0 3-2 4-4 4C10 21 3 14 3 7c0-2 1-4 4-4Z" />
-            </svg>
-          </span>
-          <div>
-            <span className="flow-step">3. Get in touch</span>
-            <strong>Give visitors a clear way to contact you.</strong>
-          </div>
-        </div>
-      </div>
-      <p className="flow-disclaimer">
-        Illustrative design demo. Not live search results or actual leads.
-      </p>
-    </aside>
   );
 }
 const CONTACT_EMAIL = "jacob@jacobwebsites.com";
@@ -369,7 +270,7 @@ function App({ standalonePage = null }) {
     const subject =
       service === "Maintenance"
         ? "Website maintenance inquiry"
-        : "Free homepage mockup request";
+        : "Website project inquiry";
     const text =
       subject +
       " — " +
@@ -458,18 +359,11 @@ function App({ standalonePage = null }) {
             About
           </a>
           <a
-            href="/legal"
-            aria-current={isLegalHubPage ? "page" : undefined}
-            onClick={() => setMenu(false)}
-          >
-            Legal
-          </a>
-          <a
             className="nav-contact"
             href={homeSection("#contact")}
             onClick={() => setMenu(false)}
           >
-            Free mockup
+            Start a project
           </a>
         </nav>
         <div className="header-tools">
@@ -522,13 +416,13 @@ function App({ standalonePage = null }) {
                 <div className="hero-copy">
                   <h1>
                     <span>
-                      <b>GOOD WORK</b>
+                      <b>WEBSITES</b>
                     </span>
                     <span>
-                      <b>DESERVES</b>
+                      <b>FOR YOUR</b>
                     </span>
                     <span className="headline-accent">
-                      <b>MORE CALLS.</b>
+                      <b>BUSINESS.</b>
                     </span>
                   </h1>
                   <p className="hero-intro">
@@ -538,27 +432,60 @@ function App({ standalonePage = null }) {
                   </p>
                   <div className="hero-actions">
                     <a className="button primary" href="#contact">
-                      Get my free mockup
+                      Discuss my project
                     </a>
                     <a className="text-link" href="#work">
                       See my work
                     </a>
                   </div>
                   <p className="offer-note">
-                    See a homepage design for your business before committing to
-                    a paid build.
+                    I’m offering free design and development for a limited
+                    number of portfolio projects. Hosting and domain costs are
+                    separate.
                   </p>
                 </div>
-                <CallFlow />
+                <aside
+                  className="hero-project"
+                  aria-label="Featured website redesign"
+                >
+                  <div className="hero-project-label">
+                    <span>Featured project</span>
+                    <span>Independent concept</span>
+                  </div>
+                  <button
+                    className="hero-project-preview"
+                    onClick={(e) => openProject(projects[0], e)}
+                    aria-label="View KMA redesign case study"
+                  >
+                    <img
+                      src="/work/kma-after.jpg"
+                      width="1265"
+                      height="720"
+                      fetchPriority="high"
+                      alt="KMA HVAC and Construction homepage redesign"
+                    />
+                    <span>
+                      Compare the original and redesign <Arrow />
+                    </span>
+                  </button>
+                  <h2>KMA HVAC &amp; Construction</h2>
+                  <p>
+                    Separate routes for home service requests and commercial
+                    bids.
+                  </p>
+                  <div className="hero-project-facts">
+                    <span>Design &amp; development</span>
+                    <span>Responsive layout</span>
+                  </div>
+                </aside>
               </div>
             </section>
             <section id="work" className="work section">
               <div className="section-top reveal">
                 <h2>Recent work</h2>
                 <p>
-                  Open a project to see what I changed and why. Independent
-                  redesign concepts are labeled separately from commissioned
-                  work.
+                  Website design and interactive development. Each project
+                  includes a working demo and an explanation of the work.
                 </p>
               </div>
               <div className="project-grid">
@@ -608,36 +535,29 @@ function App({ standalonePage = null }) {
               <div className="section-top reveal">
                 <h2>How I can help</h2>
                 <p>
-                  Whether you need your first website, a rebuild, or someone to
-                  keep it updated, I can help with the design and the
-                  development, and ongoing maintenance.
+                  Website design, development, and maintenance, handled by one
+                  person from the initial plan through launch.
                 </p>
               </div>
               <div className="service-list">
                 {[
                   {
-                    n: "01",
-                    name: "Website design",
-                    sub: "Pages organized around what your customers need",
-                    body: "Clear pages, your real photos, and a design that helps customers understand what you offer and why to choose your business.",
+                    n: "new",
+                    name: "New websites",
+                    sub: "Design and development, from planning to launch",
+                    body: "I plan the pages, design the layouts, and build your website. The work includes mobile layouts, navigation, contact forms, and launch setup. We agree on the pages and features before work begins.",
                   },
                   {
-                    n: "02",
-                    name: "Website development",
-                    sub: "Responsive websites that work across screen sizes",
-                    body: "I turn the design into a responsive website with accessible navigation, considered interactions, and clear ways for customers to get in touch.",
-                  },
-                  {
-                    n: "03",
+                    n: "rebuild",
                     name: "Website rebuilds",
-                    sub: "A new direction for an existing website",
-                    body: "If your current site no longer reflects your business, I can rethink its layout, content, and contact flow. A free homepage mockup gives you a way to review the direction before a paid build.",
+                    sub: "Replace an outdated or difficult-to-use site",
+                    body: "I review your current website, identify what needs to change, and rebuild the pages. This can include reorganizing services, improving readability, and making contact information easier to find.",
                   },
                   {
-                    n: "04",
+                    n: "care",
                     name: "Website maintenance",
-                    sub: "Content changes, updates, and regular checks",
-                    body: "Ongoing content changes, dependency updates, and checks on the pages and contact forms that matter. We agree on the scope and schedule for your website before starting.",
+                    sub: "Content updates, technical upkeep, and form checks",
+                    body: "Ongoing content changes, software updates, and checks on your pages and contact forms. Monthly plans are optional, with the work and schedule agreed in advance.",
                   },
                 ].map((s) => (
                   <details className="service reveal" key={s.n}>
@@ -657,10 +577,10 @@ function App({ standalonePage = null }) {
               <div className="process reveal">
                 <span className="eyebrow">What happens next</span>
                 {[
-                  "Send me your site",
-                  "See your free mockup",
-                  "Choose a paid build",
-                  "Refine & launch",
+                  "Discuss your business",
+                  "Agree on the scope",
+                  "Review the design",
+                  "Build and launch",
                 ].map((s, i) => (
                   <div key={s}>
                     <small>0{i + 1}</small>
@@ -674,26 +594,18 @@ function App({ standalonePage = null }) {
               <div className="about-copy reveal">
                 <h2>About Jacob</h2>
                 <p className="large-copy">
-                  Hey, I’m Jacob. I’m based in SoCal, and Jacob Websites
-                  is just me.
+                  I’m Jacob Wainwright, an independent web designer and
+                  developer based in SoCal.
                 </p>
                 <p>
-                  I’m in my first year doing this on my own. I like taking a
-                  website that feels confusing or out of date and figuring out
-                  how to make it easier to use. Sometimes that means starting
-                  over. Sometimes the site just needs a few things fixed.
+                  I handle the design, development, and communication myself.
+                  You work directly with the person building your website, from
+                  the first conversation to the final review.
                 </p>
                 <p>
-                  I do the design and coding myself, so when you send feedback
-                  or have a question, it comes straight to me. You don’t need
-                  to know anything about building websites. Tell me about your
-                  business and what’s bothering you about the one you have,
-                  and we can work from there.
-                </p>
-                <p>
-                  If you’re thinking about a new site, I’ll make a free homepage
-                  mockup first. You can see what I have in mind before deciding
-                  whether to hire me.
+                  My focus is practical: readable pages, straightforward
+                  navigation, and reliable ways for customers to contact your
+                  business. Outside of work, I enjoy working on cars and hiking.
                 </p>
                 <a className="text-link" href="#contact">
                   Tell me about your website
@@ -703,21 +615,22 @@ function App({ standalonePage = null }) {
             <section className="contact section" id="contact">
               <div className="contact-heading reveal">
                 <h2>
-                  See what your
+                  Tell me about
                   <br />
-                  <span className="offer-accent">website could be.</span>
+                  <span className="offer-accent">your project.</span>
                 </h2>
                 <p>
-                  Send me your current site and tell me what you need. I’ll put
-                  together a free homepage mockup so you can decide whether
-                  you’d like to work together.
+                  Share your current website, the services you offer, and what
+                  you need to change. I’ll reply with questions and a proposed
+                  next step.
                 </p>
                 <div className="offer-scope">
-                  <span>The free mockup includes</span>
-                  <strong>A design preview of your homepage.</strong>
+                  <span>Portfolio project offer</span>
+                  <strong>Free website design and development.</strong>
                   <p>
-                    A full website build is a separate paid project. No
-                    obligation to continue.
+                    Available for a limited number of projects while I build my
+                    client portfolio. We agree on the scope first. Hosting,
+                    domain fees, and optional maintenance are separate.
                   </p>
                 </div>
                 <p className="contact-email">
@@ -833,7 +746,7 @@ function App({ standalonePage = null }) {
                     ? "Sending…"
                     : service === "Maintenance"
                       ? "Ask about maintenance"
-                      : "Get my free mockup"}{" "}
+                      : "Discuss my project"}{" "}
                 </button>
                 <p className="form-note">
                   Goes straight to my inbox at {CONTACT_EMAIL}. I’ll reply by
@@ -844,7 +757,7 @@ function App({ standalonePage = null }) {
                     <strong>
                       {service === "Maintenance"
                         ? "Your maintenance inquiry was sent."
-                        : "Your free mockup request was sent."}
+                        : "Your project inquiry was sent."}
                     </strong>
                     <p>
                       Thanks! I’ll get back to you at the email you gave me.
@@ -872,7 +785,7 @@ function App({ standalonePage = null }) {
                         encodeURIComponent(
                           service === "Maintenance"
                             ? "Website maintenance inquiry"
-                            : "Free homepage mockup request",
+                            : "Website project inquiry",
                         ) +
                         "&body=" +
                         encodeURIComponent(draft)
@@ -983,7 +896,7 @@ function App({ standalonePage = null }) {
                   location.hash = "contact";
                 }}
               >
-                Get a free mockup for your business
+                Discuss a website for your business
               </button>
             </div>
           </>
